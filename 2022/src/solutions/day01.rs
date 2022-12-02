@@ -19,7 +19,7 @@ impl Top3 {
         return self.list.iter().sum();
     }
 
-    fn update_bottom(&mut self) {
+    fn update_min(&mut self) {
         self.min_ind = 0;
         for i in [1, 2] {
             if self.list[i] < self.list[self.min_ind] {
@@ -31,7 +31,7 @@ impl Top3 {
     fn update(&mut self, new: usize) {
         if new > self.list[self.min_ind] {
             self.list[self.min_ind] = new;
-            self.update_bottom();
+            self.update_min();
         }
     }
 }
