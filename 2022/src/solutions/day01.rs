@@ -4,67 +4,53 @@ struct Top3 {
 }
 
 impl Top3 {
-    fn init() -> Self
-    {
+    fn init() -> Self {
         return Top3 {
             list: [0, 0, 0],
-            min_ind: 0
-        }
+            min_ind: 0,
+        };
     }
 
-    fn top(&self) -> usize
-    {
+    fn top(&self) -> usize {
         return *self.list.iter().max().unwrap();
     }
 
-    fn sum(&self) -> usize
-    {
+    fn sum(&self) -> usize {
         return self.list.iter().sum();
     }
 
-    fn update_bottom(&mut self)
-    {
+    fn update_bottom(&mut self) {
         self.min_ind = 0;
-        for i in [1, 2]
-        {
-            if self.list[i] < self.list[self.min_ind]
-            {
+        for i in [1, 2] {
+            if self.list[i] < self.list[self.min_ind] {
                 self.min_ind = i;
             }
         }
     }
 
-    fn update(&mut self, new: usize)
-    {
-        if new > self.list[self.min_ind]
-        {
+    fn update(&mut self, new: usize) {
+        if new > self.list[self.min_ind] {
             self.list[self.min_ind] = new;
             self.update_bottom();
         }
     }
 }
 
-
-pub fn solve(input: String) -> (String, String)
-{
+pub fn solve(input: String) -> (String, String) {
     let totals = input
         .split("\n\n")
-        .map(|elf| elf
-            .split("\n")
-            .map(|cal| cal
-                .parse::<usize>()
-                .unwrap()
-            )
-            .sum()
-        )
+        .map(|elf| {
+            elf.split("\n")
+                .map(|cal| cal.parse::<usize>().unwrap())
+                .sum()
+        })
         .collect::<Vec<usize>>();
 
     let mut top3 = Top3::init();
 
-    for &total in totals.iter()
-    {
+    for &total in totals.iter() {
         top3.update(total);
     }
-    
+
     return (top3.top().to_string(), top3.sum().to_string());
 }
