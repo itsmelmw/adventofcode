@@ -11,10 +11,6 @@ impl Top3 {
         };
     }
 
-    fn top(&self) -> usize {
-        return *self.list.iter().max().unwrap();
-    }
-
     fn sum(&self) -> usize {
         return self.list.iter().sum();
     }
@@ -36,8 +32,8 @@ impl Top3 {
     }
 }
 
-pub fn solve(input: String) -> (String, String) {
-    let totals = input
+fn parse(input: &str) -> Vec<usize> {
+    return input
         .split("\n\n")
         .map(|elf| {
             elf.split("\n")
@@ -45,12 +41,21 @@ pub fn solve(input: String) -> (String, String) {
                 .sum()
         })
         .collect::<Vec<usize>>();
+}
 
+fn solve1(parsed: &Vec<usize>) -> String {
+    return parsed.iter().max().unwrap().to_string();
+}
+
+fn solve2(parsed: &Vec<usize>) -> String {
     let mut top3 = Top3::init();
-
-    for &total in totals.iter() {
-        top3.update(total);
+    for &value in parsed.iter() {
+        top3.update(value);
     }
+    return top3.sum().to_string();
+}
 
-    return (top3.top().to_string(), top3.sum().to_string());
+pub fn solve(input: &str) -> (String, String) {
+    let parsed = parse(input);
+    return (solve1(&parsed), solve2(&parsed));
 }

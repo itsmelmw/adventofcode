@@ -1,23 +1,72 @@
-pub fn solve(input: String) -> (String, String) {
-    let mut a = 0;
-    let mut b = 0;
+const OP_ROCK: u8 = b'A';
+const OP_PAPER: u8 = b'B';
+const OP_SCISSORS: u8 = b'C';
 
-    for line in input.split("\n") {
-        let (a_score, b_score) = match line.as_bytes() {
-            [b'A', _, b'X'] => (1 + 3, 3 + 0),
-            [b'A', _, b'Y'] => (2 + 6, 1 + 3),
-            [b'A', _, b'Z'] => (3 + 0, 2 + 6),
-            [b'B', _, b'X'] => (1 + 0, 1 + 0),
-            [b'B', _, b'Y'] => (2 + 3, 2 + 3),
-            [b'B', _, b'Z'] => (3 + 6, 3 + 6),
-            [b'C', _, b'X'] => (1 + 6, 2 + 0),
-            [b'C', _, b'Y'] => (2 + 0, 3 + 3),
-            [b'C', _, b'Z'] => (3 + 3, 1 + 6),
-            _ => panic!("Invalid line in input"),
-        };
-        a += a_score;
-        b += b_score;
-    }
+const ME_ROCK: u8 = b'X';
+const ME_PAPER: u8 = b'Y';
+const ME_SCISSORS: u8 = b'Z';
 
-    return (a.to_string(), b.to_string());
+const GOAL_LOSE: u8 = b'X';
+const GOAL_DRAW: u8 = b'Y';
+const GOAL_WIN: u8 = b'Z';
+
+const SCORE_ROCK: usize = 1;
+const SCORE_PAPER: usize = 2;
+const SCORE_SCISSORS: usize = 3;
+
+const SCORE_LOSE: usize = 0;
+const SCORE_DRAW: usize = 3;
+const SCORE_WIN: usize = 6;
+
+fn parse(input: &str) -> Vec<(u8, u8)> {
+    return input
+        .split("\n")
+        .map(|line| match line.as_bytes() {
+            [op, b' ', me] => (*op, *me),
+            _ => unreachable!(),
+        })
+        .collect::<Vec<(u8, u8)>>();
+}
+
+fn solve1(parsed: &Vec<(u8, u8)>) -> String {
+    return parsed
+        .iter()
+        .map(|game| match game {
+            (OP_ROCK, ME_ROCK) => SCORE_ROCK + SCORE_DRAW,
+            (OP_ROCK, ME_PAPER) => SCORE_PAPER + SCORE_WIN,
+            (OP_ROCK, ME_SCISSORS) => SCORE_SCISSORS + SCORE_LOSE,
+            (OP_PAPER, ME_ROCK) => SCORE_ROCK + SCORE_LOSE,
+            (OP_PAPER, ME_PAPER) => SCORE_PAPER + SCORE_DRAW,
+            (OP_PAPER, ME_SCISSORS) => SCORE_SCISSORS + SCORE_WIN,
+            (OP_SCISSORS, ME_ROCK) => SCORE_ROCK + SCORE_WIN,
+            (OP_SCISSORS, ME_PAPER) => SCORE_PAPER + SCORE_LOSE,
+            (OP_SCISSORS, ME_SCISSORS) => SCORE_SCISSORS + SCORE_DRAW,
+            _ => unreachable!(),
+        })
+        .sum::<usize>()
+        .to_string();
+}
+
+fn solve2(parsed: &Vec<(u8, u8)>) -> String {
+    return parsed
+        .iter()
+        .map(|game| match game {
+            (OP_ROCK, GOAL_LOSE) => SCORE_SCISSORS + SCORE_LOSE,
+            (OP_ROCK, GOAL_DRAW) => SCORE_ROCK + SCORE_DRAW,
+            (OP_ROCK, GOAL_WIN) => SCORE_PAPER + SCORE_WIN,
+            (OP_PAPER, GOAL_LOSE) => SCORE_ROCK + SCORE_LOSE,
+            (OP_PAPER, GOAL_DRAW) => SCORE_PAPER + SCORE_DRAW,
+            (OP_PAPER, GOAL_WIN) => SCORE_SCISSORS + SCORE_WIN,
+            (OP_SCISSORS, GOAL_LOSE) => SCORE_PAPER + SCORE_LOSE,
+            (OP_SCISSORS, GOAL_DRAW) => SCORE_SCISSORS + SCORE_DRAW,
+            (OP_SCISSORS, GOAL_WIN) => SCORE_ROCK + SCORE_WIN,
+            _ => unreachable!(),
+        })
+        .sum::<usize>()
+        .to_string();
+}
+
+pub fn solve(input: &str) -> (String, String) {
+    let parsed = parse(input);
+    return (solve1(&parsed), solve2(&parsed));
 }
