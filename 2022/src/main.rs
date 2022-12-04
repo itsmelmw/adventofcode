@@ -19,6 +19,7 @@ fn main() {
                     1 => Ok(day01::solve(&input)),
                     2 => Ok(day02::solve(&input)),
                     3 => Ok(day03::solve(&input)),
+                    4 => Ok(day04::solve(&input)),
                     _ => Err("No solution"),
                 }
             }
