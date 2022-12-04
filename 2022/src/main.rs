@@ -1,38 +1,53 @@
 use std::env;
 use std::fs;
 
+mod pprint;
 mod solutions;
-use solutions::*;
+mod truths;
 
-fn read_input(day: u8) -> String {
-    let path = format!("src/input/day{:02}.txt", day);
-    return fs::read_to_string(path).expect("Input file missing");
-}
+use pprint::{pprint_solutions, Output};
+use solutions::*;
+use truths::{EXAMPLE_TRUTHS, PUZZLE_TRUTHS};
 
 fn main() {
     if let Some(arg) = env::args().nth(1) {
-        let day = arg.parse::<u8>();
-        if let Ok((a, b)) = match day {
+        let day = arg.parse::<usize>();
+        match day {
             Ok(d @ 1..=25) => {
-                let input = read_input(d);
-                match d {
-                    1 => Ok(day01::solve(&input)),
-                    2 => Ok(day02::solve(&input)),
-                    3 => Ok(day03::solve(&input)),
-                    4 => Ok(day04::solve(&input)),
-                    _ => Err("No solution"),
-                }
+                let mut vec = Vec::<Output>::new();
+                vec.push(Output {
+                    title: "Example",
+                    result: get_solution("examples", d),
+                    truth: EXAMPLE_TRUTHS[d - 1],
+                });
+                vec.push(Output {
+                    title: "Puzzle",
+                    result: get_solution("input", d),
+                    truth: PUZZLE_TRUTHS[d - 1],
+                });
+                pprint_solutions(d, vec);
             }
-            _ => Err("Invalid day"),
-        } {
-            println!("╔══════════════════════╗");
-            println!("║ Solutions for day {:02} ║", arg);
-            println!("╟──────────────────────╢");
-            println!("║ Part 1: {:12} ║", a);
-            println!("║ Part 2: {:12} ║", b);
-            println!("╚══════════════════════╝");
-        } else {
-            println!("`{arg}` is not a valid day");
-        }
+            _ => {
+                println!("Please give a valid day.");
+            }
+        };
     }
+}
+
+fn read_input(dir: &str, day: usize) -> Option<String> {
+    let path = format!("src/{}/day{:02}.txt", dir, day);
+    return fs::read_to_string(path).ok();
+}
+
+fn get_solution(dir: &str, day: usize) -> Result<(String, String), &str> {
+    return match read_input(dir, day) {
+        Some(input) => match day {
+            1 => Ok(day01::solve(&input)),
+            2 => Ok(day02::solve(&input)),
+            3 => Ok(day03::solve(&input)),
+            4 => Ok(day04::solve(&input)),
+            _ => Err("No solution"),
+        },
+        None => Err("File missing"),
+    };
 }
