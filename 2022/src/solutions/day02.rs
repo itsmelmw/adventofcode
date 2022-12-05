@@ -1,3 +1,5 @@
+// https://adventofcode.com/2022/day/2
+
 const OP_ROCK: u8 = b'A';
 const OP_PAPER: u8 = b'B';
 const OP_SCISSORS: u8 = b'C';

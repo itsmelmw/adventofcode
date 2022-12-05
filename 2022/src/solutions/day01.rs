@@ -1,3 +1,5 @@
+// https://adventofcode.com/2022/day/1
+
 struct Top3 {
     list: [usize; 3],
     min_ind: usize,

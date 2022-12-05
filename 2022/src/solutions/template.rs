@@ -1,3 +1,5 @@
+// https://adventofcode.com/2022/day/?
+
 fn parse(input: &str) -> usize {}
 
 fn solve1(parsed: &usize) -> String {}
