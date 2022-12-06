@@ -1,19 +1,22 @@
 // https://adventofcode.com/2022/day/6
 use std::collections::HashSet;
 
+use itertools::Itertools;
+
 fn parse(input: &str) -> Vec<char> {
     return input.chars().collect();
 }
 
 fn find_unique(parsed: &Vec<char>, length: usize) -> String {
     let mut set = HashSet::<char>::new();
-    for (i, marker) in parsed.windows(length).enumerate() {
-        if marker.iter().all(|&c| set.insert(c)) {
-            return (i + length).to_string();
-        }
-        set.clear();
-    }
-    return 0.to_string();
+    let (i, _) = parsed
+        .windows(length)
+        .find_position(|marker| {
+            set.clear();
+            marker.iter().all(|&c| set.insert(c))
+        })
+        .unwrap();
+    return (i + length).to_string();
 }
 
 fn solve1(parsed: &Vec<char>) -> String {
