@@ -1,7 +1,6 @@
 // https://adventofcode.com/2022/day/6
-use std::collections::HashSet;
-
 use itertools::Itertools;
+use std::collections::HashSet;
 
 fn parse(input: &str) -> Vec<char> {
     return input.chars().collect();
