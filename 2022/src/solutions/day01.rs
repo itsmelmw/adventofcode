@@ -6,7 +6,7 @@ struct Top3 {
 }
 
 impl Top3 {
-    fn init() -> Self {
+    fn new() -> Self {
         return Top3 {
             list: [0, 0, 0],
             min_ind: 0,
@@ -50,7 +50,7 @@ fn solve1(parsed: &Vec<usize>) -> String {
 }
 
 fn solve2(parsed: &Vec<usize>) -> String {
-    let mut top3 = Top3::init();
+    let mut top3 = Top3::new();
     for &value in parsed.iter() {
         top3.update(value);
     }
