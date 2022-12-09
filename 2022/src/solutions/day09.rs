@@ -14,11 +14,13 @@ fn parse(input: &str) -> Vec<(char, usize)> {
         .collect::<Vec<(char, usize)>>();
 }
 
-fn update_tail(head: (isize, isize), tail: &mut (isize, isize)) {
+fn update_tail(head: (isize, isize), tail: &mut (isize, isize)) -> bool {
     if head.0.abs_diff(tail.0) == 2 || head.1.abs_diff(tail.1) == 2 {
         tail.0 += head.0.cmp(&tail.0) as isize;
         tail.1 += head.1.cmp(&tail.1) as isize;
+        return true;
     }
+    return false;
 }
 
 fn do_move(knots: &mut Vec<(isize, isize)>, dir: char) {
@@ -30,7 +32,9 @@ fn do_move(knots: &mut Vec<(isize, isize)>, dir: char) {
         _ => unreachable!(),
     }
     for i in 1..knots.len() {
-        update_tail(knots[i - 1], &mut knots[i]);
+        if !update_tail(knots[i - 1], &mut knots[i]) {
+            break;
+        }
     }
 }
 
