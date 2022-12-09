@@ -1,10 +1,16 @@
 // https://adventofcode.com/2022/day/?
 
-fn parse(input: &str) -> usize {}
+fn parse(input: &str) -> Vec<usize> {
+    return vec![];
+}
 
-fn solve1(parsed: &usize) -> String {}
+fn solve1(parsed: &Vec<usize>) -> String {
+    return 0.to_string();
+}
 
-fn solve2(parsed: &usize) -> String {}
+fn solve2(parsed: &Vec<usize>) -> String {
+    return 0.to_string();
+}
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
