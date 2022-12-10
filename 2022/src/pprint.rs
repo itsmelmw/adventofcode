@@ -17,17 +17,17 @@ fn get_truth_symbol(result: &String, truth: &str) -> &'static str {
     };
 }
 
-fn print_parts(solution: Output) {
+fn print_parts(solution: &Output) {
     println!("╟{:─^26}╢", format!("[{:.22}]", solution.title));
-    match solution.result {
+    match &solution.result {
         Ok(res) => {
             println!(
-                "║ {} Part 1: {:14} ║",
+                "║ {} Part 1: {:14.14} ║",
                 get_truth_symbol(&res.0, solution.truth.0),
                 res.0,
             );
             println!(
-                "║ {} Part 2: {:14} ║",
+                "║ {} Part 2: {:14.14} ║",
                 get_truth_symbol(&res.1, solution.truth.1),
                 res.1,
             );
@@ -40,10 +40,30 @@ fn print_footer() {
     println!("╚══════════════════════════╝");
 }
 
+fn print_too_long(solution: &Output) {
+    if let Ok(result) = &solution.result {
+        if result.0.len() > 14 {
+            println!(
+                "Output of {} Part 1 was too large! Full output:\n{}",
+                solution.title, result.0
+            );
+        }
+        if result.1.len() > 14 {
+            println!(
+                "Output of {} Part 2 was too large! Full output:\n{}",
+                solution.title, result.1
+            );
+        }
+    }
+}
+
 pub fn pprint_solutions(day: usize, solutions: Vec<Output>) {
     print_header(day);
-    for solution in solutions {
+    for solution in &solutions {
         print_parts(solution);
     }
     print_footer();
+    for solution in &solutions {
+        print_too_long(solution);
+    }
 }
