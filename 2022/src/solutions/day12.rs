@@ -69,7 +69,7 @@ fn solve12(
         visited.insert(*start, *start);
     }
 
-    // Do DFS
+    // Do BFS
     while let Some(pos) = queue.pop_front() {
         if pos == end {
             break;
