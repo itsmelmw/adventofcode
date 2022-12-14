@@ -34,45 +34,44 @@ fn parse(input: &str) -> (HashSet<(usize, usize)>, usize) {
     return (points, lowest);
 }
 
-fn drop_sand(points: &HashSet<(usize, usize)>, floor: usize) -> (usize, usize) {
-    let mut sand = (500, 0);
-    loop {
-        if sand.1 == floor {
-            break;
-        } else if !points.contains(&(sand.0, sand.1 + 1)) {
-            sand = (sand.0, sand.1 + 1);
-        } else if !points.contains(&(sand.0 - 1, sand.1 + 1)) {
-            sand = (sand.0 - 1, sand.1 + 1);
-        } else if !points.contains(&(sand.0 + 1, sand.1 + 1)) {
-            sand = (sand.0 + 1, sand.1 + 1);
-        } else {
-            break;
+fn find_abyss(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, abyss: usize) -> bool {
+    if sand.1 == abyss {
+        return true;
+    }
+    for xdiff in [0, -1, 1] {
+        let new = ((sand.0 as isize + xdiff) as usize, sand.1 + 1);
+        if !points.contains(&new) {
+            if find_abyss(new, points, abyss) {
+                return true;
+            }
         }
     }
-    return sand;
+    points.insert(sand);
+    return false;
+}
+
+fn fill_cave(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, floor: usize) {
+    points.insert(sand);
+    if sand.1 == floor {
+        return;
+    }
+    for xdiff in [0, -1, 1] {
+        let new = ((sand.0 as isize + xdiff) as usize, sand.1 + 1);
+        if !points.contains(&new) {
+            fill_cave(new, points, floor);
+        }
+    }
 }
 
 fn solve1(points: &mut HashSet<(usize, usize)>, abyss: usize) -> String {
     let orig_size = points.len();
-    loop {
-        let sand = drop_sand(points, abyss);
-        if sand.1 == abyss {
-            break;
-        }
-        points.insert(sand);
-    }
+    find_abyss((500, 0), points, abyss);
     return (points.len() - orig_size).to_string();
 }
 
 fn solve2(points: &mut HashSet<(usize, usize)>, floor: usize) -> String {
     let orig_size = points.len();
-    loop {
-        let sand = drop_sand(points, floor);
-        points.insert(sand);
-        if sand == (500, 0) {
-            break;
-        }
-    }
+    fill_cave((500, 0), points, floor);
     return (points.len() - orig_size).to_string();
 }
 
