@@ -57,6 +57,8 @@ fn get_solution(dir: &str, day: usize) -> Result<(String, String), &str> {
             13 => Ok(day13::solve(&input)),
             14 => Ok(day14::solve(&input)),
             15 => Ok(day15::solve(&input)),
+            16 => Ok(day16::solve(&input)),
+            17 => Ok(day17::solve(&input)),
             _ => Err("No solution"),
         },
         None => Err("File missing"),
