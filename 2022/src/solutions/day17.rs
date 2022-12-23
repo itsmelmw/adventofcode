@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/17
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 #[derive(Clone)]
 enum Jet {
@@ -10,7 +10,7 @@ enum Jet {
 
 struct JetPattern {
     jets: Vec<Jet>,
-    current: usize,
+    pub current: usize,
 }
 
 impl JetPattern {
@@ -32,7 +32,6 @@ impl JetPattern {
 }
 
 struct Rock {
-    width: usize,
     height: usize,
     pieces: Vec<(usize, usize)>,
 }
@@ -40,7 +39,6 @@ struct Rock {
 impl Rock {
     pub fn new(pieces: Vec<(usize, usize)>) -> Self {
         Self {
-            width: *pieces.iter().map(|(x, _)| x).max().unwrap() + 1,
             height: *pieces.iter().map(|(_, y)| y).max().unwrap() + 1,
             pieces: pieces,
         }
@@ -49,7 +47,7 @@ impl Rock {
 
 struct RockPattern {
     rocks: Vec<Rock>,
-    current: usize,
+    pub current: usize,
 }
 
 impl RockPattern {
@@ -75,16 +73,16 @@ impl RockPattern {
 
 struct RockMap {
     map: HashSet<(usize, usize)>,
-    width: usize,
     height: usize,
+    rel_cols: [usize; 7],
 }
 
 impl RockMap {
     pub fn new(width: usize) -> Self {
         Self {
             map: HashSet::new(),
-            width: width,
             height: 0,
+            rel_cols: [0; 7],
         }
     }
 
@@ -92,7 +90,7 @@ impl RockMap {
         let dx = if let Jet::Left = jet { -1 } else { 1 };
         return rock.pieces.iter().any(|(rx, ry)| {
             let newx = (loc.0 as isize + *rx as isize + dx) as usize;
-            newx == 0 || newx > self.width || self.map.contains(&(newx, loc.1 - ry))
+            newx == 0 || newx > 7 || self.map.contains(&(newx, loc.1 - ry))
         });
     }
 
@@ -104,11 +102,21 @@ impl RockMap {
     }
 
     pub fn insert(&mut self, rock: &Rock, loc: (usize, usize)) {
+        // Update total height and relative column heights
         if loc.1 > self.height {
+            self.rel_cols
+                .iter_mut()
+                .for_each(|col| *col += loc.1 - self.height);
             self.height = loc.1;
         }
+
         rock.pieces.iter().for_each(|(rx, ry)| {
-            self.map.insert((loc.0 + rx, loc.1 - ry));
+            let (x, y) = (loc.0 + rx, loc.1 - ry);
+            self.map.insert((x, y));
+            // Update relative column heights
+            if self.height - y < self.rel_cols[x - 1] {
+                self.rel_cols[x - 1] = self.height - y;
+            }
         });
     }
 }
@@ -124,9 +132,9 @@ fn parse(input: &str) -> Vec<Jet> {
         .collect::<Vec<Jet>>();
 }
 
-fn solve1(parsed: &Vec<Jet>) -> String {
+fn drop_rocks(jets: &Vec<Jet>, num: usize) -> usize {
     let mut map = RockMap::new(7);
-    let mut jet_pattern = JetPattern::new(parsed.to_vec());
+    let mut jet_pattern = JetPattern::new(jets.to_vec());
     let mut rock_pattern = RockPattern::new(vec![
         vec![(0, 0), (1, 0), (2, 0), (3, 0)],
         vec![(1, 0), (0, 1), (1, 1), (2, 1), (1, 2)],
@@ -134,11 +142,15 @@ fn solve1(parsed: &Vec<Jet>) -> String {
         vec![(0, 0), (0, 1), (0, 2), (0, 3)],
         vec![(0, 0), (1, 0), (0, 1), (1, 1)],
     ]);
+    let mut column_pattern = HashMap::new();
 
-    for _ in 0..2022 {
+    let mut cut_height = 0;
+    let mut dropped = 0;
+    while dropped < num {
         let rock = rock_pattern.next();
         let mut loc = (3, map.height + 3 + rock.height);
 
+        // Simulate dropping one rock
         loop {
             let jet = jet_pattern.next();
             if !map.touches_side(rock, loc, jet) {
@@ -154,46 +166,38 @@ fn solve1(parsed: &Vec<Jet>) -> String {
                 loc.1 -= 1;
             }
         }
+
+        // Update the map
         map.insert(rock, loc);
+
+        // Check if we found a pattern, by checking if we had this combination of
+        // relative column height, current rock, and current jet before.
+        // If so, check how often the pattern fits in the space and apply it that many times.
+        if cut_height == 0 {
+            if let Some((prev_height, prev_dropped)) = column_pattern.insert(
+                (map.rel_cols, rock_pattern.current, jet_pattern.current),
+                (map.height, dropped),
+            ) {
+                let pattern_height = map.height - prev_height;
+                let pattern_drop = dropped - prev_dropped;
+                let pattern_fits = (num - dropped - 1) / pattern_drop;
+
+                cut_height = pattern_fits * pattern_height;
+                dropped += pattern_fits * pattern_drop;
+            }
+        }
+        dropped += 1;
     }
 
-    return map.height.to_string();
+    return map.height + cut_height;
+}
+
+fn solve1(parsed: &Vec<Jet>) -> String {
+    return drop_rocks(parsed, 2022).to_string();
 }
 
 fn solve2(parsed: &Vec<Jet>) -> String {
-    let mut map = RockMap::new(7);
-    let mut jet_pattern = JetPattern::new(parsed.to_vec());
-    let mut rock_pattern = RockPattern::new(vec![
-        vec![(0, 0), (1, 0), (2, 0), (3, 0)],
-        vec![(1, 0), (0, 1), (1, 1), (2, 1), (1, 2)],
-        vec![(2, 0), (2, 1), (0, 2), (1, 2), (2, 2)],
-        vec![(0, 0), (0, 1), (0, 2), (0, 3)],
-        vec![(0, 0), (1, 0), (0, 1), (1, 1)],
-    ]);
-
-    for _ in 0..1_000_000_000_000usize {
-        let rock = rock_pattern.next();
-        let mut loc = (3, map.height + 3 + rock.height);
-
-        loop {
-            let jet = jet_pattern.next();
-            if !map.touches_side(rock, loc, jet) {
-                loc.0 = if let Jet::Left = jet {
-                    loc.0 - 1
-                } else {
-                    loc.0 + 1
-                };
-            }
-            if map.touches_bottom(rock, loc) {
-                break;
-            } else {
-                loc.1 -= 1;
-            }
-        }
-        map.insert(rock, loc);
-    }
-
-    return map.height.to_string();
+    return drop_rocks(parsed, 1_000_000_000_000).to_string();
 }
 
 pub fn solve(input: &str) -> (String, String) {
