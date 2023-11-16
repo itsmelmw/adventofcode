@@ -5,8 +5,8 @@ use std::collections::{HashMap, HashSet, VecDeque};
 use itertools::Itertools;
 
 fn parse(input: &str) -> HashSet<(isize, isize, isize)> {
-    return HashSet::from_iter(input.split("\n").map(|line| {
-        line.split(",")
+    return HashSet::from_iter(input.split('\n').map(|line| {
+        line.split(',')
             .map(|num| num.parse::<isize>().unwrap())
             .collect_tuple::<(isize, isize, isize)>()
             .unwrap()
@@ -14,7 +14,7 @@ fn parse(input: &str) -> HashSet<(isize, isize, isize)> {
 }
 
 fn get_neighbors(loc: (isize, isize, isize)) -> [(isize, isize, isize); 6] {
-    return [
+    [
         (-1, 0, 0),
         (1, 0, 0),
         (0, -1, 0),
@@ -22,7 +22,7 @@ fn get_neighbors(loc: (isize, isize, isize)) -> [(isize, isize, isize); 6] {
         (0, 0, -1),
         (0, 0, 1),
     ]
-    .map(|(dx, dy, dz)| (loc.0 + dx, loc.1 + dy, loc.2 + dz));
+    .map(|(dx, dy, dz)| (loc.0 + dx, loc.1 + dy, loc.2 + dz))
 }
 
 fn update_known(
@@ -33,7 +33,7 @@ fn update_known(
     visited.iter().for_each(|loc| {
         known.insert(*loc, inside);
     });
-    return inside;
+    inside
 }
 
 // We define "inside" as: not being able to reach a border.
@@ -65,7 +65,7 @@ fn is_inside(
             }
         }
     }
-    return update_known(known, &visited, true);
+    update_known(known, &visited, true)
 }
 
 fn solve1(parsed: &HashSet<(isize, isize, isize)>) -> String {
@@ -74,7 +74,7 @@ fn solve1(parsed: &HashSet<(isize, isize, isize)>) -> String {
         .map(|loc| {
             get_neighbors(*loc)
                 .iter()
-                .map(|loc| !parsed.contains(&loc) as usize)
+                .map(|loc| !parsed.contains(loc) as usize)
                 .sum::<usize>()
         })
         .sum::<usize>()
@@ -88,7 +88,7 @@ fn solve2(parsed: &HashSet<(isize, isize, isize)>) -> String {
         .map(|loc| {
             get_neighbors(*loc)
                 .iter()
-                .map(|loc| (!parsed.contains(&loc) && !is_inside(&mut known, parsed, loc)) as usize)
+                .map(|loc| (!parsed.contains(loc) && !is_inside(&mut known, parsed, loc)) as usize)
                 .sum::<usize>()
         })
         .sum::<usize>()
@@ -97,5 +97,5 @@ fn solve2(parsed: &HashSet<(isize, isize, isize)>) -> String {
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

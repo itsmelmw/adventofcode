@@ -27,11 +27,11 @@ struct Monkey {
 impl Monkey {
     fn new(items: VecDeque<usize>, op: Op, test: usize, ttrue: usize, tfalse: usize) -> Self {
         Self {
-            items: items,
-            op: op,
-            test: test,
-            ttrue: ttrue,
-            tfalse: tfalse,
+            items,
+            op,
+            test,
+            ttrue,
+            tfalse,
             inspected: 0,
         }
     }
@@ -39,33 +39,33 @@ impl Monkey {
     fn inspect_item(&mut self) -> usize {
         self.inspected += 1;
         let item = self.items.pop_front().unwrap();
-        return match self.op {
+        match self.op {
             Op::Add(Val::Old) => item + item,
             Op::Add(Val::Num(i)) => item + i,
             Op::Mul(Val::Old) => item * item,
             Op::Mul(Val::Num(i)) => item * i,
-        };
+        }
     }
 
     fn throw_to(&self, item: usize) -> usize {
         if item % self.test == 0 {
             return self.ttrue;
         }
-        return self.tfalse;
+        self.tfalse
     }
 }
 
 fn parse(input: &str) -> Vec<Monkey> {
     let mut monkeys = Vec::new();
     for text in input.split("\n\n") {
-        let monkey = text.split("\n").collect::<Vec<&str>>();
+        let monkey = text.split('\n').collect::<Vec<&str>>();
         let items = monkey[1]
             .split_at(18)
             .1
             .split(", ")
             .map(|item| item.parse::<usize>().unwrap())
             .collect::<VecDeque<usize>>();
-        let operation = match monkey[2].split_at(23).1.split(" ").collect::<Vec<&str>>()[..] {
+        let operation = match monkey[2].split_at(23).1.split(' ').collect::<Vec<&str>>()[..] {
             ["+", "old"] => Op::Add(Val::Old),
             ["+", num] => Op::Add(Val::Num(num.parse::<usize>().unwrap())),
             ["*", "old"] => Op::Mul(Val::Old),
@@ -77,10 +77,10 @@ fn parse(input: &str) -> Vec<Monkey> {
         let tfalse = monkey[5].split_at(30).1.parse::<usize>().unwrap();
         monkeys.push(Monkey::new(items, operation, test, ttrue, tfalse));
     }
-    return monkeys;
+    monkeys
 }
 
-fn monkey_business(monkeys: &mut Vec<Monkey>) -> usize {
+fn monkey_business(monkeys: &mut [Monkey]) -> usize {
     return monkeys
         .iter()
         .map(|monkey| monkey.inspected)
@@ -101,7 +101,7 @@ fn solve1(monkeys: &mut Vec<Monkey>) -> String {
             }
         }
     }
-    return monkey_business(monkeys).to_string();
+    monkey_business(monkeys).to_string()
 }
 
 fn solve2(monkeys: &mut Vec<Monkey>) -> String {
@@ -116,11 +116,11 @@ fn solve2(monkeys: &mut Vec<Monkey>) -> String {
             }
         }
     }
-    return monkey_business(monkeys).to_string();
+    monkey_business(monkeys).to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let mut monkeys1 = parse(input);
     let mut monkeys2 = monkeys1.to_vec();
-    return (solve1(&mut monkeys1), solve2(&mut monkeys2));
+    (solve1(&mut monkeys1), solve2(&mut monkeys2))
 }

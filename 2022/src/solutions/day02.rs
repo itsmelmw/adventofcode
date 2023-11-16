@@ -22,7 +22,7 @@ const SCORE_WIN: usize = 6;
 
 fn parse(input: &str) -> Vec<(u8, u8)> {
     return input
-        .split("\n")
+        .split('\n')
         .map(|line| match line.as_bytes() {
             [op, b' ', me] => (*op, *me),
             _ => unreachable!(),
@@ -30,7 +30,7 @@ fn parse(input: &str) -> Vec<(u8, u8)> {
         .collect::<Vec<(u8, u8)>>();
 }
 
-fn solve1(parsed: &Vec<(u8, u8)>) -> String {
+fn solve1(parsed: &[(u8, u8)]) -> String {
     return parsed
         .iter()
         .map(|game| match game {
@@ -49,7 +49,7 @@ fn solve1(parsed: &Vec<(u8, u8)>) -> String {
         .to_string();
 }
 
-fn solve2(parsed: &Vec<(u8, u8)>) -> String {
+fn solve2(parsed: &[(u8, u8)]) -> String {
     return parsed
         .iter()
         .map(|game| match game {
@@ -70,5 +70,5 @@ fn solve2(parsed: &Vec<(u8, u8)>) -> String {
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

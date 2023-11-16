@@ -10,11 +10,11 @@ fn print_header(day: usize) {
 }
 
 fn get_truth_symbol(result: &String, truth: &str) -> &'static str {
-    return match truth {
+    match truth {
         "" => "\x1b[33m?\x1b[0m",
         _ if result == truth => "\x1b[32m✔\x1b[0m",
         _ => "\x1b[31m✘\x1b[0m",
-    };
+    }
 }
 
 fn print_parts(solution: &Output) {

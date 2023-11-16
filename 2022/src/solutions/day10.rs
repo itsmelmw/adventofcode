@@ -18,7 +18,7 @@ struct Crt {
 
 impl Cpu {
     fn new() -> Self {
-        return Self { cycle: 0, xreg: 1 };
+        Self { cycle: 0, xreg: 1 }
     }
 
     fn step(&mut self, instr: &Instr) -> isize {
@@ -29,21 +29,21 @@ impl Cpu {
                 self.cycle += 1
             }
         }
-        return self.cycle;
+        self.cycle
     }
 }
 
 impl Crt {
     fn new() -> Self {
-        return Self {
+        Self {
             cpu: Cpu::new(),
             dot: 0,
             display: String::new(),
-        };
+        }
     }
 
     fn get_pixel(&self) -> bool {
-        return self.dot >= (self.cpu.xreg - 1) && self.dot <= self.cpu.xreg + 1;
+        self.dot >= (self.cpu.xreg - 1) && self.dot <= self.cpu.xreg + 1
     }
 
     fn step(&mut self, instr: &Instr) {
@@ -59,8 +59,8 @@ impl Crt {
 
 fn parse(input: &str) -> Vec<Instr> {
     return input
-        .split("\n")
-        .flat_map(|line| match line.split(" ").collect::<Vec<&str>>()[..] {
+        .split('\n')
+        .flat_map(|line| match line.split(' ').collect::<Vec<&str>>()[..] {
             // Add an extra NOOP in front of every ADDX to make it take 2 cycle.
             ["noop"] => vec![Instr::Noop],
             ["addx", x] => vec![Instr::Noop, Instr::Addx(x.parse::<isize>().unwrap())],
@@ -69,9 +69,9 @@ fn parse(input: &str) -> Vec<Instr> {
         .collect::<Vec<Instr>>();
 }
 
-fn solve1(parsed: &Vec<Instr>) -> String {
+fn solve1(parsed: &[Instr]) -> String {
     let mut cpu = Cpu::new();
-    let mut val_cycle = 20 as isize;
+    let mut val_cycle = 20_isize;
 
     return parsed
         .iter()
@@ -91,10 +91,10 @@ fn solve2(parsed: &Vec<Instr>) -> String {
     for instr in parsed {
         crt.step(instr);
     }
-    return crt.display;
+    crt.display
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

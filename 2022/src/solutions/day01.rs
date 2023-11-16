@@ -7,10 +7,10 @@ struct Top3 {
 
 impl Top3 {
     fn new() -> Self {
-        return Top3 {
+        Top3 {
             list: [0, 0, 0],
             min_ind: 0,
-        };
+        }
     }
 
     fn sum(&self) -> usize {
@@ -38,26 +38,26 @@ fn parse(input: &str) -> Vec<usize> {
     return input
         .split("\n\n")
         .map(|elf| {
-            elf.split("\n")
+            elf.split('\n')
                 .map(|cal| cal.parse::<usize>().unwrap())
                 .sum()
         })
         .collect::<Vec<usize>>();
 }
 
-fn solve1(parsed: &Vec<usize>) -> String {
+fn solve1(parsed: &[usize]) -> String {
     return parsed.iter().max().unwrap().to_string();
 }
 
-fn solve2(parsed: &Vec<usize>) -> String {
+fn solve2(parsed: &[usize]) -> String {
     let mut top3 = Top3::new();
     for &value in parsed.iter() {
         top3.update(value);
     }
-    return top3.sum().to_string();
+    top3.sum().to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

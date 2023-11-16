@@ -12,13 +12,13 @@ enum Element {
 
 impl Element {
     fn to_singleton(&self) -> Element {
-        return Element::List(vec![self.clone()]);
+        Element::List(vec![self.clone()])
     }
 }
 
 impl PartialOrd for Element {
     fn partial_cmp(&self, other: &Element) -> Option<Ordering> {
-        return Some(self.cmp(other));
+        Some(self.cmp(other))
     }
 }
 
@@ -71,7 +71,7 @@ fn parse_list(chars: &mut Chars) -> Element {
 
 fn parse(input: &str) -> Vec<Element> {
     return input
-        .split("\n")
+        .split('\n')
         .filter_map(|elem| match elem {
             "" => None,
             _ => Some(parse_list(&mut elem[1..].chars())),
@@ -79,7 +79,7 @@ fn parse(input: &str) -> Vec<Element> {
         .collect::<Vec<Element>>();
 }
 
-fn solve1(parsed: &Vec<Element>) -> String {
+fn solve1(parsed: &[Element]) -> String {
     return parsed
         .iter()
         .tuples::<(&Element, &Element)>()
@@ -106,10 +106,10 @@ fn solve2(parsed: &mut Vec<Element>) -> String {
             _ => (),
         });
 
-    return key.to_string();
+    key.to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let mut parsed = parse(input);
-    return (solve1(&parsed), solve2(&mut parsed));
+    (solve1(&parsed), solve2(&mut parsed))
 }

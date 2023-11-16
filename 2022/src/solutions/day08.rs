@@ -18,7 +18,7 @@ fn parse(input: &str) -> (Vec<usize>, usize) {
             _ => Some((x - b'0') as usize),
         })
         .collect();
-    return (parsed, lines);
+    (parsed, lines)
 }
 
 fn insert_visible<'a, I>(treeline: I, counted: &mut HashSet<*const usize>)
@@ -48,10 +48,10 @@ where
             break;
         }
     }
-    return count;
+    count
 }
 
-fn scenic_score(parsed: &Vec<usize>, dim: usize, x: usize, y: usize) -> usize {
+fn scenic_score(parsed: &[usize], dim: usize, x: usize, y: usize) -> usize {
     let idx = y * dim + x;
     let size = &parsed[idx];
 
@@ -60,13 +60,13 @@ fn scenic_score(parsed: &Vec<usize>, dim: usize, x: usize, y: usize) -> usize {
     let to_top = parsed.iter().skip(x).step_by(dim).take(y).rev();
     let to_bottom = parsed.iter().skip(idx + dim).step_by(dim).take(dim - y - 1);
 
-    return count_visible(to_left, size)
+    count_visible(to_left, size)
         * count_visible(to_right, size)
         * count_visible(to_top, size)
-        * count_visible(to_bottom, size);
+        * count_visible(to_bottom, size)
 }
 
-fn solve1<'a>(parsed: &'a Vec<usize>, dim: usize) -> String {
+fn solve1(parsed: &[usize], dim: usize) -> String {
     // Create a hashset of pointers, to check whether we counted a tree before
     let mut found = HashSet::<*const usize>::new();
 
@@ -84,19 +84,19 @@ fn solve1<'a>(parsed: &'a Vec<usize>, dim: usize) -> String {
         insert_visible(v_iter.rev(), &mut found);
     }
 
-    return found.len().to_string();
+    found.len().to_string()
 }
 
-fn solve2(parsed: &Vec<usize>, dim: usize) -> String {
-    return (0..dim)
+fn solve2(parsed: &[usize], dim: usize) -> String {
+    (0..dim)
         .cartesian_product(0..dim)
         .map(|(x, y)| scenic_score(parsed, dim, x, y))
         .max()
         .unwrap()
-        .to_string();
+        .to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let (parsed, dim) = parse(input);
-    return (solve1(&parsed, dim), solve2(&parsed, dim));
+    (solve1(&parsed, dim), solve2(&parsed, dim))
 }

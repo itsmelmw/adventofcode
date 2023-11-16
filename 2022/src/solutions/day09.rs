@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 fn parse(input: &str) -> Vec<(char, usize)> {
     return input
-        .split("\n")
+        .split('\n')
         .map(|line| {
             let mut iter = line.chars();
             let dir = iter.next().unwrap();
@@ -20,7 +20,7 @@ fn update_tail(head: (isize, isize), tail: &mut (isize, isize)) -> bool {
         tail.1 += head.1.cmp(&tail.1) as isize;
         return true;
     }
-    return false;
+    false
 }
 
 fn do_move(knots: &mut Vec<(isize, isize)>, dir: char) {
@@ -47,18 +47,18 @@ fn unique_tail_locs(moves: &Vec<(char, usize)>, length: usize) -> usize {
             locs.insert(*knots.last().unwrap());
         }
     }
-    return locs.len();
+    locs.len()
 }
 
 fn solve1(parsed: &Vec<(char, usize)>) -> String {
-    return unique_tail_locs(parsed, 2).to_string();
+    unique_tail_locs(parsed, 2).to_string()
 }
 
 fn solve2(parsed: &Vec<(char, usize)>) -> String {
-    return unique_tail_locs(parsed, 10).to_string();
+    unique_tail_locs(parsed, 10).to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

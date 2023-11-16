@@ -15,10 +15,7 @@ struct JetPattern {
 
 impl JetPattern {
     pub fn new(jets: Vec<Jet>) -> Self {
-        Self {
-            jets: jets,
-            current: 0,
-        }
+        Self { jets, current: 0 }
     }
 
     pub fn next(&mut self) -> &Jet {
@@ -27,7 +24,7 @@ impl JetPattern {
         if self.current >= self.jets.len() {
             self.current = 0;
         }
-        return jet;
+        jet
     }
 }
 
@@ -40,7 +37,7 @@ impl Rock {
     pub fn new(pieces: Vec<(usize, usize)>) -> Self {
         Self {
             height: *pieces.iter().map(|(_, y)| y).max().unwrap() + 1,
-            pieces: pieces,
+            pieces,
         }
     }
 }
@@ -67,7 +64,7 @@ impl RockPattern {
         if self.current >= self.rocks.len() {
             self.current = 0;
         }
-        return rock;
+        rock
     }
 }
 
@@ -132,7 +129,7 @@ fn parse(input: &str) -> Vec<Jet> {
         .collect::<Vec<Jet>>();
 }
 
-fn drop_rocks(jets: &Vec<Jet>, num: usize) -> usize {
+fn drop_rocks(jets: &[Jet], num: usize) -> usize {
     let mut map = RockMap::new();
     let mut jet_pattern = JetPattern::new(jets.to_vec());
     let mut rock_pattern = RockPattern::new(vec![
@@ -189,18 +186,18 @@ fn drop_rocks(jets: &Vec<Jet>, num: usize) -> usize {
         dropped += 1;
     }
 
-    return map.height + cut_height;
+    map.height + cut_height
 }
 
-fn solve1(parsed: &Vec<Jet>) -> String {
-    return drop_rocks(parsed, 2022).to_string();
+fn solve1(parsed: &[Jet]) -> String {
+    drop_rocks(parsed, 2022).to_string()
 }
 
-fn solve2(parsed: &Vec<Jet>) -> String {
-    return drop_rocks(parsed, 1_000_000_000_000).to_string();
+fn solve2(parsed: &[Jet]) -> String {
+    drop_rocks(parsed, 1_000_000_000_000).to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

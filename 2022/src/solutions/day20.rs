@@ -2,7 +2,7 @@
 
 fn parse(input: &str) -> Vec<isize> {
     return input
-        .split("\n")
+        .split('\n')
         .map(|line| line.parse().unwrap())
         .collect();
 }
@@ -26,14 +26,14 @@ fn solve1(parsed: &Vec<isize>) -> String {
         dbg!(&mixed);
         dbg!(&idx_map);
     });
-    return 0.to_string();
+    0.to_string()
 }
 
-fn solve2(parsed: &Vec<isize>) -> String {
-    return 0.to_string();
+fn solve2(_parsed: &[isize]) -> String {
+    0.to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

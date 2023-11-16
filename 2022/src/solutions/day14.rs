@@ -6,10 +6,10 @@ use std::collections::HashSet;
 fn parse(input: &str) -> (HashSet<(usize, usize)>, usize) {
     let mut points = HashSet::new();
     let mut lowest = 0;
-    input.split("\n").for_each(|line| {
+    input.split('\n').for_each(|line| {
         line.split(" -> ")
             .map(|pt| {
-                pt.split(",")
+                pt.split(',')
                     .map(|num| num.parse::<usize>().unwrap())
                     .collect_tuple::<(usize, usize)>()
                     .unwrap()
@@ -31,7 +31,7 @@ fn parse(input: &str) -> (HashSet<(usize, usize)>, usize) {
             })
     });
 
-    return (points, lowest);
+    (points, lowest)
 }
 
 fn find_abyss(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, abyss: usize) -> bool {
@@ -40,14 +40,12 @@ fn find_abyss(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, abyss:
     }
     for xdiff in [0, -1, 1] {
         let new = ((sand.0 as isize + xdiff) as usize, sand.1 + 1);
-        if !points.contains(&new) {
-            if find_abyss(new, points, abyss) {
-                return true;
-            }
+        if !points.contains(&new) && find_abyss(new, points, abyss) {
+            return true;
         }
     }
     points.insert(sand);
-    return false;
+    false
 }
 
 fn fill_cave(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, floor: usize) {
@@ -66,20 +64,20 @@ fn fill_cave(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, floor: 
 fn solve1(points: &mut HashSet<(usize, usize)>, abyss: usize) -> String {
     let orig_size = points.len();
     find_abyss((500, 0), points, abyss);
-    return (points.len() - orig_size).to_string();
+    (points.len() - orig_size).to_string()
 }
 
 fn solve2(points: &mut HashSet<(usize, usize)>, floor: usize) -> String {
     let orig_size = points.len();
     fill_cave((500, 0), points, floor);
-    return (points.len() - orig_size).to_string();
+    (points.len() - orig_size).to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let (mut parsed, lowest) = parse(input);
     let mut parsed2 = parsed.clone();
-    return (
+    (
         solve1(&mut parsed, lowest),
         solve2(&mut parsed2, lowest + 1),
-    );
+    )
 }

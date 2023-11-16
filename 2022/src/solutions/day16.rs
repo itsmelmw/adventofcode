@@ -53,7 +53,7 @@ impl Position {
     fn new(score: usize, valve: String, mins_left: usize, opened: HashSet<String>) -> Self {
         Self {
             score,
-            valve: valve.to_string(),
+            valve,
             mins_left,
             opened,
         }
@@ -65,11 +65,11 @@ fn parse(input: &str) -> Cave {
     let re =
         Regex::new(r"Valve (.*?) has flow rate=(.*?); tunnels? leads? to valves? (.+(?:, |$))+?")
             .unwrap();
-    input.split("\n").for_each(|line| {
+    input.split('\n').for_each(|line| {
         let cap = re.captures(line).unwrap();
         cave.add_valve(&cap[1], &cap[2], &cap[3]);
     });
-    return cave;
+    cave
 }
 
 fn solve1(cave: &Cave) -> String {
@@ -118,7 +118,7 @@ fn solve1(cave: &Cave) -> String {
         }
     }
 
-    return best_score.to_string();
+    best_score.to_string()
 }
 
 struct DoublePosition {
@@ -139,8 +139,8 @@ impl DoublePosition {
     ) -> Self {
         Self {
             score,
-            human_valve: human_valve.to_string(),
-            elephant_valve: elephant_valve.to_string(),
+            human_valve,
+            elephant_valve,
             mins_left,
             opened,
         }
@@ -239,10 +239,10 @@ fn solve2(cave: &Cave) -> String {
         }
     }
 
-    return best_score.to_string();
+    best_score.to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

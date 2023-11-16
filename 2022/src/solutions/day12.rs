@@ -2,17 +2,15 @@
 
 use std::collections::{HashMap, VecDeque};
 
-fn parse(
-    input: &str,
-) -> (
-    Vec<Vec<usize>>,
-    (VecDeque<(usize, usize)>, VecDeque<(usize, usize)>),
-    (usize, usize),
-) {
+type Point = (usize, usize);
+type StartStates = VecDeque<Point>;
+type Map = Vec<Vec<usize>>;
+
+fn parse(input: &str) -> (Map, (StartStates, StartStates), Point) {
     let mut starts = (VecDeque::new(), VecDeque::new());
     let mut end = (0, 0);
     let map = input
-        .split("\n")
+        .split('\n')
         .enumerate()
         .map(|(y, line)| {
             line.bytes()
@@ -36,7 +34,7 @@ fn parse(
                 .collect::<Vec<usize>>()
         })
         .collect::<Vec<Vec<usize>>>();
-    return (map, starts, end);
+    (map, starts, end)
 }
 
 fn get_neighbors(pos: (usize, usize), width: usize, height: usize) -> Vec<(usize, usize)> {
@@ -53,7 +51,7 @@ fn get_neighbors(pos: (usize, usize), width: usize, height: usize) -> Vec<(usize
     if pos.1 != height - 1 {
         positions.push((pos.0, pos.1 + 1));
     }
-    return positions;
+    positions
 }
 
 fn solve12(
@@ -93,10 +91,10 @@ fn solve12(
         prev = visited[&curr];
         path_length += 1;
     }
-    return path_length.to_string();
+    path_length.to_string()
 }
 
 pub fn solve(input: &str) -> (String, String) {
     let (map, (start1, start2), end) = parse(input);
-    return (solve12(&map, start1, end), solve12(&map, start2, end));
+    (solve12(&map, start1, end), solve12(&map, start2, end))
 }

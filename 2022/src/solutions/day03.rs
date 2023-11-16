@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 fn parse(input: &str) -> Vec<Vec<usize>> {
     return input
-        .split("\n")
+        .split('\n')
         .map(|line| {
             line.as_bytes()
                 .iter()
@@ -18,7 +18,7 @@ fn parse(input: &str) -> Vec<Vec<usize>> {
         .collect::<Vec<Vec<usize>>>();
 }
 
-fn solve1(parsed: &Vec<Vec<usize>>) -> String {
+fn solve1(parsed: &[Vec<usize>]) -> String {
     return parsed
         .iter()
         .map(|sack| {
@@ -31,7 +31,7 @@ fn solve1(parsed: &Vec<Vec<usize>>) -> String {
         .to_string();
 }
 
-fn solve2(parsed: &Vec<Vec<usize>>) -> String {
+fn solve2(parsed: &[Vec<usize>]) -> String {
     return parsed
         .chunks(3)
         .map(|group| {
@@ -50,5 +50,5 @@ fn solve2(parsed: &Vec<Vec<usize>>) -> String {
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }

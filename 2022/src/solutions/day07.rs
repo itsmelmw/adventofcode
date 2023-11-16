@@ -6,9 +6,9 @@ struct FileSystem {
 
 impl FileSystem {
     fn new() -> Self {
-        return FileSystem {
+        FileSystem {
             files: vec![Node::new(0, None)],
-        };
+        }
     }
 
     fn add_dir(&mut self, parent: usize) -> usize {
@@ -18,7 +18,7 @@ impl FileSystem {
         self.files[parent].dirs.push(index);
         self.files.push(node);
 
-        return index;
+        index
     }
 
     fn add_file(&mut self, dir: usize, size: usize) {
@@ -31,7 +31,7 @@ impl FileSystem {
     }
 
     fn get_parent(&mut self, node: usize) -> usize {
-        return self.files[self.files[node].parent.unwrap()].index;
+        self.files[self.files[node].parent.unwrap()].index
     }
 }
 
@@ -44,20 +44,20 @@ struct Node {
 
 impl Node {
     fn new(index: usize, parent: Option<usize>) -> Self {
-        return Node {
-            index: index,
+        Node {
+            index,
             size: 0,
             dirs: Vec::new(),
-            parent: parent,
-        };
+            parent,
+        }
     }
 }
 
 fn parse(input: &str) -> FileSystem {
     let mut fs = FileSystem::new();
     let mut cwd = 0;
-    for line in input.split("\n") {
-        match line.split(" ").collect::<Vec<&str>>()[..] {
+    for line in input.split('\n') {
+        match line.split(' ').collect::<Vec<&str>>()[..] {
             // Commands
             ["$", "cd", "/"] => (),
             ["$", "cd", ".."] => cwd = fs.get_parent(cwd),
@@ -69,7 +69,7 @@ fn parse(input: &str) -> FileSystem {
             _ => (),
         }
     }
-    return fs;
+    fs
 }
 
 fn solve1(parsed: &FileSystem) -> String {
@@ -95,5 +95,5 @@ fn solve2(parsed: &FileSystem) -> String {
 
 pub fn solve(input: &str) -> (String, String) {
     let parsed = parse(input);
-    return (solve1(&parsed), solve2(&parsed));
+    (solve1(&parsed), solve2(&parsed))
 }
