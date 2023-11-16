@@ -4,11 +4,6 @@ pub struct Output {
     pub truth: (&'static str, &'static str),
 }
 
-fn print_header(day: usize) {
-    println!("╔══════════════════════════╗");
-    println!("║ * Solutions for day {:02} * ║", day);
-}
-
 fn get_truth_symbol(result: &String, truth: &str) -> &'static str {
     match truth {
         "" => "\x1b[33m?\x1b[0m",
@@ -17,7 +12,12 @@ fn get_truth_symbol(result: &String, truth: &str) -> &'static str {
     }
 }
 
-fn print_parts(solution: &Output) {
+fn print_day_header(day: usize) {
+    println!("╔══════════════════════════╗");
+    println!("║ * Solutions for day {:02} * ║", day);
+}
+
+fn print_day_parts(solution: &Output) {
     println!("╟{:─^26}╢", format!("[{:.22}]", solution.title));
     match &solution.result {
         Ok(res) => {
@@ -36,11 +36,11 @@ fn print_parts(solution: &Output) {
     }
 }
 
-fn print_footer() {
+fn print_day_footer() {
     println!("╚══════════════════════════╝");
 }
 
-fn print_too_long(solution: &Output) {
+fn print_day_too_long(solution: &Output) {
     if let Ok(result) = &solution.result {
         if result.0.len() > 14 {
             println!(
@@ -57,13 +57,45 @@ fn print_too_long(solution: &Output) {
     }
 }
 
-pub fn pprint_solutions(day: usize, solutions: Vec<Output>) {
-    print_header(day);
+pub fn pprint_day_solutions(day: usize, solutions: Vec<Output>) {
+    print_day_header(day);
     for solution in &solutions {
-        print_parts(solution);
+        print_day_parts(solution);
     }
-    print_footer();
+    print_day_footer();
     for solution in &solutions {
-        print_too_long(solution);
+        print_day_too_long(solution);
     }
+}
+
+fn print_all_header(year: usize) {
+    println!("╔═══════════════════╗");
+    println!("║ * {:04} Calendar * ║", year);
+    println!("╟───┬───┬───┬───┬───╢");
+}
+
+fn print_all_result_row() {
+    println!("║   │   │   │   │   ║")
+}
+
+fn print_all_divider() {
+    println!("╟───┼───┼───┼───┼───╢")
+}
+
+fn print_all_footer() {
+    println!("╚═══╧═══╧═══╧═══╧═══╝");
+}
+
+pub fn pprint_all_solutions(year: usize, _solutions: Vec<Vec<Output>>) {
+    print_all_header(year);
+    print_all_result_row();
+    print_all_divider();
+    print_all_result_row();
+    print_all_divider();
+    print_all_result_row();
+    print_all_divider();
+    print_all_result_row();
+    print_all_divider();
+    print_all_result_row();
+    print_all_footer();
 }

@@ -5,7 +5,8 @@ mod pprint;
 mod solutions;
 mod truths;
 
-use pprint::{pprint_solutions, Output};
+use pprint::pprint_all_solutions;
+use pprint::{pprint_day_solutions, Output};
 use solutions::*;
 use truths::{EXAMPLE_TRUTHS, PUZZLE_TRUTHS};
 
@@ -14,26 +15,35 @@ fn main() {
         let day = arg.parse::<usize>();
         match day {
             Ok(d @ 1..=25) => {
-                let vec = vec![
-                    Output {
-                        title: "Example",
-                        result: get_solution("examples", d),
-                        truth: EXAMPLE_TRUTHS[d - 1],
-                    },
-                    Output {
-                        title: "Puzzle",
-                        result: get_solution("input", d),
-                        truth: PUZZLE_TRUTHS[d - 1],
-                    },
-                ];
-
-                pprint_solutions(d, vec);
+                let outputs = get_outputs(d);
+                pprint_day_solutions(d, outputs);
             }
             _ => {
                 println!("Please give a valid day.");
             }
         };
+    } else {
+        let mut outputs = Vec::new();
+        for day in 1..=25 {
+            outputs.push(get_outputs(day));
+        }
+        pprint_all_solutions(2022, outputs)
     }
+}
+
+fn get_outputs(day: usize) -> Vec<Output> {
+    vec![
+        Output {
+            title: "Example",
+            result: get_solution("examples", day),
+            truth: EXAMPLE_TRUTHS[day - 1],
+        },
+        Output {
+            title: "Puzzle",
+            result: get_solution("input", day),
+            truth: PUZZLE_TRUTHS[day - 1],
+        },
+    ]
 }
 
 fn read_input(dir: &str, day: usize) -> Option<String> {
@@ -64,6 +74,11 @@ fn get_solution(dir: &str, day: usize) -> Result<(String, String), &str> {
             18 => Ok(day18::solve(&input)),
             19 => Ok(day19::solve(&input)),
             20 => Ok(day20::solve(&input)),
+            21 => Ok(day21::solve(&input)),
+            22 => Ok(day22::solve(&input)),
+            23 => Ok(day23::solve(&input)),
+            24 => Ok(day24::solve(&input)),
+            25 => Ok(day25::solve(&input)),
             _ => Err("No solution"),
         },
         None => Err("File missing"),

@@ -15,16 +15,16 @@ fn solve1(parsed: &Vec<isize>) -> String {
         let mix_idx = idx_map[i];
         let val = mixed.remove(mix_idx);
         let new_idx = ((mix_idx as isize) + num).rem_euclid((parsed.len() - 1) as isize) as usize;
-        dbg!(num);
-        dbg!(mix_idx);
-        dbg!((mix_idx as isize) + num);
-        dbg!(new_idx);
+        // dbg!(num);
+        // dbg!(mix_idx);
+        // dbg!((mix_idx as isize) + num);
+        // dbg!(new_idx);
         mixed.insert(new_idx, val);
         let val = idx_map.remove(mix_idx);
         idx_map.insert(new_idx, val);
 
-        dbg!(&mixed);
-        dbg!(&idx_map);
+        // dbg!(&mixed);
+        // dbg!(&idx_map);
     });
     0.to_string()
 }
