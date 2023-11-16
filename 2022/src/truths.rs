@@ -17,8 +17,8 @@ pub const EXAMPLE_TRUTHS: [(&str, &str); 25] = [
 /* 16 */ ("1651", "1706"), // According to the website, the 2nd solution is 1707, but I get 1706. Actual puzzle solution is correct though.
 /* 17 */ ("3068", "1514285714288"),
 /* 18 */ ("64", "58"),
-/* 19 */ ("", ""),
-/* 20 */ ("", ""),
+/* 19 */ ("33", ""),
+/* 20 */ ("3", ""),
 /* 21 */ ("", ""),
 /* 22 */ ("", ""),
 /* 23 */ ("", ""),

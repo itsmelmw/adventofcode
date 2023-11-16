@@ -20,11 +20,11 @@ fn main() {
                     result: get_solution("examples", d),
                     truth: EXAMPLE_TRUTHS[d - 1],
                 });
-                vec.push(Output {
-                    title: "Puzzle",
-                    result: get_solution("input", d),
-                    truth: PUZZLE_TRUTHS[d - 1],
-                });
+                // vec.push(Output {
+                //     title: "Puzzle",
+                //     result: get_solution("input", d),
+                //     truth: PUZZLE_TRUTHS[d - 1],
+                // });
                 pprint_solutions(d, vec);
             }
             _ => {
@@ -60,6 +60,8 @@ fn get_solution(dir: &str, day: usize) -> Result<(String, String), &str> {
             16 => Ok(day16::solve(&input)),
             17 => Ok(day17::solve(&input)),
             18 => Ok(day18::solve(&input)),
+            19 => Ok(day19::solve(&input)),
+            20 => Ok(day20::solve(&input)),
             _ => Err("No solution"),
         },
         None => Err("File missing"),
