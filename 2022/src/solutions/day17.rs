@@ -78,7 +78,7 @@ struct RockMap {
 }
 
 impl RockMap {
-    pub fn new(width: usize) -> Self {
+    pub fn new() -> Self {
         Self {
             map: HashSet::new(),
             height: 0,
@@ -133,7 +133,7 @@ fn parse(input: &str) -> Vec<Jet> {
 }
 
 fn drop_rocks(jets: &Vec<Jet>, num: usize) -> usize {
-    let mut map = RockMap::new(7);
+    let mut map = RockMap::new();
     let mut jet_pattern = JetPattern::new(jets.to_vec());
     let mut rock_pattern = RockPattern::new(vec![
         vec![(0, 0), (1, 0), (2, 0), (3, 0)],
