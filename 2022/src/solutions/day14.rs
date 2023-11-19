@@ -1,7 +1,35 @@
 // https://adventofcode.com/2022/day/14
 
+use super::{InputParser, ProblemSolver};
 use itertools::Itertools;
 use std::collections::HashSet;
+
+fn find_abyss(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, abyss: usize) -> bool {
+    if sand.1 == abyss {
+        return true;
+    }
+    for xdiff in [0, -1, 1] {
+        let new = ((sand.0 as isize + xdiff) as usize, sand.1 + 1);
+        if !points.contains(&new) && find_abyss(new, points, abyss) {
+            return true;
+        }
+    }
+    points.insert(sand);
+    false
+}
+
+fn fill_cave(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, floor: usize) {
+    points.insert(sand);
+    if sand.1 == floor {
+        return;
+    }
+    for xdiff in [0, -1, 1] {
+        let new = ((sand.0 as isize + xdiff) as usize, sand.1 + 1);
+        if !points.contains(&new) {
+            fill_cave(new, points, floor);
+        }
+    }
+}
 
 fn parse(input: &str) -> (HashSet<(usize, usize)>, usize) {
     let mut points = HashSet::new();
@@ -34,33 +62,6 @@ fn parse(input: &str) -> (HashSet<(usize, usize)>, usize) {
     (points, lowest)
 }
 
-fn find_abyss(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, abyss: usize) -> bool {
-    if sand.1 == abyss {
-        return true;
-    }
-    for xdiff in [0, -1, 1] {
-        let new = ((sand.0 as isize + xdiff) as usize, sand.1 + 1);
-        if !points.contains(&new) && find_abyss(new, points, abyss) {
-            return true;
-        }
-    }
-    points.insert(sand);
-    false
-}
-
-fn fill_cave(sand: (usize, usize), points: &mut HashSet<(usize, usize)>, floor: usize) {
-    points.insert(sand);
-    if sand.1 == floor {
-        return;
-    }
-    for xdiff in [0, -1, 1] {
-        let new = ((sand.0 as isize + xdiff) as usize, sand.1 + 1);
-        if !points.contains(&new) {
-            fill_cave(new, points, floor);
-        }
-    }
-}
-
 fn solve1(points: &mut HashSet<(usize, usize)>, abyss: usize) -> String {
     let orig_size = points.len();
     find_abyss((500, 0), points, abyss);
@@ -73,11 +74,28 @@ fn solve2(points: &mut HashSet<(usize, usize)>, floor: usize) -> String {
     (points.len() - orig_size).to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let (mut parsed, lowest) = parse(input);
-    let mut parsed2 = parsed.clone();
-    (
-        solve1(&mut parsed, lowest),
-        solve2(&mut parsed2, lowest + 1),
-    )
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let (points, lowest) = parse(input);
+        Solver { points, lowest }
+    }
+}
+
+pub struct Solver {
+    points: HashSet<(usize, usize)>,
+    lowest: usize,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        let points = &mut self.points.clone();
+        solve1(points, self.lowest)
+    }
+    fn solve_part_2(&self) -> String {
+        let points = &mut self.points.clone();
+        solve2(points, self.lowest + 1)
+    }
 }

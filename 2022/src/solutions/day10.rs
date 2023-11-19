@@ -1,5 +1,7 @@
 // https://adventofcode.com/2022/day/10
 
+use super::{InputParser, ProblemSolver};
+
 enum Instr {
     Noop,
     Addx(isize),
@@ -94,7 +96,25 @@ fn solve2(parsed: &Vec<Instr>) -> String {
     crt.display
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let data = parse(input);
+        Solver { data }
+    }
+}
+
+pub struct Solver {
+    data: Vec<Instr>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.data)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.data)
+    }
 }

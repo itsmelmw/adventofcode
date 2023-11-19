@@ -1,5 +1,7 @@
 // https://adventofcode.com/2022/day/7
 
+use super::{InputParser, ProblemSolver};
+
 struct FileSystem {
     files: Vec<Node>,
 }
@@ -93,7 +95,25 @@ fn solve2(parsed: &FileSystem) -> String {
         .to_string();
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let fs = parse(input);
+        Solver { fs }
+    }
+}
+
+pub struct Solver {
+    fs: FileSystem,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.fs)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.fs)
+    }
 }

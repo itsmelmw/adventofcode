@@ -1,101 +1,107 @@
-pub struct Output {
-    pub title: &'static str,
-    pub result: Result<(String, String), &'static str>,
-    pub truth: (&'static str, &'static str),
+use super::{CheckResult, Input, Part};
+use itertools::Itertools;
+
+pub struct DaySection {
+    title: String,
+    part1: CheckResult,
+    part2: CheckResult,
 }
 
-fn get_truth_symbol(result: &String, truth: &str) -> &'static str {
-    match truth {
-        "" => "\x1b[33m?\x1b[0m",
-        _ if result == truth => "\x1b[32m✔\x1b[0m",
-        _ => "\x1b[31m✘\x1b[0m",
+impl DaySection {
+    pub fn new(title: &str) -> Self {
+        Self {
+            title: title.to_string(),
+            part1: Default::default(),
+            part2: Default::default(),
+        }
+    }
+    pub fn set_result(&mut self, part: &Part, result: CheckResult) {
+        match part {
+            Part::One => self.part1 = result,
+            Part::Two => self.part2 = result,
+        }
     }
 }
 
-fn print_day_header(day: usize) {
-    println!("╔══════════════════════════╗");
-    println!("║ * Solutions for day {:02} * ║", day);
+pub struct DayTable {
+    day: usize,
+    sections: Vec<DaySection>,
 }
 
-fn print_day_parts(solution: &Output) {
-    println!("╟{:─^26}╢", format!("[{:.22}]", solution.title));
-    match &solution.result {
-        Ok(res) => {
+impl DayTable {
+    pub fn new(day: usize) -> Self {
+        let sections = Input::iter()
+            .map(|input| DaySection::new(input.name()))
+            .collect();
+        let new = Self { day, sections };
+        new.print();
+        new
+    }
+
+    pub fn set_result(&mut self, input_idx: usize, part: &Part, result: CheckResult) {
+        self.sections[input_idx].set_result(part, result);
+        self.print()
+    }
+
+    pub fn print(&self) {
+        print!("\x1B[2J\x1B[1;1H");
+        println!("╔══════════════════════════╗");
+        println!("║ * Solutions for day {:02} * ║", self.day);
+        for section in &self.sections {
+            println!("╟{:─^26}╢", format!("[{:.22}]", section.title));
             println!(
                 "║ {} Part 1: {:14.14} ║",
-                get_truth_symbol(&res.0, solution.truth.0),
-                res.0,
+                section.part1.symbol(),
+                section.part1.result(),
             );
             println!(
                 "║ {} Part 2: {:14.14} ║",
-                get_truth_symbol(&res.1, solution.truth.1),
-                res.1,
+                section.part2.symbol(),
+                section.part2.result(),
             );
         }
-        Err(err) => println!("║ {:24} ║", err),
+        println!("╚══════════════════════════╝");
     }
 }
 
-fn print_day_footer() {
-    println!("╚══════════════════════════╝");
+pub struct YearTable {
+    year: usize,
+    days: [CheckResult; 25],
 }
 
-fn print_day_too_long(solution: &Output) {
-    if let Ok(result) = &solution.result {
-        if result.0.len() > 14 {
-            println!(
-                "Output of {} Part 1 was too large! Full output:\n{}",
-                solution.title, result.0
-            );
-        }
-        if result.1.len() > 14 {
-            println!(
-                "Output of {} Part 2 was too large! Full output:\n{}",
-                solution.title, result.1
-            );
-        }
+impl YearTable {
+    pub fn new(year: usize) -> Self {
+        let new = Self {
+            year,
+            days: Default::default(),
+        };
+        new.print();
+        new
     }
-}
 
-pub fn pprint_day_solutions(day: usize, solutions: Vec<Output>) {
-    print_day_header(day);
-    for solution in &solutions {
-        print_day_parts(solution);
+    pub fn set_result(&mut self, day: usize, result: CheckResult) {
+        self.days[day - 1] = result;
+        self.print()
     }
-    print_day_footer();
-    for solution in &solutions {
-        print_day_too_long(solution);
+
+    pub fn print(&self) {
+        print!("\x1B[2J\x1B[1;1H");
+        println!("╔═══════════════════╗");
+        println!("║ * {:04} Calendar * ║", self.year);
+        println!("╟───┬───┬───┬───┬───╢");
+        let rows = self
+            .days
+            .chunks(5)
+            .map(|row| {
+                format!(
+                    "║{}║\n",
+                    row.iter()
+                        .map(|day| format!(" {} ", day.symbol()))
+                        .join("│")
+                )
+            })
+            .join("╟───┼───┼───┼───┼───╢\n");
+        print!("{}", rows);
+        println!("╚═══╧═══╧═══╧═══╧═══╝");
     }
-}
-
-fn print_all_header(year: usize) {
-    println!("╔═══════════════════╗");
-    println!("║ * {:04} Calendar * ║", year);
-    println!("╟───┬───┬───┬───┬───╢");
-}
-
-fn print_all_result_row() {
-    println!("║   │   │   │   │   ║")
-}
-
-fn print_all_divider() {
-    println!("╟───┼───┼───┼───┼───╢")
-}
-
-fn print_all_footer() {
-    println!("╚═══╧═══╧═══╧═══╧═══╝");
-}
-
-pub fn pprint_all_solutions(year: usize, _solutions: Vec<Vec<Output>>) {
-    print_all_header(year);
-    print_all_result_row();
-    print_all_divider();
-    print_all_result_row();
-    print_all_divider();
-    print_all_result_row();
-    print_all_divider();
-    print_all_result_row();
-    print_all_divider();
-    print_all_result_row();
-    print_all_footer();
 }

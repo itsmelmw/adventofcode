@@ -1,5 +1,6 @@
 // https://adventofcode.com/2022/day/5
 
+use super::{InputParser, ProblemSolver};
 use itertools::Itertools;
 
 type Stacks = Vec<Vec<char>>;
@@ -64,8 +65,28 @@ fn solve2(stacks: &mut Stacks, moves: &Moves) -> String {
     out
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let (mut stacks1, moves) = parse(input);
-    let mut stacks2 = stacks1.clone();
-    (solve1(&mut stacks1, &moves), solve2(&mut stacks2, &moves))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let (stacks, moves) = parse(input);
+        Solver { stacks, moves }
+    }
+}
+
+pub struct Solver {
+    stacks: Stacks,
+    moves: Moves,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        let stacks = &mut self.stacks.clone();
+        solve1(stacks, &self.moves)
+    }
+    fn solve_part_2(&self) -> String {
+        let stacks = &mut self.stacks.clone();
+        solve2(stacks, &self.moves)
+    }
 }

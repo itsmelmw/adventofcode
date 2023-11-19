@@ -1,12 +1,30 @@
 // https://adventofcode.com/2022/day/12
 
+use super::{InputParser, ProblemSolver};
 use std::collections::{HashMap, VecDeque};
 
 type Point = (usize, usize);
-type StartStates = VecDeque<Point>;
+type StartState = VecDeque<Point>;
 type Map = Vec<Vec<usize>>;
 
-fn parse(input: &str) -> (Map, (StartStates, StartStates), Point) {
+fn get_neighbors(pos: Point, width: usize, height: usize) -> Vec<Point> {
+    let mut positions = Vec::new();
+    if pos.0 != 0 {
+        positions.push((pos.0 - 1, pos.1));
+    }
+    if pos.0 != width - 1 {
+        positions.push((pos.0 + 1, pos.1));
+    }
+    if pos.1 != 0 {
+        positions.push((pos.0, pos.1 - 1));
+    }
+    if pos.1 != height - 1 {
+        positions.push((pos.0, pos.1 + 1));
+    }
+    positions
+}
+
+fn parse(input: &str) -> (Map, (StartState, StartState), Point) {
     let mut starts = (VecDeque::new(), VecDeque::new());
     let mut end = (0, 0);
     let map = input
@@ -35,23 +53,6 @@ fn parse(input: &str) -> (Map, (StartStates, StartStates), Point) {
         })
         .collect::<Vec<Vec<usize>>>();
     (map, starts, end)
-}
-
-fn get_neighbors(pos: (usize, usize), width: usize, height: usize) -> Vec<(usize, usize)> {
-    let mut positions = Vec::new();
-    if pos.0 != 0 {
-        positions.push((pos.0 - 1, pos.1));
-    }
-    if pos.0 != width - 1 {
-        positions.push((pos.0 + 1, pos.1));
-    }
-    if pos.1 != 0 {
-        positions.push((pos.0, pos.1 - 1));
-    }
-    if pos.1 != height - 1 {
-        positions.push((pos.0, pos.1 + 1));
-    }
-    positions
 }
 
 fn solve12(
@@ -94,7 +95,33 @@ fn solve12(
     path_length.to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let (map, (start1, start2), end) = parse(input);
-    (solve12(&map, start1, end), solve12(&map, start2, end))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let (map, (start1, start2), end) = parse(input);
+        Solver {
+            map,
+            start1,
+            start2,
+            end,
+        }
+    }
+}
+
+pub struct Solver {
+    map: Map,
+    start1: StartState,
+    start2: StartState,
+    end: Point,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve12(&self.map, self.start1.clone(), self.end)
+    }
+    fn solve_part_2(&self) -> String {
+        solve12(&self.map, self.start2.clone(), self.end)
+    }
 }

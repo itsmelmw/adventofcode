@@ -3,6 +3,8 @@
 use itertools::Itertools;
 use std::collections::VecDeque;
 
+use super::{InputParser, ProblemSolver};
+
 #[derive(Clone)]
 enum Val {
     Num(usize),
@@ -55,6 +57,16 @@ impl Monkey {
     }
 }
 
+fn monkey_business(monkeys: &mut [Monkey]) -> usize {
+    return monkeys
+        .iter()
+        .map(|monkey| monkey.inspected)
+        .sorted()
+        .rev()
+        .take(2)
+        .product::<usize>();
+}
+
 fn parse(input: &str) -> Vec<Monkey> {
     let mut monkeys = Vec::new();
     for text in input.split("\n\n") {
@@ -78,16 +90,6 @@ fn parse(input: &str) -> Vec<Monkey> {
         monkeys.push(Monkey::new(items, operation, test, ttrue, tfalse));
     }
     monkeys
-}
-
-fn monkey_business(monkeys: &mut [Monkey]) -> usize {
-    return monkeys
-        .iter()
-        .map(|monkey| monkey.inspected)
-        .sorted()
-        .rev()
-        .take(2)
-        .product::<usize>();
 }
 
 fn solve1(monkeys: &mut Vec<Monkey>) -> String {
@@ -119,8 +121,27 @@ fn solve2(monkeys: &mut Vec<Monkey>) -> String {
     monkey_business(monkeys).to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let mut monkeys1 = parse(input);
-    let mut monkeys2 = monkeys1.to_vec();
-    (solve1(&mut monkeys1), solve2(&mut monkeys2))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let monkeys = parse(input);
+        Solver { monkeys }
+    }
+}
+
+pub struct Solver {
+    monkeys: Vec<Monkey>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        let monkeys = &mut self.monkeys.clone();
+        solve1(monkeys)
+    }
+    fn solve_part_2(&self) -> String {
+        let monkeys = &mut self.monkeys.clone();
+        solve2(monkeys)
+    }
 }

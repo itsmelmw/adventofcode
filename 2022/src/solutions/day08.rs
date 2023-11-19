@@ -1,25 +1,8 @@
 // https://adventofcode.com/2022/day/8
 
+use super::{InputParser, ProblemSolver};
 use itertools::Itertools;
 use std::collections::HashSet;
-
-fn parse(input: &str) -> (Vec<usize>, usize) {
-    // Assume the input is square, so the amount
-    // of lines is equal to the dimensions.
-    let mut lines = 1;
-    let parsed = input
-        .as_bytes()
-        .iter()
-        .filter_map(|x| match x {
-            b'\n' => {
-                lines += 1;
-                None
-            }
-            _ => Some((x - b'0') as usize),
-        })
-        .collect();
-    (parsed, lines)
-}
 
 fn insert_visible<'a, I>(treeline: I, counted: &mut HashSet<*const usize>)
 where
@@ -51,19 +34,37 @@ where
     count
 }
 
-fn scenic_score(parsed: &[usize], dim: usize, x: usize, y: usize) -> usize {
+fn scenic_score(data: &[usize], dim: usize, x: usize, y: usize) -> usize {
     let idx = y * dim + x;
-    let size = &parsed[idx];
+    let size = &data[idx];
 
-    let to_left = parsed.iter().skip(y * dim).take(x).rev();
-    let to_right = parsed.iter().skip(idx + 1).take(dim - x - 1);
-    let to_top = parsed.iter().skip(x).step_by(dim).take(y).rev();
-    let to_bottom = parsed.iter().skip(idx + dim).step_by(dim).take(dim - y - 1);
+    let to_left = data.iter().skip(y * dim).take(x).rev();
+    let to_right = data.iter().skip(idx + 1).take(dim - x - 1);
+    let to_top = data.iter().skip(x).step_by(dim).take(y).rev();
+    let to_bottom = data.iter().skip(idx + dim).step_by(dim).take(dim - y - 1);
 
     count_visible(to_left, size)
         * count_visible(to_right, size)
         * count_visible(to_top, size)
         * count_visible(to_bottom, size)
+}
+
+fn parse(input: &str) -> (Vec<usize>, usize) {
+    // Assume the input is square, so the amount
+    // of lines is equal to the dimensions.
+    let mut lines = 1;
+    let parsed = input
+        .as_bytes()
+        .iter()
+        .filter_map(|x| match x {
+            b'\n' => {
+                lines += 1;
+                None
+            }
+            _ => Some((x - b'0') as usize),
+        })
+        .collect();
+    (parsed, lines)
 }
 
 fn solve1(parsed: &[usize], dim: usize) -> String {
@@ -96,7 +97,26 @@ fn solve2(parsed: &[usize], dim: usize) -> String {
         .to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let (parsed, dim) = parse(input);
-    (solve1(&parsed, dim), solve2(&parsed, dim))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let (data, dim) = parse(input);
+        Solver { data, dim }
+    }
+}
+
+pub struct Solver {
+    data: Vec<usize>,
+    dim: usize,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.data, self.dim)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.data, self.dim)
+    }
 }

@@ -1,18 +1,23 @@
 // https://adventofcode.com/2022/day/19
 
-fn parse(_input: &str) -> Vec<usize> {
-    vec![]
+use super::{InputParser, ProblemSolver};
+
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        Solver {}
+    }
 }
 
-fn solve1(_parsed: &[usize]) -> String {
-    0.to_string()
-}
+pub struct Solver {}
 
-fn solve2(_parsed: &[usize]) -> String {
-    0.to_string()
-}
-
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        0.to_string()
+    }
+    fn solve_part_2(&self) -> String {
+        0.to_string()
+    }
 }

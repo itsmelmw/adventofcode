@@ -1,5 +1,6 @@
 // https://adventofcode.com/2022/day/13
 
+use super::{InputParser, ProblemSolver};
 use itertools::{EitherOrBoth, Itertools};
 use std::cmp::{Ordering, PartialOrd};
 use std::str::Chars;
@@ -109,7 +110,26 @@ fn solve2(parsed: &mut Vec<Element>) -> String {
     key.to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let mut parsed = parse(input);
-    (solve1(&parsed), solve2(&mut parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let data = parse(input);
+        Solver { data }
+    }
+}
+
+pub struct Solver {
+    data: Vec<Element>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.data)
+    }
+    fn solve_part_2(&self) -> String {
+        let elements = &mut self.data.clone();
+        solve2(elements)
+    }
 }

@@ -1,27 +1,9 @@
 // https://adventofcode.com/2022/day/15
 
+use super::{InputParser, ProblemSolver};
 use itertools::Itertools;
 
 type Point = (isize, isize);
-
-fn parse(input: &str) -> Vec<(Point, Point)> {
-    return input
-        .split('\n')
-        .map(|line| {
-            let words = line.split(' ').collect::<Vec<&str>>();
-            (
-                (
-                    words[2][2..words[2].len() - 1].parse::<isize>().unwrap(),
-                    words[3][2..words[3].len() - 1].parse::<isize>().unwrap(),
-                ),
-                (
-                    words[8][2..words[8].len() - 1].parse::<isize>().unwrap(),
-                    words[9][2..].parse::<isize>().unwrap(),
-                ),
-            )
-        })
-        .collect::<Vec<(Point, Point)>>();
-}
 
 fn make_range(sensor: &Point, beacon: &Point, y: isize) -> Option<Point> {
     let dist = sensor.0.abs_diff(beacon.0) as isize + sensor.1.abs_diff(beacon.1) as isize;
@@ -45,6 +27,25 @@ fn overlapping(ranges: Vec<Point>) -> Option<isize> {
         }
     }
     None
+}
+
+fn parse(input: &str) -> Vec<(Point, Point)> {
+    return input
+        .split('\n')
+        .map(|line| {
+            let words = line.split(' ').collect::<Vec<&str>>();
+            (
+                (
+                    words[2][2..words[2].len() - 1].parse::<isize>().unwrap(),
+                    words[3][2..words[3].len() - 1].parse::<isize>().unwrap(),
+                ),
+                (
+                    words[8][2..words[8].len() - 1].parse::<isize>().unwrap(),
+                    words[9][2..].parse::<isize>().unwrap(),
+                ),
+            )
+        })
+        .collect::<Vec<(Point, Point)>>();
 }
 
 fn solve1(parsed: &Vec<(Point, Point)>) -> String {
@@ -87,7 +88,25 @@ fn solve2(parsed: &Vec<(Point, Point)>) -> String {
     0.to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let data = parse(input);
+        Solver { data }
+    }
+}
+
+pub struct Solver {
+    data: Vec<(Point, Point)>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.data)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.data)
+    }
 }

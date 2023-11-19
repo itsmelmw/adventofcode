@@ -1,5 +1,6 @@
 // https://adventofcode.com/2022/day/3
 
+use super::{InputParser, ProblemSolver};
 use std::collections::HashSet;
 
 fn parse(input: &str) -> Vec<Vec<usize>> {
@@ -48,7 +49,25 @@ fn solve2(parsed: &[Vec<usize>]) -> String {
         .to_string();
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let data = parse(input);
+        Solver { data }
+    }
+}
+
+pub struct Solver {
+    data: Vec<Vec<usize>>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.data)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.data)
+    }
 }

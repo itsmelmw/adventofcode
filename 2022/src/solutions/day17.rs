@@ -1,5 +1,6 @@
 // https://adventofcode.com/2022/day/17
 
+use super::{InputParser, ProblemSolver};
 use std::collections::{HashMap, HashSet};
 
 #[derive(Clone)]
@@ -118,17 +119,6 @@ impl RockMap {
     }
 }
 
-fn parse(input: &str) -> Vec<Jet> {
-    return input
-        .bytes()
-        .map(|b| match b {
-            b'<' => Jet::Left,
-            b'>' => Jet::Right,
-            _ => unreachable!(),
-        })
-        .collect::<Vec<Jet>>();
-}
-
 fn drop_rocks(jets: &[Jet], num: usize) -> usize {
     let mut map = RockMap::new();
     let mut jet_pattern = JetPattern::new(jets.to_vec());
@@ -189,6 +179,17 @@ fn drop_rocks(jets: &[Jet], num: usize) -> usize {
     map.height + cut_height
 }
 
+fn parse(input: &str) -> Vec<Jet> {
+    return input
+        .bytes()
+        .map(|b| match b {
+            b'<' => Jet::Left,
+            b'>' => Jet::Right,
+            _ => unreachable!(),
+        })
+        .collect::<Vec<Jet>>();
+}
+
 fn solve1(parsed: &[Jet]) -> String {
     drop_rocks(parsed, 2022).to_string()
 }
@@ -197,7 +198,25 @@ fn solve2(parsed: &[Jet]) -> String {
     drop_rocks(parsed, 1_000_000_000_000).to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let jets = parse(input);
+        Solver { jets }
+    }
+}
+
+pub struct Solver {
+    jets: Vec<Jet>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.jets)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.jets)
+    }
 }

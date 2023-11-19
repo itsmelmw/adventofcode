@@ -2,6 +2,8 @@
 
 use itertools::Itertools;
 
+use super::{InputParser, ProblemSolver};
+
 type Assignment = ((usize, usize), (usize, usize));
 
 fn contains(range1: (usize, usize), range2: (usize, usize)) -> bool {
@@ -12,7 +14,7 @@ fn overlaps(range1: (usize, usize), range2: (usize, usize)) -> bool {
     (range1.0 >= range2.0 && range1.0 <= range2.1) || (range2.0 >= range1.0 && range2.0 <= range1.1)
 }
 
-fn parse(input: &str) -> Vec<((usize, usize), (usize, usize))> {
+fn parse(input: &str) -> Vec<Assignment> {
     return input
         .split('\n')
         .map(|line| {
@@ -46,7 +48,25 @@ fn solve2(parsed: &[Assignment]) -> String {
         .to_string();
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let data = parse(input);
+        Solver { data }
+    }
+}
+
+pub struct Solver {
+    data: Vec<Assignment>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.data)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.data)
+    }
 }

@@ -1,17 +1,8 @@
 // https://adventofcode.com/2022/day/18
 
-use std::collections::{HashMap, HashSet, VecDeque};
-
+use super::{InputParser, ProblemSolver};
 use itertools::Itertools;
-
-fn parse(input: &str) -> HashSet<(isize, isize, isize)> {
-    return HashSet::from_iter(input.split('\n').map(|line| {
-        line.split(',')
-            .map(|num| num.parse::<isize>().unwrap())
-            .collect_tuple::<(isize, isize, isize)>()
-            .unwrap()
-    }));
-}
+use std::collections::{HashMap, HashSet, VecDeque};
 
 fn get_neighbors(loc: (isize, isize, isize)) -> [(isize, isize, isize); 6] {
     [
@@ -68,6 +59,15 @@ fn is_inside(
     update_known(known, &visited, true)
 }
 
+fn parse(input: &str) -> HashSet<(isize, isize, isize)> {
+    return HashSet::from_iter(input.split('\n').map(|line| {
+        line.split(',')
+            .map(|num| num.parse::<isize>().unwrap())
+            .collect_tuple::<(isize, isize, isize)>()
+            .unwrap()
+    }));
+}
+
 fn solve1(parsed: &HashSet<(isize, isize, isize)>) -> String {
     parsed
         .iter()
@@ -95,7 +95,25 @@ fn solve2(parsed: &HashSet<(isize, isize, isize)>) -> String {
         .to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let cubes = parse(input);
+        Solver { cubes }
+    }
+}
+
+pub struct Solver {
+    cubes: HashSet<(isize, isize, isize)>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.cubes)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.cubes)
+    }
 }

@@ -1,8 +1,8 @@
 // https://adventofcode.com/2022/day/16
 
-use std::collections::{HashMap, HashSet, VecDeque};
-
+use super::{InputParser, ProblemSolver};
 use regex::Regex;
+use std::collections::{HashMap, HashSet, VecDeque};
 
 struct Cave {
     valves: HashMap<String, Valve>,
@@ -54,6 +54,32 @@ impl Position {
         Self {
             score,
             valve,
+            mins_left,
+            opened,
+        }
+    }
+}
+
+struct DoublePosition {
+    score: usize,
+    human_valve: String,
+    elephant_valve: String,
+    mins_left: usize,
+    opened: HashSet<String>,
+}
+
+impl DoublePosition {
+    fn new(
+        score: usize,
+        human_valve: String,
+        elephant_valve: String,
+        mins_left: usize,
+        opened: HashSet<String>,
+    ) -> Self {
+        Self {
+            score,
+            human_valve,
+            elephant_valve,
             mins_left,
             opened,
         }
@@ -119,32 +145,6 @@ fn solve1(cave: &Cave) -> String {
     }
 
     best_score.to_string()
-}
-
-struct DoublePosition {
-    score: usize,
-    human_valve: String,
-    elephant_valve: String,
-    mins_left: usize,
-    opened: HashSet<String>,
-}
-
-impl DoublePosition {
-    fn new(
-        score: usize,
-        human_valve: String,
-        elephant_valve: String,
-        mins_left: usize,
-        opened: HashSet<String>,
-    ) -> Self {
-        Self {
-            score,
-            human_valve,
-            elephant_valve,
-            mins_left,
-            opened,
-        }
-    }
 }
 
 fn solve2(cave: &Cave) -> String {
@@ -242,7 +242,25 @@ fn solve2(cave: &Cave) -> String {
     best_score.to_string()
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let cave = parse(input);
+        Solver { cave }
+    }
+}
+
+pub struct Solver {
+    cave: Cave,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.cave)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.cave)
+    }
 }

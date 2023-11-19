@@ -1,15 +1,12 @@
 // https://adventofcode.com/2022/day/6
 
+use super::{InputParser, ProblemSolver};
 use itertools::Itertools;
 use std::collections::HashSet;
 
-fn parse(input: &str) -> Vec<char> {
-    return input.chars().collect();
-}
-
-fn find_unique(parsed: &[char], length: usize) -> String {
+fn find_unique(data: &[char], length: usize) -> String {
     let mut set = HashSet::<char>::new();
-    let (i, _) = parsed
+    let (i, _) = data
         .windows(length)
         .find_position(|marker| {
             set.clear();
@@ -17,6 +14,10 @@ fn find_unique(parsed: &[char], length: usize) -> String {
         })
         .unwrap();
     (i + length).to_string()
+}
+
+fn parse(input: &str) -> Vec<char> {
+    return input.chars().collect();
 }
 
 fn solve1(parsed: &[char]) -> String {
@@ -27,7 +28,25 @@ fn solve2(parsed: &[char]) -> String {
     find_unique(parsed, 14)
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let data = parse(input);
+        Solver { data }
+    }
+}
+
+pub struct Solver {
+    data: Vec<char>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.data)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.data)
+    }
 }

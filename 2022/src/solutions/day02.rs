@@ -1,5 +1,7 @@
 // https://adventofcode.com/2022/day/2
 
+use super::{InputParser, ProblemSolver};
+
 const OP_ROCK: u8 = b'A';
 const OP_PAPER: u8 = b'B';
 const OP_SCISSORS: u8 = b'C';
@@ -68,7 +70,25 @@ fn solve2(parsed: &[(u8, u8)]) -> String {
         .to_string();
 }
 
-pub fn solve(input: &str) -> (String, String) {
-    let parsed = parse(input);
-    (solve1(&parsed), solve2(&parsed))
+pub struct Parser;
+
+impl InputParser for Parser {
+    type S = Solver;
+    fn parse(input: &str) -> Solver {
+        let data = parse(input);
+        Solver { data }
+    }
+}
+
+pub struct Solver {
+    data: Vec<(u8, u8)>,
+}
+
+impl ProblemSolver for Solver {
+    fn solve_part_1(&self) -> String {
+        solve1(&self.data)
+    }
+    fn solve_part_2(&self) -> String {
+        solve2(&self.data)
+    }
 }
