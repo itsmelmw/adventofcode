@@ -11,7 +11,7 @@ fn parse(input: &str) -> Vec<isize> {
 
 fn mix_and_sum(list: &Vec<isize>, iters: usize) -> isize {
     let mut mixed = list.iter().enumerate().collect::<Vec<(usize, &isize)>>();
-    for iter in 0..iters {
+    for _ in 0..iters {
         for idx in 0..list.len() {
             let num = list[idx];
             let cur_idx = mixed.iter().position(|(i, _)| *i == idx).unwrap();
