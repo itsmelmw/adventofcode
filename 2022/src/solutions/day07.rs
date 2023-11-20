@@ -24,7 +24,7 @@ impl FileSystem {
     }
 
     fn add_file(&mut self, dir: usize, size: usize) {
-        let mut node = &mut self.files[dir];
+        let node = &mut self.files[dir];
         node.size += size;
 
         if let Some(index) = node.parent {
