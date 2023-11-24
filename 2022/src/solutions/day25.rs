@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/25
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 pub struct Parser;
 

@@ -2,7 +2,7 @@
 
 use itertools::Itertools;
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 type Assignment = ((usize, usize), (usize, usize));
 

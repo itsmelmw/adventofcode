@@ -2,7 +2,7 @@
 
 use std::collections::HashSet;
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 fn update_tail(head: (isize, isize), tail: &mut (isize, isize)) -> bool {
     if head.0.abs_diff(tail.0) == 2 || head.1.abs_diff(tail.1) == 2 {

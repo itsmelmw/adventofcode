@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/17
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 use std::collections::{HashMap, HashSet};
 
 #[derive(Clone)]

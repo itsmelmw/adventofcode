@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/20
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 fn parse(input: &str) -> Vec<isize> {
     return input

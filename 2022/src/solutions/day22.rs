@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/22
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 type Map2d = Vec<Vec<Tile>>;
 type Instructions = Vec<Instruction>;

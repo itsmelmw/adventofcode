@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/3
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 use std::collections::HashSet;
 
 fn parse(input: &str) -> Vec<Vec<usize>> {

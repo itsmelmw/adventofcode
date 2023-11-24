@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 type JobAssignments = HashMap<String, Job>;
 

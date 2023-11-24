@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/5
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 use itertools::Itertools;
 
 type Stacks = Vec<Vec<char>>;

@@ -44,7 +44,7 @@ impl DayTable {
     }
 
     pub fn print(&self) {
-        print!("\x1B[2J\x1B[1;1H");
+        // print!("\x1B[2J\x1B[1;1H");
         println!("╔══════════════════════════╗");
         println!("║ * Solutions for day {:02} * ║", self.day);
         for section in &self.sections {

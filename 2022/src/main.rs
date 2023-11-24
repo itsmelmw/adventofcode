@@ -1,6 +1,7 @@
 mod pprint;
 mod solutions;
 mod truths;
+mod utils;
 
 use pprint::{DayTable, YearTable};
 use solutions::get_solver;

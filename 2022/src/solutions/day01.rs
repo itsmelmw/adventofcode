@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/1
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 struct Top3 {
     list: [usize; 3],

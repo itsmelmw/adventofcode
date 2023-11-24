@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/13
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 use itertools::{EitherOrBoth, Itertools};
 use std::cmp::{Ordering, PartialOrd};
 use std::str::Chars;

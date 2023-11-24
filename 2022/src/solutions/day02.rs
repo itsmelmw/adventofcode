@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/2
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 const OP_ROCK: u8 = b'A';
 const OP_PAPER: u8 = b'B';

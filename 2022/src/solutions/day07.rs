@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/7
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 struct FileSystem {
     files: Vec<Node>,

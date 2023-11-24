@@ -3,7 +3,7 @@
 use itertools::Itertools;
 use std::collections::VecDeque;
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 #[derive(Clone)]
 enum Val {

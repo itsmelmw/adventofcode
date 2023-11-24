@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/16
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 use regex::Regex;
 use std::collections::{HashMap, HashSet, VecDeque};
 

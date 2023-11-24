@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/10
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 
 enum Instr {
     Noop,

@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/18
 
-use super::{InputParser, ProblemSolver};
+use crate::solutions::{InputParser, ProblemSolver};
 use itertools::Itertools;
 use std::collections::{HashMap, HashSet, VecDeque};
 
