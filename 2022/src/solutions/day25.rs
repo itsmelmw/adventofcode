@@ -25,14 +25,12 @@ impl From<&Snafu> for isize {
 
 impl From<isize> for Snafu {
     fn from(value: isize) -> Self {
-        dbg!(value);
         let mut val = value;
         let mut vec = Vec::new();
         while val > 0 {
             vec.push(val % 5);
             val /= 5;
         }
-        dbg!(&vec);
         let mut c = 0;
         let mut result = vec
             .iter()
