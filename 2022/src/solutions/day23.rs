@@ -38,7 +38,7 @@ fn do_iteration(curr_elves: &HashSet<IPoint>, dirs: &mut VecDeque<Dir>) -> HashS
                 if next_elves.contains(next_elf) {
                     next_elves.remove(next_elf);
                     next_elves.insert(*curr_elf);
-                    next_elves.insert(curr_elf.dir(dir).dir(dir));
+                    next_elves.insert(curr_elf.dir_steps(dir, 2));
                 } else {
                     next_elves.insert(*next_elf);
                 }

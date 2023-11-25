@@ -24,7 +24,7 @@ const EXAMPLE_TRUTHS: [(Option<&str>, Option<&str>); 25] = [
 /* 21 */ (Some("152"), Some("301")),
 /* 22 */ (None, None),
 /* 23 */ (Some("110"), Some("20")),
-/* 24 */ (None, None),
+/* 24 */ (Some("18"), Some("54")),
 /* 25 */ (None, None),
 ];
 
@@ -52,7 +52,7 @@ const PUZZLE_TRUTHS: [(Option<&str>, Option<&str>); 25] = [
 /* 21 */ (Some("41857219607906"), Some("3916936880448")),
 /* 22 */ (None, None),
 /* 23 */ (Some("4158"), Some("1014")),
-/* 24 */ (None, None),
+/* 24 */ (Some("305"), Some("905")),
 /* 25 */ (None, None),
 ];
 
