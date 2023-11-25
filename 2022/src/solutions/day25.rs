@@ -2,22 +2,101 @@
 
 use crate::solutions::{InputParser, ProblemSolver};
 
+struct Snafu(String);
+
+impl From<&Snafu> for isize {
+    fn from(value: &Snafu) -> Self {
+        value
+            .0
+            .chars()
+            .rev()
+            .enumerate()
+            .map(|(i, c)| match c {
+                '=' => -2,
+                '-' => -1,
+                '0' => 0,
+                '1' => 1,
+                '2' => 2,
+                _ => unreachable!(),
+            } * 5isize.pow(i as u32))
+            .sum()
+    }
+}
+
+impl From<isize> for Snafu {
+    fn from(value: isize) -> Self {
+        dbg!(value);
+        let mut val = value;
+        let mut vec = Vec::new();
+        while val > 0 {
+            vec.push(val % 5);
+            val /= 5;
+        }
+        dbg!(&vec);
+        let mut c = 0;
+        let mut result = vec
+            .iter()
+            .map(|d| match d + c {
+                0 => {
+                    c = 0;
+                    '0'
+                }
+                1 => {
+                    c = 0;
+                    '1'
+                }
+                2 => {
+                    c = 0;
+                    '2'
+                }
+                3 => {
+                    c = 1;
+                    '='
+                }
+                4 => {
+                    c = 1;
+                    '-'
+                }
+                5 => {
+                    c = 1;
+                    '0'
+                }
+                _ => unreachable!(),
+            })
+            .collect::<String>();
+        if c == 1 {
+            result.push('1');
+        }
+        Snafu(result.chars().rev().collect::<String>())
+    }
+}
+
+fn parse(input: &str) -> Vec<Snafu> {
+    input
+        .split('\n')
+        .map(|l| Snafu(l.to_string()))
+        .collect::<Vec<Snafu>>()
+}
+
 pub struct Parser;
 
 impl InputParser for Parser {
     type S = Solver;
     fn parse(input: &str) -> Solver {
-        Solver {}
+        let nums = parse(input);
+        Solver { nums }
     }
 }
 
-pub struct Solver {}
+pub struct Solver {
+    nums: Vec<Snafu>,
+}
 
 impl ProblemSolver for Solver {
     fn solve_part_1(&self) -> String {
-        0.to_string()
+        Snafu::from(self.nums.iter().map(isize::from).sum::<isize>()).0
     }
     fn solve_part_2(&self) -> String {
-        0.to_string()
+        '-'.to_string()
     }
 }

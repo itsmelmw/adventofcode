@@ -25,7 +25,7 @@ const EXAMPLE_TRUTHS: [(Option<&str>, Option<&str>); 25] = [
 /* 22 */ (None, None),
 /* 23 */ (Some("110"), Some("20")),
 /* 24 */ (Some("18"), Some("54")),
-/* 25 */ (None, None),
+/* 25 */ (Some("2=-1=0"), Some("-")),
 ];
 
 const PUZZLE_TRUTHS: [(Option<&str>, Option<&str>); 25] = [
@@ -53,7 +53,7 @@ const PUZZLE_TRUTHS: [(Option<&str>, Option<&str>); 25] = [
 /* 22 */ (None, None),
 /* 23 */ (Some("4158"), Some("1014")),
 /* 24 */ (Some("305"), Some("905")),
-/* 25 */ (None, None),
+/* 25 */ (Some("2=12-100--1012-0=012"), Some("-")),
 ];
 
 pub fn get_truth(day: usize, input: &Input, part: &Part) -> Option<&'static str> {
