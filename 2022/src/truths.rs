@@ -19,7 +19,7 @@ const EXAMPLE_TRUTHS: [(Option<&str>, Option<&str>); 25] = [
 /* 16 */ (Some("1651"), Some("1706")), // According to the website, the 2nd solution is 1707, but I get 1706. Actual puzzle solution is correct though.
 /* 17 */ (Some("3068"), Some("1514285714288")),
 /* 18 */ (Some("64"), Some("58")),
-/* 19 */ (Some("33"), None),
+/* 19 */ (Some("33"), Some("3472")),
 /* 20 */ (Some("3"), Some("1623178306")),
 /* 21 */ (Some("152"), Some("301")),
 /* 22 */ (None, None),
@@ -47,7 +47,7 @@ const PUZZLE_TRUTHS: [(Option<&str>, Option<&str>); 25] = [
 /* 16 */ (Some("1741"), Some("2316")),
 /* 17 */ (Some("3117"), Some("1553314121019")),
 /* 18 */ (Some("4314"), Some("2444")),
-/* 19 */ (None, None),
+/* 19 */ (Some("1092"), Some("3542")),
 /* 20 */ (Some("13183"), Some("6676132372578")),
 /* 21 */ (Some("41857219607906"), Some("3916936880448")),
 /* 22 */ (None, None),
