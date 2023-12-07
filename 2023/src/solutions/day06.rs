@@ -47,8 +47,8 @@ impl Solution for Day06 {
     fn solution(&self, input: &Input, part: &Part) -> Option<&str> {
         match (input, part) {
             (Input::Example, Part::One) => Some("288"),
-            (Input::Puzzle, Part::One) => Some("393120"),
             (Input::Example, Part::Two) => Some("71503"),
+            (Input::Puzzle, Part::One) => Some("393120"),
             (Input::Puzzle, Part::Two) => Some("36872656"),
         }
     }
