@@ -1,30 +1,9 @@
 use std::ops::{Add, Sub};
 
+use num::Integer;
+
 pub type UPoint = Point<usize>;
 pub type IPoint = Point<isize>;
-
-pub trait Num {
-    fn one() -> Self;
-    fn zero() -> Self;
-}
-
-impl Num for usize {
-    fn one() -> Self {
-        1usize
-    }
-    fn zero() -> Self {
-        0usize
-    }
-}
-
-impl Num for isize {
-    fn one() -> Self {
-        1isize
-    }
-    fn zero() -> Self {
-        0isize
-    }
-}
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
 pub struct Point<T> {
@@ -34,7 +13,7 @@ pub struct Point<T> {
 
 impl<T> Point<T>
 where
-    T: Add<Output = T> + Sub<Output = T> + Num + Copy + PartialEq,
+    T: Integer + Copy,
 {
     pub fn new(x: T, y: T) -> Self {
         Point { x, y }
@@ -114,7 +93,7 @@ where
 
 impl<T> Add for Point<T>
 where
-    T: Add<Output = T> + Sub<Output = T> + Num + Copy + PartialEq,
+    T: Integer + Copy,
 {
     type Output = Point<T>;
     fn add(self, rhs: Self) -> Self::Output {
@@ -124,7 +103,7 @@ where
 
 impl<T> Sub for Point<T>
 where
-    T: Add<Output = T> + Sub<Output = T> + Num + Copy + PartialEq,
+    T: Integer + Copy,
 {
     type Output = Point<T>;
     fn sub(self, rhs: Self) -> Self::Output {
