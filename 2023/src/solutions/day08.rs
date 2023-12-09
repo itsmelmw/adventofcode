@@ -5,8 +5,7 @@ use std::collections::HashMap;
 use num::Integer;
 use regex::Regex;
 
-use crate::solutions::Solution;
-use crate::{Input, Part};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 enum Step {
     Left,
@@ -90,12 +89,13 @@ impl Solution for Day08 {
             .fold(1usize, |x, y| x.lcm(&y))
             .to_string()
     }
-    fn solution(&self, input: &Input, part: &Part) -> Option<&str> {
-        match (input, part) {
-            (Input::Example, Part::One) => Some("2"),
-            (Input::Example, Part::Two) => Some("6"),
-            (Input::Puzzle, Part::One) => Some("18023"),
-            (Input::Puzzle, Part::Two) => Some("14449445933179"),
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("2"),
+            ("Example", Part::Two) => Some("6"),
+            ("Puzzle", Part::One) => Some("18023"),
+            ("Puzzle", Part::Two) => Some("14449445933179"),
+            _ => unreachable!(),
         }
     }
 }

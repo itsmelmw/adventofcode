@@ -2,9 +2,9 @@
 
 use itertools::Itertools;
 
-use crate::solutions::Solution;
-use crate::utils::IPoint;
-use crate::{Input, Part};
+use aoc_utils::grids::IPoint;
+use aoc_utils::solutions::{InputDir, Part, Solution};
+// use crate::{Input, Part};
 use std::collections::{HashMap, HashSet};
 
 #[derive(PartialEq, Eq, Hash)]
@@ -33,11 +33,11 @@ impl Solution for Day03 {
             while let Some((x, c)) = char_iter.next() {
                 match c {
                     '.' => continue,
-                    d if d.is_digit(10) => {
+                    d if d.is_ascii_digit() => {
                         let root_point = IPoint::new(x as isize, y as isize);
                         let mut value = d.to_string();
                         while let Some((_, c)) = char_iter.peek() {
-                            if !c.is_digit(10) {
+                            if !c.is_ascii_digit() {
                                 break;
                             }
                             value.push(char_iter.next().unwrap().1);
@@ -94,13 +94,7 @@ impl Solution for Day03 {
                 let nums = g
                     .neighbors_8()
                     .iter()
-                    .filter_map(|neighbor| {
-                        if let Some(num) = number_map.get(neighbor) {
-                            Some(*num)
-                        } else {
-                            None
-                        }
-                    })
+                    .filter_map(|neighbor| number_map.get(neighbor).copied())
                     .unique()
                     .collect::<Vec<&Number>>();
                 if nums.len() > 1 {
@@ -112,12 +106,13 @@ impl Solution for Day03 {
             .sum::<usize>()
             .to_string()
     }
-    fn solution(&self, input: &Input, part: &Part) -> Option<&str> {
-        match (input, part) {
-            (Input::Example, Part::One) => Some("4361"),
-            (Input::Example, Part::Two) => Some("467835"),
-            (Input::Puzzle, Part::One) => Some("544664"),
-            (Input::Puzzle, Part::Two) => Some("84495585"),
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("4361"),
+            ("Example", Part::Two) => Some("467835"),
+            ("Puzzle", Part::One) => Some("544664"),
+            ("Puzzle", Part::Two) => Some("84495585"),
+            _ => unreachable!(),
         }
     }
 }

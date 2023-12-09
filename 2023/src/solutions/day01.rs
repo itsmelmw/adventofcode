@@ -1,7 +1,7 @@
 // https://adventofcode.com/2023/day/1
 
-use crate::solutions::Solution;
-use crate::{Input, Part};
+use aoc_utils::solutions::{InputDir, Part, Solution};
+// use aoc_utils::{Input, Part};
 
 pub struct Day01 {
     lines: Vec<String>,
@@ -24,8 +24,8 @@ impl Solution for Day01 {
             .map(|line| {
                 let l = line.find(|c: char| c.is_ascii_digit()).unwrap();
                 let r = line.rfind(|c: char| c.is_ascii_digit()).unwrap();
-                let first = line.bytes().nth(l).unwrap() - b'0';
-                let last = line.bytes().nth(r).unwrap() - b'0';
+                let first = line.as_bytes().get(l).unwrap() - b'0';
+                let last = line.as_bytes().get(r).unwrap() - b'0';
                 first as usize * 10 + last as usize
             })
             .sum::<usize>()
@@ -71,12 +71,13 @@ impl Solution for Day01 {
             .sum::<usize>()
             .to_string()
     }
-    fn solution(&self, input: &Input, part: &Part) -> Option<&str> {
-        match (input, part) {
-            (Input::Example, Part::One) => Some("142"),
-            (Input::Example, Part::Two) => Some("142"),
-            (Input::Puzzle, Part::One) => Some("55108"),
-            (Input::Puzzle, Part::Two) => Some("56324"),
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("142"),
+            ("Example", Part::Two) => Some("142"),
+            ("Puzzle", Part::One) => Some("55108"),
+            ("Puzzle", Part::Two) => Some("56324"),
+            _ => unreachable!(),
         }
     }
 }

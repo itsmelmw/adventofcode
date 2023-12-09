@@ -1,7 +1,7 @@
 // https://adventofcode.com/2023/day/2
 
-use crate::solutions::Solution;
-use crate::{Input, Part};
+use aoc_utils::solutions::{InputDir, Part, Solution};
+// use crate::{Input, Part};
 
 struct Game {
     id: usize,
@@ -37,7 +37,7 @@ impl Solution for Day02 {
                             blue: 0,
                         };
                         cubes_str.split(", ").for_each(|cube_str| {
-                            match cube_str.split_once(" ").unwrap() {
+                            match cube_str.split_once(' ').unwrap() {
                                 (num, "red") => cube_struct.red = num.parse::<usize>().unwrap(),
                                 (num, "green") => cube_struct.green = num.parse::<usize>().unwrap(),
                                 (num, "blue") => cube_struct.blue = num.parse::<usize>().unwrap(),
@@ -81,12 +81,13 @@ impl Solution for Day02 {
             .sum::<usize>()
             .to_string()
     }
-    fn solution(&self, input: &crate::Input, part: &crate::Part) -> Option<&str> {
-        match (input, part) {
-            (Input::Example, Part::One) => Some("8"),
-            (Input::Example, Part::Two) => Some("2286"),
-            (Input::Puzzle, Part::One) => Some("2776"),
-            (Input::Puzzle, Part::Two) => Some("68638"),
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("8"),
+            ("Example", Part::Two) => Some("2286"),
+            ("Puzzle", Part::One) => Some("2776"),
+            ("Puzzle", Part::Two) => Some("68638"),
+            _ => unreachable!(),
         }
     }
 }

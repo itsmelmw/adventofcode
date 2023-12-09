@@ -4,8 +4,7 @@ use std::{cmp::Ordering, collections::HashMap};
 
 use itertools::Itertools;
 
-use crate::solutions::Solution;
-use crate::{Input, Part};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 trait OrdPart2 {
     fn cmp_part_2(&self, other: &Self) -> Ordering;
@@ -154,10 +153,7 @@ impl Solution for Day07 {
             .split('\n')
             .map(|line| {
                 let (cards, bet) = line.split_once(' ').unwrap();
-                let cards = cards
-                    .chars()
-                    .map(|c| Card::from_char(c))
-                    .collect::<Vec<Card>>();
+                let cards = cards.chars().map(Card::from_char).collect::<Vec<Card>>();
                 let mut counts = cards.clone().into_iter().counts();
                 let hand_type = HandType::from_counts(&counts);
 
@@ -201,12 +197,13 @@ impl Solution for Day07 {
             .sum::<usize>()
             .to_string()
     }
-    fn solution(&self, input: &Input, part: &Part) -> Option<&str> {
-        match (input, part) {
-            (Input::Example, Part::One) => Some("6440"),
-            (Input::Example, Part::Two) => Some("5905"),
-            (Input::Puzzle, Part::One) => Some("251806792"),
-            (Input::Puzzle, Part::Two) => Some("252113488"),
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("6440"),
+            ("Example", Part::Two) => Some("5905"),
+            ("Puzzle", Part::One) => Some("251806792"),
+            ("Puzzle", Part::Two) => Some("252113488"),
+            _ => unreachable!(),
         }
     }
 }

@@ -2,8 +2,7 @@
 
 use std::collections::HashSet;
 
-use crate::solutions::Solution;
-use crate::{Input, Part};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 type Card = (Vec<usize>, HashSet<usize>);
 
@@ -62,12 +61,13 @@ impl Solution for Day04 {
             .sum::<usize>()
             .to_string()
     }
-    fn solution(&self, input: &Input, part: &Part) -> Option<&str> {
-        match (input, part) {
-            (Input::Example, Part::One) => Some("13"),
-            (Input::Example, Part::Two) => Some("30"),
-            (Input::Puzzle, Part::One) => Some("21821"),
-            (Input::Puzzle, Part::Two) => Some("5539496"),
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("13"),
+            ("Example", Part::Two) => Some("30"),
+            ("Puzzle", Part::One) => Some("21821"),
+            ("Puzzle", Part::Two) => Some("5539496"),
+            _ => unreachable!(),
         }
     }
 }

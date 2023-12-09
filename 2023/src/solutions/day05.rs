@@ -2,8 +2,7 @@
 
 use itertools::Itertools;
 
-use crate::solutions::Solution;
-use crate::{Input, Part};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 struct Map {
     dst: usize,
@@ -102,12 +101,13 @@ impl Solution for Day05 {
             .unwrap()
             .to_string()
     }
-    fn solution(&self, input: &Input, part: &Part) -> Option<&str> {
-        match (input, part) {
-            (Input::Example, Part::One) => Some("35"),
-            (Input::Example, Part::Two) => Some("46"),
-            (Input::Puzzle, Part::One) => Some("309796150"),
-            (Input::Puzzle, Part::Two) => Some("50716416"),
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("35"),
+            ("Example", Part::Two) => Some("46"),
+            ("Puzzle", Part::One) => Some("309796150"),
+            ("Puzzle", Part::Two) => Some("50716416"),
+            _ => unreachable!(),
         }
     }
 }

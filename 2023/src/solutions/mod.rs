@@ -23,43 +23,44 @@ mod day22;
 mod day23;
 mod day24;
 mod day25;
-use crate::{Input, Part};
+use aoc_utils::solutions::{NoSolution, Solution};
+// use crate::{Input, Part};
 
-pub trait Solution {
-    fn title(&self) -> &str {
-        "Title Unknown"
-    }
-    fn parse(_input: &str) -> Self
-    where
-        Self: Sized;
+// pub trait Solution {
+//     fn title(&self) -> &str {
+//         "Title Unknown"
+//     }
+//     fn parse(input: &str) -> Self
+//     where
+//         Self: Sized;
 
-    fn solve(&self, part: &Part) -> String {
-        match part {
-            Part::One => self.solve_part_1(),
-            Part::Two => self.solve_part_2(),
-        }
-    }
-    fn solve_part_1(&self) -> String;
-    fn solve_part_2(&self) -> String;
+//     fn solve(&self, part: &Part) -> String {
+//         match part {
+//             Part::One => self.solve_part_1(),
+//             Part::Two => self.solve_part_2(),
+//         }
+//     }
+//     fn solve_part_1(&self) -> String;
+//     fn solve_part_2(&self) -> String;
 
-    fn solution(&self, _input: &Input, _part: &Part) -> Option<&str> {
-        None
-    }
-}
+//     fn solution(&self, _input: &Input, _part: &Part) -> Option<&str> {
+//         None
+//     }
+// }
 
-pub struct NoSolution;
+// pub struct NoSolution;
 
-impl Solution for NoSolution {
-    fn parse(_input: &str) -> Self {
-        Self
-    }
-    fn solve_part_1(&self) -> String {
-        0.to_string()
-    }
-    fn solve_part_2(&self) -> String {
-        0.to_string()
-    }
-}
+// impl Solution for NoSolution {
+//     fn parse(_input: &str) -> Self {
+//         Self
+//     }
+//     fn solve_part_1(&self) -> String {
+//         0.to_string()
+//     }
+//     fn solve_part_2(&self) -> String {
+//         0.to_string()
+//     }
+// }
 
 pub fn get_solution(day: usize, input: &str) -> Box<dyn Solution> {
     match day {
