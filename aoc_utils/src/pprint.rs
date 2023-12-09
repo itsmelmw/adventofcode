@@ -58,7 +58,7 @@ impl<'a> DayLine<'a> {
                 )
             }
             Self::ResultExtra(result) => {
-                format!("║{:<len$}║", format!("            {}", result))
+                format!("║{:<len$}║", format!("           {}", result))
             }
             Self::Top => {
                 format!("╔{}╗", "═".repeat(len))

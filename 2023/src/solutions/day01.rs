@@ -1,7 +1,6 @@
 // https://adventofcode.com/2023/day/1
 
 use aoc_utils::solutions::{InputDir, Part, Solution};
-// use aoc_utils::{Input, Part};
 
 pub struct Day01 {
     lines: Vec<String>,

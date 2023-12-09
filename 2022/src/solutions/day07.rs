@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/7
 
-use crate::solutions::{InputParser, ProblemSolver};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 struct FileSystem {
     files: Vec<Node>,
@@ -55,65 +55,58 @@ impl Node {
     }
 }
 
-fn parse(input: &str) -> FileSystem {
-    let mut fs = FileSystem::new();
-    let mut cwd = 0;
-    for line in input.split('\n') {
-        match line.split(' ').collect::<Vec<&str>>()[..] {
-            // Commands
-            ["$", "cd", "/"] => (),
-            ["$", "cd", ".."] => cwd = fs.get_parent(cwd),
-            ["$", "cd", _] => cwd = fs.add_dir(cwd), //fs.add(cwd, None),
-            ["$", "ls"] => (),
-            // Nodes
-            ["dir", _] => (),
-            [size, _] => fs.add_file(cwd, size.parse::<usize>().unwrap()),
-            _ => (),
-        }
-    }
-    fs
-}
-
-fn solve1(parsed: &FileSystem) -> String {
-    return parsed
-        .files
-        .iter()
-        .map(|dir| if dir.size <= 100000 { dir.size } else { 0 })
-        .sum::<usize>()
-        .to_string();
-}
-
-fn solve2(parsed: &FileSystem) -> String {
-    let space = 30000000 - (70000000 - parsed.files[0].size);
-    return parsed
-        .files
-        .iter()
-        .map(|dir| dir.size)
-        .filter(|size| size >= &space)
-        .min()
-        .unwrap()
-        .to_string();
-}
-
-pub struct Parser;
-
-impl InputParser for Parser {
-    type S = Solver;
-    fn parse(input: &str) -> Solver {
-        let fs = parse(input);
-        Solver { fs }
-    }
-}
-
-pub struct Solver {
+pub struct Day07 {
     fs: FileSystem,
 }
 
-impl ProblemSolver for Solver {
+impl Solution for Day07 {
+    fn title(&self) -> &str {
+        "No Space Left On Device"
+    }
+    fn parse(input: &str) -> Self {
+        let mut fs = FileSystem::new();
+        let mut cwd = 0;
+        for line in input.split('\n') {
+            match line.split(' ').collect::<Vec<&str>>()[..] {
+                // Commands
+                ["$", "cd", "/"] => (),
+                ["$", "cd", ".."] => cwd = fs.get_parent(cwd),
+                ["$", "cd", _] => cwd = fs.add_dir(cwd), //fs.add(cwd, None),
+                ["$", "ls"] => (),
+                // Nodes
+                ["dir", _] => (),
+                [size, _] => fs.add_file(cwd, size.parse::<usize>().unwrap()),
+                _ => (),
+            }
+        }
+        Self { fs }
+    }
     fn solve_part_1(&self) -> String {
-        solve1(&self.fs)
+        self.fs
+            .files
+            .iter()
+            .map(|dir| if dir.size <= 100000 { dir.size } else { 0 })
+            .sum::<usize>()
+            .to_string()
     }
     fn solve_part_2(&self) -> String {
-        solve2(&self.fs)
+        let space = 30000000 - (70000000 - self.fs.files[0].size);
+        self.fs
+            .files
+            .iter()
+            .map(|dir| dir.size)
+            .filter(|size| size >= &space)
+            .min()
+            .unwrap()
+            .to_string()
+    }
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("95437"),
+            ("Example", Part::Two) => Some("24933642"),
+            ("Puzzle", Part::One) => Some("1118405"),
+            ("Puzzle", Part::Two) => Some("12545514"),
+            _ => unreachable!(),
+        }
     }
 }

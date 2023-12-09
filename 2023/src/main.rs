@@ -21,13 +21,13 @@ impl Calendar for Aoc2023 {
 }
 
 fn main() {
+    let year = Aoc2023 {
+        input_dirs: vec![
+            InputDir::new("Example", "examples"),
+            InputDir::new("Puzzle", "inputs"),
+        ],
+    };
     if let Some(arg) = env::args().nth(1) {
-        let year = Aoc2023 {
-            input_dirs: vec![
-                InputDir::new("Example", "examples"),
-                InputDir::new("Puzzle", "inputs"),
-            ],
-        };
         match arg.parse::<usize>() {
             Ok(day @ 1..=25) => {
                 year.solve_day_pretty(day, false);

@@ -1,7 +1,6 @@
 // https://adventofcode.com/2023/day/2
 
 use aoc_utils::solutions::{InputDir, Part, Solution};
-// use crate::{Input, Part};
 
 struct Game {
     id: usize,

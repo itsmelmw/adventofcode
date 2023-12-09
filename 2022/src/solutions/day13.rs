@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/13
 
-use crate::solutions::{InputParser, ProblemSolver};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 use itertools::{EitherOrBoth, Itertools};
 use std::cmp::{Ordering, PartialOrd};
 use std::str::Chars;
@@ -45,91 +45,87 @@ impl Ord for Element {
     }
 }
 
-fn parse_list(chars: &mut Chars) -> Element {
-    let mut list = Vec::new();
-    let mut nums = String::new();
-    while let Some(char) = chars.next() {
-        match char {
-            '[' => list.push(parse_list(chars)),
-            ']' => {
-                if !nums.is_empty() {
-                    list.push(Element::Num(nums.parse::<usize>().unwrap()));
-                    nums.clear();
-                }
-                return Element::List(list);
-            }
-            ',' => {
-                if !nums.is_empty() {
-                    list.push(Element::Num(nums.parse::<usize>().unwrap()));
-                    nums.clear();
-                }
-            }
-            num => nums.push(num),
-        }
+pub struct Day13 {
+    elements: Vec<Element>,
+}
+
+impl Solution for Day13 {
+    fn title(&self) -> &str {
+        "Distress Signal"
     }
-    unreachable!();
-}
-
-fn parse(input: &str) -> Vec<Element> {
-    return input
-        .split('\n')
-        .filter_map(|elem| match elem {
-            "" => None,
-            _ => Some(parse_list(&mut elem[1..].chars())),
-        })
-        .collect::<Vec<Element>>();
-}
-
-fn solve1(parsed: &[Element]) -> String {
-    return parsed
-        .iter()
-        .tuples::<(&Element, &Element)>()
-        .enumerate()
-        .map(|(i, (l, r))| if l < r { i + 1 } else { 0 })
-        .sum::<usize>()
-        .to_string();
-}
-
-fn solve2(parsed: &mut Vec<Element>) -> String {
-    let mut key = 1;
-    let div_packet_1 = &Element::List(vec![Element::List(vec![Element::Num(2)])]);
-    let div_packet_2 = &Element::List(vec![Element::List(vec![Element::Num(6)])]);
-    parsed.push(div_packet_1.clone());
-    parsed.push(div_packet_2.clone());
-
-    parsed
-        .iter()
-        .sorted()
-        .enumerate()
-        .for_each(|(i, p)| match p {
-            // Could probably be faster with some pointer magic, but this is fine.
-            _ if p == div_packet_1 || p == div_packet_2 => key *= i + 1,
-            _ => (),
-        });
-
-    key.to_string()
-}
-
-pub struct Parser;
-
-impl InputParser for Parser {
-    type S = Solver;
-    fn parse(input: &str) -> Solver {
-        let data = parse(input);
-        Solver { data }
+    fn parse(input: &str) -> Self {
+        let elements = input
+            .split('\n')
+            .filter_map(|elem| match elem {
+                "" => None,
+                _ => Some(Self::parse_list(&mut elem[1..].chars())),
+            })
+            .collect::<Vec<Element>>();
+        Self { elements }
     }
-}
-
-pub struct Solver {
-    data: Vec<Element>,
-}
-
-impl ProblemSolver for Solver {
     fn solve_part_1(&self) -> String {
-        solve1(&self.data)
+        self.elements
+            .iter()
+            .tuples::<(&Element, &Element)>()
+            .enumerate()
+            .map(|(i, (l, r))| if l < r { i + 1 } else { 0 })
+            .sum::<usize>()
+            .to_string()
     }
     fn solve_part_2(&self) -> String {
-        let elements = &mut self.data.clone();
-        solve2(elements)
+        let elements = &mut self.elements.clone();
+        let mut key = 1;
+        let div_packet_1 = &Element::List(vec![Element::List(vec![Element::Num(2)])]);
+        let div_packet_2 = &Element::List(vec![Element::List(vec![Element::Num(6)])]);
+        elements.push(div_packet_1.clone());
+        elements.push(div_packet_2.clone());
+
+        elements
+            .iter()
+            .sorted()
+            .enumerate()
+            .for_each(|(i, p)| match p {
+                // Could probably be faster with some pointer magic, but this is fine.
+                _ if p == div_packet_1 || p == div_packet_2 => key *= i + 1,
+                _ => (),
+            });
+
+        key.to_string()
+    }
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("13"),
+            ("Example", Part::Two) => Some("140"),
+            ("Puzzle", Part::One) => Some("5196"),
+            ("Puzzle", Part::Two) => Some("22134"),
+            _ => unreachable!(),
+        }
+    }
+}
+
+impl Day13 {
+    fn parse_list(chars: &mut Chars) -> Element {
+        let mut list = Vec::new();
+        let mut nums = String::new();
+        while let Some(char) = chars.next() {
+            match char {
+                '[' => list.push(Self::parse_list(chars)),
+                ']' => {
+                    if !nums.is_empty() {
+                        list.push(Element::Num(nums.parse::<usize>().unwrap()));
+                        nums.clear();
+                    }
+                    return Element::List(list);
+                }
+                ',' => {
+                    if !nums.is_empty() {
+                        list.push(Element::Num(nums.parse::<usize>().unwrap()));
+                        nums.clear();
+                    }
+                }
+                num => nums.push(num),
+            }
+        }
+        unreachable!();
     }
 }

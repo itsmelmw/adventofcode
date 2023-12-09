@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/25
 
-use crate::solutions::{InputParser, ProblemSolver};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 struct Snafu(String);
 
@@ -69,32 +69,34 @@ impl From<isize> for Snafu {
     }
 }
 
-fn parse(input: &str) -> Vec<Snafu> {
-    input
-        .split('\n')
-        .map(|l| Snafu(l.to_string()))
-        .collect::<Vec<Snafu>>()
-}
-
-pub struct Parser;
-
-impl InputParser for Parser {
-    type S = Solver;
-    fn parse(input: &str) -> Solver {
-        let nums = parse(input);
-        Solver { nums }
-    }
-}
-
-pub struct Solver {
+pub struct Day25 {
     nums: Vec<Snafu>,
 }
 
-impl ProblemSolver for Solver {
+impl Solution for Day25 {
+    fn title(&self) -> &str {
+        "Full of Hot Air"
+    }
+    fn parse(input: &str) -> Self {
+        let nums = input
+            .split('\n')
+            .map(|l| Snafu(l.to_string()))
+            .collect::<Vec<Snafu>>();
+        Self { nums }
+    }
     fn solve_part_1(&self) -> String {
         Snafu::from(self.nums.iter().map(isize::from).sum::<isize>()).0
     }
     fn solve_part_2(&self) -> String {
-        '-'.to_string()
+        "-".to_string()
+    }
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("2=-1=0"),
+            ("Example", Part::Two) => Some("-"),
+            ("Puzzle", Part::One) => Some("2=12-100--1012-0=012"),
+            ("Puzzle", Part::Two) => Some("-"),
+            _ => unreachable!(),
+        }
     }
 }

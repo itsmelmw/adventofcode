@@ -23,51 +23,35 @@ mod day22;
 mod day23;
 mod day24;
 mod day25;
-use super::Part;
+use aoc_utils::solutions::{NoSolution, Solution};
 
-pub trait InputParser {
-    type S: ProblemSolver;
-    fn parse(input: &str) -> Self::S;
-}
-
-pub trait ProblemSolver {
-    fn solve(&self, part: &Part) -> String {
-        match part {
-            Part::One => self.solve_part_1(),
-            Part::Two => self.solve_part_2(),
-        }
-    }
-    fn solve_part_1(&self) -> String;
-    fn solve_part_2(&self) -> String;
-}
-
-pub fn get_solver(day: usize, input: &str) -> Box<dyn ProblemSolver> {
+pub fn get_solution(day: usize, input: &str) -> Box<dyn Solution> {
     match day {
-        1 => Box::new(day01::Parser::parse(input)),
-        2 => Box::new(day02::Parser::parse(input)),
-        3 => Box::new(day03::Parser::parse(input)),
-        4 => Box::new(day04::Parser::parse(input)),
-        5 => Box::new(day05::Parser::parse(input)),
-        6 => Box::new(day06::Parser::parse(input)),
-        7 => Box::new(day07::Parser::parse(input)),
-        8 => Box::new(day08::Parser::parse(input)),
-        9 => Box::new(day09::Parser::parse(input)),
-        10 => Box::new(day10::Parser::parse(input)),
-        11 => Box::new(day11::Parser::parse(input)),
-        12 => Box::new(day12::Parser::parse(input)),
-        13 => Box::new(day13::Parser::parse(input)),
-        14 => Box::new(day14::Parser::parse(input)),
-        15 => Box::new(day15::Parser::parse(input)),
-        16 => Box::new(day16::Parser::parse(input)),
-        17 => Box::new(day17::Parser::parse(input)),
-        18 => Box::new(day18::Parser::parse(input)),
-        19 => Box::new(day19::Parser::parse(input)),
-        20 => Box::new(day20::Parser::parse(input)),
-        21 => Box::new(day21::Parser::parse(input)),
-        22 => Box::new(day22::Parser::parse(input)),
-        23 => Box::new(day23::Parser::parse(input)),
-        24 => Box::new(day24::Parser::parse(input)),
-        25 => Box::new(day25::Parser::parse(input)),
+        1 => Box::new(day01::Day01::parse(input)),
+        2 => Box::new(day02::Day02::parse(input)),
+        3 => Box::new(day03::Day03::parse(input)),
+        4 => Box::new(day04::Day04::parse(input)),
+        5 => Box::new(day05::Day05::parse(input)),
+        6 => Box::new(day06::Day06::parse(input)),
+        7 => Box::new(day07::Day07::parse(input)),
+        8 => Box::new(day08::Day08::parse(input)),
+        9 => Box::new(day09::Day09::parse(input)),
+        10 => Box::new(day10::Day10::parse(input)),
+        11 => Box::new(day11::Day11::parse(input)),
+        12 => Box::new(day12::Day12::parse(input)),
+        13 => Box::new(day13::Day13::parse(input)),
+        14 => Box::new(day14::Day14::parse(input)),
+        15 => Box::new(day15::Day15::parse(input)),
+        16 => Box::new(day16::Day16::parse(input)),
+        17 => Box::new(day17::Day17::parse(input)),
+        18 => Box::new(day18::Day18::parse(input)),
+        19 => Box::new(day19::Day19::parse(input)),
+        20 => Box::new(day20::Day20::parse(input)),
+        21 => Box::new(day21::Day21::parse(input)),
+        22 => Box::new(NoSolution::parse(input)),
+        23 => Box::new(day23::Day23::parse(input)),
+        24 => Box::new(day24::Day24::parse(input)),
+        25 => Box::new(day25::Day25::parse(input)),
         _ => panic!(),
     }
 }

@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use crate::solutions::{InputParser, ProblemSolver};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 type JobAssignments = HashMap<String, Job>;
 
@@ -91,11 +91,15 @@ impl Job {
     }
 }
 
-pub struct Parser;
+pub struct Day21 {
+    assignments: JobAssignments,
+}
 
-impl InputParser for Parser {
-    type S = Solver;
-    fn parse(input: &str) -> Solver {
+impl Solution for Day21 {
+    fn title(&self) -> &str {
+        "Monkey Math"
+    }
+    fn parse(input: &str) -> Self {
         let assignments = input
             .split('\n')
             .map(|line| {
@@ -112,15 +116,8 @@ impl InputParser for Parser {
                 (monkey.to_string(), job)
             })
             .collect::<JobAssignments>();
-        Solver { assignments }
+        Self { assignments }
     }
-}
-
-pub struct Solver {
-    assignments: JobAssignments,
-}
-
-impl ProblemSolver for Solver {
     fn solve_part_1(&self) -> String {
         self.assignments
             .get("root")
@@ -134,5 +131,14 @@ impl ProblemSolver for Solver {
             .unwrap()
             .calculate_human(&self.assignments)
             .to_string()
+    }
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("152"),
+            ("Example", Part::Two) => Some("301"),
+            ("Puzzle", Part::One) => Some("41857219607906"),
+            ("Puzzle", Part::Two) => Some("3916936880448"),
+            _ => unreachable!(),
+        }
     }
 }

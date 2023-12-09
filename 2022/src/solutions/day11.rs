@@ -3,7 +3,7 @@
 use itertools::Itertools;
 use std::collections::VecDeque;
 
-use crate::solutions::{InputParser, ProblemSolver};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 #[derive(Clone)]
 enum Val {
@@ -57,91 +57,90 @@ impl Monkey {
     }
 }
 
-fn monkey_business(monkeys: &mut [Monkey]) -> usize {
-    return monkeys
-        .iter()
-        .map(|monkey| monkey.inspected)
-        .sorted()
-        .rev()
-        .take(2)
-        .product::<usize>();
-}
-
-fn parse(input: &str) -> Vec<Monkey> {
-    let mut monkeys = Vec::new();
-    for text in input.split("\n\n") {
-        let monkey = text.split('\n').collect::<Vec<&str>>();
-        let items = monkey[1]
-            .split_at(18)
-            .1
-            .split(", ")
-            .map(|item| item.parse::<usize>().unwrap())
-            .collect::<VecDeque<usize>>();
-        let operation = match monkey[2].split_at(23).1.split(' ').collect::<Vec<&str>>()[..] {
-            ["+", "old"] => Op::Add(Val::Old),
-            ["+", num] => Op::Add(Val::Num(num.parse::<usize>().unwrap())),
-            ["*", "old"] => Op::Mul(Val::Old),
-            ["*", num] => Op::Mul(Val::Num(num.parse::<usize>().unwrap())),
-            _ => unreachable!(),
-        };
-        let test = monkey[3].split_at(21).1.parse::<usize>().unwrap();
-        let ttrue = monkey[4].split_at(29).1.parse::<usize>().unwrap();
-        let tfalse = monkey[5].split_at(30).1.parse::<usize>().unwrap();
-        monkeys.push(Monkey::new(items, operation, test, ttrue, tfalse));
-    }
-    monkeys
-}
-
-fn solve1(monkeys: &mut Vec<Monkey>) -> String {
-    for _ in 0..20 {
-        for idx in 0..monkeys.len() {
-            while !monkeys[idx].items.is_empty() {
-                let mut item = monkeys[idx].inspect_item();
-                item /= 3;
-                let to = monkeys[idx].throw_to(item);
-                monkeys[to].items.push_back(item);
-            }
-        }
-    }
-    monkey_business(monkeys).to_string()
-}
-
-fn solve2(monkeys: &mut Vec<Monkey>) -> String {
-    let cmul = monkeys.iter().map(|monkey| monkey.test).product::<usize>();
-    for _ in 0..10000 {
-        for idx in 0..monkeys.len() {
-            while !monkeys[idx].items.is_empty() {
-                let mut item = monkeys[idx].inspect_item();
-                item %= cmul;
-                let to = monkeys[idx].throw_to(item);
-                monkeys[to].items.push_back(item);
-            }
-        }
-    }
-    monkey_business(monkeys).to_string()
-}
-
-pub struct Parser;
-
-impl InputParser for Parser {
-    type S = Solver;
-    fn parse(input: &str) -> Solver {
-        let monkeys = parse(input);
-        Solver { monkeys }
-    }
-}
-
-pub struct Solver {
+pub struct Day11 {
     monkeys: Vec<Monkey>,
 }
 
-impl ProblemSolver for Solver {
+impl Solution for Day11 {
+    fn title(&self) -> &str {
+        "Monkey in the Middle"
+    }
+    fn parse(input: &str) -> Self {
+        let mut monkeys = Vec::new();
+        for text in input.split("\n\n") {
+            let monkey = text.split('\n').collect::<Vec<&str>>();
+            let items = monkey[1]
+                .split_at(18)
+                .1
+                .split(", ")
+                .map(|item| item.parse::<usize>().unwrap())
+                .collect::<VecDeque<usize>>();
+            let operation = match monkey[2].split_at(23).1.split(' ').collect::<Vec<&str>>()[..] {
+                ["+", "old"] => Op::Add(Val::Old),
+                ["+", num] => Op::Add(Val::Num(num.parse::<usize>().unwrap())),
+                ["*", "old"] => Op::Mul(Val::Old),
+                ["*", num] => Op::Mul(Val::Num(num.parse::<usize>().unwrap())),
+                _ => unreachable!(),
+            };
+            let test = monkey[3].split_at(21).1.parse::<usize>().unwrap();
+            let ttrue = monkey[4].split_at(29).1.parse::<usize>().unwrap();
+            let tfalse = monkey[5].split_at(30).1.parse::<usize>().unwrap();
+            monkeys.push(Monkey::new(items, operation, test, ttrue, tfalse));
+        }
+        Self { monkeys }
+    }
     fn solve_part_1(&self) -> String {
         let monkeys = &mut self.monkeys.clone();
-        solve1(monkeys)
+        for _ in 0..20 {
+            for idx in 0..monkeys.len() {
+                while !monkeys[idx].items.is_empty() {
+                    let mut item = monkeys[idx].inspect_item();
+                    item /= 3;
+                    let to = monkeys[idx].throw_to(item);
+                    monkeys[to].items.push_back(item);
+                }
+            }
+        }
+        self.monkey_business(monkeys).to_string()
     }
     fn solve_part_2(&self) -> String {
         let monkeys = &mut self.monkeys.clone();
-        solve2(monkeys)
+        let cmul = self
+            .monkeys
+            .iter()
+            .map(|monkey| monkey.test)
+            .product::<usize>();
+        for _ in 0..10000 {
+            for idx in 0..monkeys.len() {
+                while !monkeys[idx].items.is_empty() {
+                    let mut item = monkeys[idx].inspect_item();
+                    item %= cmul;
+                    let to = monkeys[idx].throw_to(item);
+                    monkeys[to].items.push_back(item);
+                }
+            }
+        }
+        self.monkey_business(monkeys).to_string()
+    }
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("10605"),
+            ("Example", Part::Two) => Some("2713310158"),
+            ("Puzzle", Part::One) => Some("113220"),
+            ("Puzzle", Part::Two) => Some("30599555965"),
+            _ => unreachable!(),
+        }
+    }
+}
+
+impl Day11 {
+    fn monkey_business(&self, monkeys: &[Monkey]) -> usize {
+        monkeys
+            .iter()
+            .map(|monkey| monkey.inspected)
+            .sorted()
+            .rev()
+            .take(2)
+            .product::<usize>()
     }
 }

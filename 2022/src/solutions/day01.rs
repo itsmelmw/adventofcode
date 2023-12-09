@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/1
 
-use crate::solutions::{InputParser, ProblemSolver};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 struct Top3 {
     list: [usize; 3],
@@ -36,48 +36,42 @@ impl Top3 {
     }
 }
 
-fn parse(input: &str) -> Vec<usize> {
-    return input
-        .split("\n\n")
-        .map(|elf| {
-            elf.split('\n')
-                .map(|cal| cal.parse::<usize>().unwrap())
-                .sum()
-        })
-        .collect::<Vec<usize>>();
-}
-
-fn solve1(parsed: &[usize]) -> String {
-    return parsed.iter().max().unwrap().to_string();
-}
-
-fn solve2(parsed: &[usize]) -> String {
-    let mut top3 = Top3::new();
-    for &value in parsed.iter() {
-        top3.update(value);
-    }
-    top3.sum().to_string()
-}
-
-pub struct Parser;
-
-impl InputParser for Parser {
-    type S = Solver;
-    fn parse(input: &str) -> Solver {
-        let data = parse(input);
-        Solver { data }
-    }
-}
-
-pub struct Solver {
+pub struct Day01 {
     data: Vec<usize>,
 }
 
-impl ProblemSolver for Solver {
+impl Solution for Day01 {
+    fn title(&self) -> &str {
+        "Calorie Counting"
+    }
+    fn parse(input: &str) -> Self {
+        let data = input
+            .split("\n\n")
+            .map(|elf| {
+                elf.split('\n')
+                    .map(|cal| cal.parse::<usize>().unwrap())
+                    .sum()
+            })
+            .collect::<Vec<usize>>();
+        Self { data }
+    }
     fn solve_part_1(&self) -> String {
-        solve1(&self.data)
+        return self.data.iter().max().unwrap().to_string();
     }
     fn solve_part_2(&self) -> String {
-        solve2(&self.data)
+        let mut top3 = Top3::new();
+        for &value in self.data.iter() {
+            top3.update(value);
+        }
+        top3.sum().to_string()
+    }
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("24000"),
+            ("Example", Part::Two) => Some("45000"),
+            ("Puzzle", Part::One) => Some("70296"),
+            ("Puzzle", Part::Two) => Some("205381"),
+            _ => unreachable!(),
+        }
     }
 }

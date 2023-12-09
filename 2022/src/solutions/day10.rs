@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/10
 
-use crate::solutions::{InputParser, ProblemSolver};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 
 enum Instr {
     Noop,
@@ -59,62 +59,56 @@ impl Crt {
     }
 }
 
-fn parse(input: &str) -> Vec<Instr> {
-    return input
-        .split('\n')
-        .flat_map(|line| match line.split(' ').collect::<Vec<&str>>()[..] {
-            // Add an extra NOOP in front of every ADDX to make it take 2 cycle.
-            ["noop"] => vec![Instr::Noop],
-            ["addx", x] => vec![Instr::Noop, Instr::Addx(x.parse::<isize>().unwrap())],
-            _ => unreachable!(),
-        })
-        .collect::<Vec<Instr>>();
+pub struct Day10 {
+    instrs: Vec<Instr>,
 }
 
-fn solve1(parsed: &[Instr]) -> String {
-    let mut cpu = Cpu::new();
-    let mut val_cycle = 20_isize;
-
-    return parsed
-        .iter()
-        .filter_map(|instr| match cpu.step(instr) + 1 {
-            c if c == val_cycle => {
-                val_cycle += 40;
-                Some(c * cpu.xreg)
-            }
-            _ => None,
-        })
-        .sum::<isize>()
-        .to_string();
-}
-
-fn solve2(parsed: &Vec<Instr>) -> String {
-    let mut crt = Crt::new();
-    for instr in parsed {
-        crt.step(instr);
+impl Solution for Day10 {
+    fn title(&self) -> &str {
+        "Cathode-Ray Tube"
     }
-    crt.display
-}
-
-pub struct Parser;
-
-impl InputParser for Parser {
-    type S = Solver;
-    fn parse(input: &str) -> Solver {
-        let data = parse(input);
-        Solver { data }
+    fn parse(input: &str) -> Self {
+        let instrs = input
+            .split('\n')
+            .flat_map(|line| match line.split(' ').collect::<Vec<&str>>()[..] {
+                // Add an extra NOOP in front of every ADDX to make it take 2 cycle.
+                ["noop"] => vec![Instr::Noop],
+                ["addx", x] => vec![Instr::Noop, Instr::Addx(x.parse::<isize>().unwrap())],
+                _ => unreachable!(),
+            })
+            .collect::<Vec<Instr>>();
+        Self { instrs }
     }
-}
-
-pub struct Solver {
-    data: Vec<Instr>,
-}
-
-impl ProblemSolver for Solver {
     fn solve_part_1(&self) -> String {
-        solve1(&self.data)
+        let mut cpu = Cpu::new();
+        let mut val_cycle = 20_isize;
+
+        self.instrs
+            .iter()
+            .filter_map(|instr| match cpu.step(instr) + 1 {
+                c if c == val_cycle => {
+                    val_cycle += 40;
+                    Some(c * cpu.xreg)
+                }
+                _ => None,
+            })
+            .sum::<isize>()
+            .to_string()
     }
     fn solve_part_2(&self) -> String {
-        solve2(&self.data)
+        let mut crt = Crt::new();
+        for instr in &self.instrs {
+            crt.step(instr);
+        }
+        crt.display
+    }
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("13140"),
+            ("Example", Part::Two) => Some("##..##..##..##..##..##..##..##..##..##..\n###...###...###...###...###...###...###.\n####....####....####....####....####....\n#####.....#####.....#####.....#####.....\n######......######......######......####\n#######.......#######.......#######.....\n"),
+            ("Puzzle", Part::One) => Some("14540"),
+            ("Puzzle", Part::Two) => Some("####.#..#.####.####.####.#..#..##..####.\n#....#..#....#.#.......#.#..#.#..#....#.\n###..####...#..###....#..####.#......#..\n#....#..#..#...#.....#...#..#.#.....#...\n#....#..#.#....#....#....#..#.#..#.#....\n####.#..#.####.#....####.#..#..##..####.\n"),
+            _ => unreachable!(),
+        }
     }
 }

@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/17
 
-use crate::solutions::{InputParser, ProblemSolver};
+use aoc_utils::solutions::{InputDir, Part, Solution};
 use std::collections::{HashMap, HashSet};
 
 #[derive(Clone)]
@@ -119,104 +119,100 @@ impl RockMap {
     }
 }
 
-fn drop_rocks(jets: &[Jet], num: usize) -> usize {
-    let mut map = RockMap::new();
-    let mut jet_pattern = JetPattern::new(jets.to_vec());
-    let mut rock_pattern = RockPattern::new(vec![
-        vec![(0, 0), (1, 0), (2, 0), (3, 0)],
-        vec![(1, 0), (0, 1), (1, 1), (2, 1), (1, 2)],
-        vec![(2, 0), (2, 1), (0, 2), (1, 2), (2, 2)],
-        vec![(0, 0), (0, 1), (0, 2), (0, 3)],
-        vec![(0, 0), (1, 0), (0, 1), (1, 1)],
-    ]);
-    let mut column_pattern = HashMap::new();
-
-    let mut cut_height = 0;
-    let mut dropped = 0;
-    while dropped < num {
-        let rock = rock_pattern.next();
-        let mut loc = (3, map.height + 3 + rock.height);
-
-        // Simulate dropping one rock
-        loop {
-            let jet = jet_pattern.next();
-            if !map.touches_side(rock, loc, jet) {
-                loc.0 = if let Jet::Left = jet {
-                    loc.0 - 1
-                } else {
-                    loc.0 + 1
-                };
-            }
-            if map.touches_bottom(rock, loc) {
-                break;
-            } else {
-                loc.1 -= 1;
-            }
-        }
-
-        // Update the map
-        map.insert(rock, loc);
-
-        // Check if we found a pattern, by checking if we had this combination of
-        // relative column height, current rock, and current jet before.
-        // If so, check how often the pattern fits in the space and apply it that many times.
-        if cut_height == 0 {
-            if let Some((prev_height, prev_dropped)) = column_pattern.insert(
-                (map.rel_cols, rock_pattern.current, jet_pattern.current),
-                (map.height, dropped),
-            ) {
-                let pattern_height = map.height - prev_height;
-                let pattern_drop = dropped - prev_dropped;
-                let pattern_fits = (num - dropped - 1) / pattern_drop;
-
-                cut_height = pattern_fits * pattern_height;
-                dropped += pattern_fits * pattern_drop;
-            }
-        }
-        dropped += 1;
-    }
-
-    map.height + cut_height
-}
-
-fn parse(input: &str) -> Vec<Jet> {
-    return input
-        .bytes()
-        .map(|b| match b {
-            b'<' => Jet::Left,
-            b'>' => Jet::Right,
-            _ => unreachable!(),
-        })
-        .collect::<Vec<Jet>>();
-}
-
-fn solve1(parsed: &[Jet]) -> String {
-    drop_rocks(parsed, 2022).to_string()
-}
-
-fn solve2(parsed: &[Jet]) -> String {
-    drop_rocks(parsed, 1_000_000_000_000).to_string()
-}
-
-pub struct Parser;
-
-impl InputParser for Parser {
-    type S = Solver;
-    fn parse(input: &str) -> Solver {
-        let jets = parse(input);
-        Solver { jets }
-    }
-}
-
-pub struct Solver {
+pub struct Day17 {
     jets: Vec<Jet>,
 }
 
-impl ProblemSolver for Solver {
+impl Solution for Day17 {
+    fn title(&self) -> &str {
+        "Pyroclastic Flow"
+    }
+    fn parse(input: &str) -> Self {
+        let jets = input
+            .bytes()
+            .map(|b| match b {
+                b'<' => Jet::Left,
+                b'>' => Jet::Right,
+                _ => unreachable!(),
+            })
+            .collect::<Vec<Jet>>();
+        Self { jets }
+    }
     fn solve_part_1(&self) -> String {
-        solve1(&self.jets)
+        self.drop_rocks(2022).to_string()
     }
     fn solve_part_2(&self) -> String {
-        solve2(&self.jets)
+        self.drop_rocks(1_000_000_000_000).to_string()
+    }
+    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("3068"),
+            ("Example", Part::Two) => Some("1514285714288"),
+            ("Puzzle", Part::One) => Some("3117"),
+            ("Puzzle", Part::Two) => Some("1553314121019"),
+            _ => unreachable!(),
+        }
+    }
+}
+
+impl Day17 {
+    fn drop_rocks(&self, num: usize) -> usize {
+        let mut map = RockMap::new();
+        let mut jet_pattern = JetPattern::new(self.jets.to_vec());
+        let mut rock_pattern = RockPattern::new(vec![
+            vec![(0, 0), (1, 0), (2, 0), (3, 0)],
+            vec![(1, 0), (0, 1), (1, 1), (2, 1), (1, 2)],
+            vec![(2, 0), (2, 1), (0, 2), (1, 2), (2, 2)],
+            vec![(0, 0), (0, 1), (0, 2), (0, 3)],
+            vec![(0, 0), (1, 0), (0, 1), (1, 1)],
+        ]);
+        let mut column_pattern = HashMap::new();
+
+        let mut cut_height = 0;
+        let mut dropped = 0;
+        while dropped < num {
+            let rock = rock_pattern.next();
+            let mut loc = (3, map.height + 3 + rock.height);
+
+            // Simulate dropping one rock
+            loop {
+                let jet = jet_pattern.next();
+                if !map.touches_side(rock, loc, jet) {
+                    loc.0 = if let Jet::Left = jet {
+                        loc.0 - 1
+                    } else {
+                        loc.0 + 1
+                    };
+                }
+                if map.touches_bottom(rock, loc) {
+                    break;
+                } else {
+                    loc.1 -= 1;
+                }
+            }
+
+            // Update the map
+            map.insert(rock, loc);
+
+            // Check if we found a pattern, by checking if we had this combination of
+            // relative column height, current rock, and current jet before.
+            // If so, check how often the pattern fits in the space and apply it that many times.
+            if cut_height == 0 {
+                if let Some((prev_height, prev_dropped)) = column_pattern.insert(
+                    (map.rel_cols, rock_pattern.current, jet_pattern.current),
+                    (map.height, dropped),
+                ) {
+                    let pattern_height = map.height - prev_height;
+                    let pattern_drop = dropped - prev_dropped;
+                    let pattern_fits = (num - dropped - 1) / pattern_drop;
+
+                    cut_height = pattern_fits * pattern_height;
+                    dropped += pattern_fits * pattern_drop;
+                }
+            }
+            dropped += 1;
+        }
+
+        map.height + cut_height
     }
 }
