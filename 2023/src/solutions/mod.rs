@@ -71,7 +71,7 @@ pub fn get_solution(day: usize, input: &str) -> Box<dyn Solution> {
         6 => Box::new(day06::Day06::parse(input)),
         7 => Box::new(day07::Day07::parse(input)),
         8 => Box::new(day08::Day08::parse(input)),
-        9 => Box::new(NoSolution::parse(input)),
+        9 => Box::new(day09::Day09::parse(input)),
         10 => Box::new(NoSolution::parse(input)),
         11 => Box::new(NoSolution::parse(input)),
         12 => Box::new(NoSolution::parse(input)),
