@@ -111,6 +111,7 @@ where
     }
 }
 
+#[derive(PartialEq, Eq, Clone, Copy)]
 pub enum Dir {
     Up,
     Right,
@@ -124,6 +125,14 @@ pub enum TurnDir {
 }
 
 impl Dir {
+    pub fn opposite(&self) -> Dir {
+        match self {
+            Dir::Up => Dir::Down,
+            Dir::Right => Dir::Left,
+            Dir::Down => Dir::Up,
+            Dir::Left => Dir::Right,
+        }
+    }
     pub fn clockwise(&self) -> Dir {
         match self {
             Dir::Up => Dir::Right,

@@ -132,7 +132,10 @@ pub trait Calendar {
                 if !debug {
                     print!("\x1B[2J\x1B[1;1H");
                 }
-                println!("{}", DayOverview::from(day, &solution, &input_results));
+                println!(
+                    "{}",
+                    DayOverview::from(day, solution.as_ref(), &input_results)
+                );
             }
         }
     }

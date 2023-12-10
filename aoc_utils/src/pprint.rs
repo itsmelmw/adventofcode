@@ -73,11 +73,7 @@ impl<'a> DayLine<'a> {
 pub struct DayOverview<'a>(Vec<DayLine<'a>>);
 
 impl<'a> DayOverview<'a> {
-    pub fn from(
-        day: usize,
-        solution: &'a Box<dyn Solution>,
-        results: &'a Vec<InputResult<'a>>,
-    ) -> Self {
+    pub fn from(day: usize, solution: &'a dyn Solution, results: &'a Vec<InputResult<'a>>) -> Self {
         let mut lines = vec![DayLine::Top, DayLine::Title(day, solution.title())];
         for result in results {
             lines.push(DayLine::Header(result.input().name()));

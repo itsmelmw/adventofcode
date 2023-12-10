@@ -30,7 +30,7 @@ fn main() {
     if let Some(arg) = env::args().nth(1) {
         match arg.parse::<usize>() {
             Ok(day @ 1..=25) => {
-                year.solve_day_pretty(day, false);
+                year.solve_day_pretty(day, true);
             }
             _ => {
                 println!("Please enter a valid day.");

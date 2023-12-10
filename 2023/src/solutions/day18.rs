@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/18
 
-use crate::solutions::Solution;
+use aoc_utils::solutions::Solution;
 
 pub struct Day18;
 

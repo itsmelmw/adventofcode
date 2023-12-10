@@ -31,7 +31,7 @@ impl Solution for Day01 {
             .to_string()
     }
     fn solve_part_2(&self) -> String {
-        let words = vec![
+        let words = [
             "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
         ];
         self.lines
