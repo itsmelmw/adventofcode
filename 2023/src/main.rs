@@ -23,8 +23,8 @@ impl Calendar for Aoc2023 {
 fn main() {
     let year = Aoc2023 {
         input_dirs: vec![
-            InputDir::new("Example", "examples"),
-            InputDir::new("Puzzle", "inputs"),
+            InputDir::new("Example", "src/examples"),
+            InputDir::new("Puzzle", "src/inputs"),
         ],
     };
     if let Some(arg) = env::args().nth(1) {
@@ -36,5 +36,7 @@ fn main() {
                 println!("Please enter a valid day.");
             }
         };
+    } else {
+        year.solve_all_pretty();
     }
 }

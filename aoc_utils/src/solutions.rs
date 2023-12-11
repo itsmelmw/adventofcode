@@ -55,6 +55,7 @@ impl Solution for NoSolution {
     }
 }
 
+#[derive(Clone)]
 pub struct InputDir {
     name: String,
     directory: String,
@@ -74,7 +75,7 @@ impl InputDir {
         &self.directory
     }
     pub fn read_input(&self, day: usize) -> String {
-        let path = format!("src/{}/day{:02}.txt", self.directory, day);
+        let path = format!("{}/day{:02}.txt", self.directory, day);
         fs::read_to_string(path).unwrap()
     }
 }
@@ -138,5 +139,33 @@ pub trait Calendar {
                 );
             }
         }
+    }
+    fn solve_all_pretty(&self) {
+        // let input_results = self
+        //     .input_dirs()
+        //     .iter()
+        //     .map(InputResult::new)
+        //     .collect::<Vec<InputResult>>();
+        // let mut day_results = (0..25)
+        //     .map(|_| input_results.clone())
+        //     .collect::<Vec<Vec<InputResult>>>();
+
+        // for day_idx in 0..day_results.len() {
+        //     let day = day_idx + 1;
+        //     for input_idx in 0..day_results[day_idx].len() {
+        //         let input = day_results[day_idx][input_idx].input().read_input(day);
+        //         let solution = self.solution(day, &input);
+        //         for part in Part::iter() {
+        //             let result = solution.solve(part);
+        //             day_results[day_idx][input_idx].set_result(part, result);
+
+        //             // print!("\x1B[2J\x1B[1;1H");
+        //             println!(
+        //                 "{}",
+        //                 YearOverview::from(self.year(), solution.as_ref(), &day_results)
+        //             );
+        //         }
+        //     }
+        // }
     }
 }
