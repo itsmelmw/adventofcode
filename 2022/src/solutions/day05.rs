@@ -73,7 +73,7 @@ impl Solution for Day05 {
         }
         out
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("CMZ"),
             ("Example", Part::Two) => Some("MCD"),

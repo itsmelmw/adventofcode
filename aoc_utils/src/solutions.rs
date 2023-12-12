@@ -1,6 +1,6 @@
 use std::{fs, slice::Iter};
 
-use crate::pprint::DayOverview;
+use crate::pprint::{DayOverview, Symbol, YearOverview};
 
 pub enum Part {
     One,
@@ -36,7 +36,7 @@ pub trait Solution {
     fn solve_part_1(&self) -> String;
     fn solve_part_2(&self) -> String;
 
-    fn solution(&self, _input: &InputDir, _part: &Part) -> Option<&str> {
+    fn answer(&self, _input: &InputDir, _part: &Part) -> Option<&str> {
         None
     }
 }
@@ -83,31 +83,31 @@ impl InputDir {
 #[derive(Clone)]
 pub struct InputResult<'a> {
     input_dir: &'a InputDir,
-    part_1: Option<String>,
-    part_2: Option<String>,
+    part_1: (Symbol, Option<String>),
+    part_2: (Symbol, Option<String>),
 }
 
 impl<'a> InputResult<'a> {
     pub fn new(input_dir: &'a InputDir) -> Self {
         Self {
             input_dir,
-            part_1: None,
-            part_2: None,
+            part_1: (Symbol::Waiting, None),
+            part_2: (Symbol::Waiting, None),
         }
     }
     pub fn input(&self) -> &InputDir {
         self.input_dir
     }
-    pub fn result(&'a self, part: &Part) -> &'a Option<String> {
+    pub fn result(&'a self, part: &Part) -> &'a (Symbol, Option<String>) {
         match part {
             Part::One => &self.part_1,
             Part::Two => &self.part_2,
         }
     }
-    pub fn set_result(&mut self, part: &Part, result: String) {
+    pub fn set_result(&mut self, part: &Part, symbol: Symbol, result: String) {
         match part {
-            Part::One => self.part_1 = Some(result),
-            Part::Two => self.part_2 = Some(result),
+            Part::One => self.part_1 = (symbol, Some(result)),
+            Part::Two => self.part_2 = (symbol, Some(result)),
         }
     }
 }
@@ -128,44 +128,50 @@ pub trait Calendar {
             let solution = self.solution(day, &input);
             for part in Part::iter() {
                 let result = solution.solve(part);
-                input_results[input_idx].set_result(part, result);
+                let truth = solution.answer(input_results[input_idx].input(), part);
+                input_results[input_idx].set_result(part, get_symbol(&result, truth), result);
 
                 if !debug {
                     print!("\x1B[2J\x1B[1;1H");
                 }
                 println!(
                     "{}",
-                    DayOverview::from(day, solution.as_ref(), &input_results)
+                    DayOverview::from(day, solution.title(), &input_results)
                 );
             }
         }
     }
     fn solve_all_pretty(&self) {
-        // let input_results = self
-        //     .input_dirs()
-        //     .iter()
-        //     .map(InputResult::new)
-        //     .collect::<Vec<InputResult>>();
-        // let mut day_results = (0..25)
-        //     .map(|_| input_results.clone())
-        //     .collect::<Vec<Vec<InputResult>>>();
+        let input_results = self
+            .input_dirs()
+            .iter()
+            .map(InputResult::new)
+            .collect::<Vec<InputResult>>();
+        let mut day_results = (0..25)
+            .map(|_| input_results.clone())
+            .collect::<Vec<Vec<InputResult>>>();
 
-        // for day_idx in 0..day_results.len() {
-        //     let day = day_idx + 1;
-        //     for input_idx in 0..day_results[day_idx].len() {
-        //         let input = day_results[day_idx][input_idx].input().read_input(day);
-        //         let solution = self.solution(day, &input);
-        //         for part in Part::iter() {
-        //             let result = solution.solve(part);
-        //             day_results[day_idx][input_idx].set_result(part, result);
+        for day_idx in 0..day_results.len() {
+            let day = day_idx + 1;
+            for day_result in &mut day_results[day_idx] {
+                let input = day_result.input().read_input(day);
+                let solution = self.solution(day, &input);
+                for part in Part::iter() {
+                    let result = solution.solve(part);
+                    let truth = solution.answer(day_result.input(), part);
+                    day_result.set_result(part, get_symbol(&result, truth), result);
+                }
+            }
+            print!("\x1B[2J\x1B[1;1H");
+            println!("{}", YearOverview::from(self.year(), &day_results));
+        }
+    }
+}
 
-        //             // print!("\x1B[2J\x1B[1;1H");
-        //             println!(
-        //                 "{}",
-        //                 YearOverview::from(self.year(), solution.as_ref(), &day_results)
-        //             );
-        //         }
-        //     }
-        // }
+fn get_symbol(result: &String, truth: Option<&str>) -> Symbol {
+    match truth {
+        None => Symbol::Unknown,
+        Some(v) if v == result => Symbol::Correct,
+        Some(_) => Symbol::Wrong,
     }
 }

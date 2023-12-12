@@ -30,7 +30,7 @@ impl Solution for Day09 {
     fn solve_part_2(&self) -> String {
         self.unique_tail_locs(10).to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("88"),
             ("Example", Part::Two) => Some("36"),

@@ -65,7 +65,7 @@ impl Solution for Day09 {
             .sum::<isize>()
             .to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("114"),
             ("Example", Part::Two) => Some("2"),

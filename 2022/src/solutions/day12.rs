@@ -60,7 +60,7 @@ impl Solution for Day12 {
     fn solve_part_2(&self) -> String {
         self.solve(&mut self.start2.clone()).to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("31"),
             ("Example", Part::Two) => Some("29"),

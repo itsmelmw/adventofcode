@@ -1,6 +1,6 @@
 use std::{array, fmt};
 
-use crate::solutions::{InputResult, Part, Solution};
+use crate::solutions::{InputResult, Part};
 
 #[derive(Clone, Copy)]
 pub enum Symbol {
@@ -71,20 +71,19 @@ impl<'a> DayLine<'a> {
 pub struct DayOverview<'a>(Vec<DayLine<'a>>);
 
 impl<'a> DayOverview<'a> {
-    pub fn from(day: usize, solution: &'a dyn Solution, results: &'a Vec<InputResult<'a>>) -> Self {
-        let mut lines = vec![DayLine::Top, DayLine::Title(day, solution.title())];
+    pub fn from(day: usize, title: &'a str, results: &'a Vec<InputResult<'a>>) -> Self {
+        let mut lines = vec![DayLine::Top, DayLine::Title(day, title)];
         for result in results {
             lines.push(DayLine::Header(result.input().name()));
             for part in Part::iter() {
-                let part_result = result.result(part);
-                let symbol = get_symbol(part_result, solution.solution(result.input(), part));
+                let (part_symbol, part_result) = result.result(part);
                 let mut res_lines = part_result
                     .as_ref()
                     .map(|s| s.as_str())
                     .unwrap_or("Waiting...")
                     .split('\n');
                 lines.push(DayLine::Result(
-                    symbol,
+                    *part_symbol,
                     part.as_num(),
                     res_lines.next().unwrap(),
                 ));
@@ -154,20 +153,15 @@ impl YearLine {
 pub struct YearOverview(Vec<YearLine>);
 
 impl YearOverview {
-    pub fn from<'a>(
-        year: usize,
-        solution: &'a dyn Solution,
-        results: &'a [Vec<InputResult<'a>>],
-    ) -> Self {
+    pub fn from<'a>(year: usize, results: &'a [Vec<InputResult<'a>>]) -> Self {
         let mut lines = vec![YearLine::Top, YearLine::Title(year), YearLine::TitleBottom];
-        for (line_num, result_line) in results.chunks(5).enumerate() {
-            let days = array::from_fn(|i| i + 1 + (line_num * 5));
-            lines.push(YearLine::DayHeaders(days, line_num == 0));
+        let day_lines: [_; 5] = array::from_fn(|j| array::from_fn(|i| i + 1 + j * 5));
+        for days in day_lines {
+            lines.push(YearLine::DayHeaders(days, days[0] == 1));
             let symbols = days.map(|day| {
                 for result in results[day - 1].iter() {
                     for part in Part::iter() {
-                        let part_result = result.result(part);
-                        match get_symbol(part_result, solution.solution(result.input(), part)) {
+                        match result.result(part).0 {
                             Symbol::Correct => (),
                             symbol => return symbol,
                         }
@@ -177,13 +171,6 @@ impl YearOverview {
             });
             lines.push(YearLine::DaySymbols(symbols));
         }
-        // for line_num in 0..5 {
-        //     lines.push(YearLine::DayHeaders(
-        //         array::from_fn(|i| i + 1 + (line_num * 5)),
-        //         line_num == 0,
-        //     ));
-        //     lines.push(YearLine::DaySymbols([Symbol::Waiting; 5]))
-        // }
         lines.push(YearLine::Bottom);
         YearOverview(lines)
     }
@@ -195,14 +182,5 @@ impl fmt::Display for YearOverview {
             writeln!(f, "{}", line.as_str())?
         }
         Ok(())
-    }
-}
-
-fn get_symbol(result: &Option<String>, truth: Option<&str>) -> Symbol {
-    match (result, truth) {
-        (None, _) => Symbol::Waiting,
-        (Some(_), None) => Symbol::Unknown,
-        (Some(v1), Some(v2)) if v1 == v2 => Symbol::Correct,
-        (Some(_), Some(_)) => Symbol::Wrong,
     }
 }

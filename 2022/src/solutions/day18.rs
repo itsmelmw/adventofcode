@@ -48,7 +48,7 @@ impl Solution for Day18 {
             .sum::<usize>()
             .to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("64"),
             ("Example", Part::Two) => Some("58"),

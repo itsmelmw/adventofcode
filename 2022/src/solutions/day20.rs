@@ -28,7 +28,7 @@ impl Solution for Day20 {
             .collect::<Vec<isize>>();
         self.mix_and_sum(&decrypted, 10).to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("3"),
             ("Example", Part::Two) => Some("1623178306"),

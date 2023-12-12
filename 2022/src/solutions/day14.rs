@@ -54,7 +54,7 @@ impl Solution for Day14 {
         self.fill_cave((500, 0), points);
         (points.len() - orig_size).to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("24"),
             ("Example", Part::Two) => Some("93"),

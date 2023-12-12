@@ -22,7 +22,7 @@ impl Solution for Day06 {
     fn solve_part_2(&self) -> String {
         self.find_unique(14)
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("7"),
             ("Example", Part::Two) => Some("19"),

@@ -144,7 +144,7 @@ impl Solution for Day17 {
     fn solve_part_2(&self) -> String {
         self.drop_rocks(1_000_000_000_000).to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("3068"),
             ("Example", Part::Two) => Some("1514285714288"),

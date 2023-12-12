@@ -122,7 +122,7 @@ impl Solution for Day11 {
         }
         self.monkey_business(monkeys).to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("10605"),
             ("Example", Part::Two) => Some("2713310158"),

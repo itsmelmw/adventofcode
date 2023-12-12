@@ -249,7 +249,7 @@ impl Solution for Day16 {
 
         best_score.to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("1651"),
             ("Example", Part::Two) => Some("1706"), // According to the website, the 2nd solution is 1707, but I get 1706. Actual puzzle solution is correct though.

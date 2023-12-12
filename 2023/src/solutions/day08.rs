@@ -89,7 +89,7 @@ impl Solution for Day08 {
             .fold(1usize, |x, y| x.lcm(&y))
             .to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("2"),
             ("Example", Part::Two) => Some("6"),

@@ -34,7 +34,7 @@ impl Solution for Day11 {
         (self.galaxy_dist_1d(&self.xs, 1_000_000) + self.galaxy_dist_1d(&self.ys, 1_000_000))
             .to_string()
     }
-    fn solution(&self, input: &InputDir, part: &Part) -> Option<&str> {
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("374"),
             ("Example", Part::Two) => Some("82000210"),
