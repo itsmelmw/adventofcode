@@ -157,6 +157,7 @@ impl Dir {
     }
 }
 
+#[derive(Clone)]
 pub struct Grid<T> {
     vec: Vec<T>,
     width: usize,
@@ -196,6 +197,17 @@ impl<T> Grid<T> {
     }
     pub fn iter_cols(&self) -> GridCols<T>{
         GridCols { grid: self, idx: 0, idx_back: self.width() }
+    }
+    pub fn transposed(&self) -> Self 
+    where
+        T: Clone + Copy,
+    {
+        let vec = self.iter_cols().flatten().copied().collect::<Vec<T>>();
+        let width = self.height();
+        Grid { vec, width }
+    }
+    pub fn as_vec(&self) -> &Vec<T> {
+        &self.vec
     }
 }
 

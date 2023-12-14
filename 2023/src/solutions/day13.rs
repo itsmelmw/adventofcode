@@ -39,22 +39,24 @@ impl Solution for Day13 {
         self.maps
             .iter()
             .map(|grid| {
-                if let Some(l) = (1..grid.height()).find(|r| {
-                    // Search for horizontal mirrors
-                    grid.iter_rows()
-                        .skip(*r)
-                        .zip(grid.iter_rows().rev().skip(grid.height() - r))
-                        .all(|(i1, i2)| i1.eq(i2))
+                if let Some(mirror_loc) = (1..grid.height()).find(|mirror| {
+                    // Check if iters are equal if we place horizontal mirror at row `mirror`.
+                    let iter_left = grid
+                        .iter_rows()
+                        .rev()
+                        .skip(grid.height() - mirror)
+                        .flatten();
+                    let iter_right = grid.iter_rows().skip(*mirror).flatten();
+                    iter_left.zip(iter_right).all(|(x, y)| x == y)
                 }) {
-                    l * 100
-                } else if let Some(l) = (1..grid.width()).find(|r| {
-                    // Search for vertical mirrors
-                    grid.iter_cols()
-                        .skip(*r)
-                        .zip(grid.iter_cols().rev().skip(grid.width() - r))
-                        .all(|(i1, i2)| i1.eq(i2))
+                    mirror_loc * 100
+                } else if let Some(mirror_loc) = (1..grid.width()).find(|mirror| {
+                    // Check if iters are equal if we place vertical mirror at column `mirror`.
+                    let iter_up = grid.iter_cols().rev().skip(grid.width() - mirror).flatten();
+                    let iter_down = grid.iter_cols().skip(*mirror).flatten();
+                    iter_up.zip(iter_down).all(|(x, y)| x == y)
                 }) {
-                    l
+                    mirror_loc
                 } else {
                     panic!()
                 }
@@ -66,34 +68,24 @@ impl Solution for Day13 {
         self.maps
             .iter()
             .map(|grid| {
-                if let Some(l) = (1..grid.height()).find(|r| {
-                    // Search for horizontal mirrors
-                    grid.iter_rows()
-                        .skip(*r)
-                        .zip(grid.iter_rows().rev().skip(grid.height() - r))
-                        .map(|(i1, i2)| {
-                            i1.zip(i2)
-                                .map(|(t1, t2)| (t1 != t2) as usize)
-                                .sum::<usize>()
-                        })
-                        .sum::<usize>()
-                        == 1
+                if let Some(mirror_loc) = (1..grid.height()).find(|mirror| {
+                    // Check if iters differ by 1 if we place horizontal mirror at row `mirror`.
+                    let iter_left = grid
+                        .iter_rows()
+                        .rev()
+                        .skip(grid.height() - mirror)
+                        .flatten();
+                    let iter_right = grid.iter_rows().skip(*mirror).flatten();
+                    iter_left.zip(iter_right).filter(|(x, y)| x != y).count() == 1
                 }) {
-                    l * 100
-                } else if let Some(l) = (1..grid.width()).find(|r| {
-                    // Search for vertical mirrors
-                    grid.iter_cols()
-                        .skip(*r)
-                        .zip(grid.iter_cols().rev().skip(grid.width() - r))
-                        .map(|(i1, i2)| {
-                            i1.zip(i2)
-                                .map(|(t1, t2)| (t1 != t2) as usize)
-                                .sum::<usize>()
-                        })
-                        .sum::<usize>()
-                        == 1
+                    mirror_loc * 100
+                } else if let Some(mirror_loc) = (1..grid.width()).find(|mirror| {
+                    // Check if iters differ by 1 if we place vertical mirror at column `mirror`.
+                    let iter_up = grid.iter_cols().rev().skip(grid.width() - mirror).flatten();
+                    let iter_down = grid.iter_cols().skip(*mirror).flatten();
+                    iter_up.zip(iter_down).filter(|(x, y)| x != y).count() == 1
                 }) {
-                    l
+                    mirror_loc
                 } else {
                     panic!()
                 }
