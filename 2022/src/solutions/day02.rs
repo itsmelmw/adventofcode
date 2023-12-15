@@ -26,11 +26,11 @@ pub struct Day02 {
     data: Vec<(u8, u8)>,
 }
 
-impl Solution for Day02 {
+impl<'i> Solution<'i> for Day02 {
     fn title(&self) -> &str {
         "Rock Paper Scissors"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let data = input
             .split('\n')
             .map(|line| match line.as_bytes() {

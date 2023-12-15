@@ -19,11 +19,11 @@ pub struct Day14 {
     grid: Grid<Rock>,
 }
 
-impl Solution for Day14 {
+impl<'i> Solution<'i> for Day14 {
     fn title(&self) -> &str {
         "Parabolic Reflector Dish"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let width = input.find(|c| c == '\n').unwrap();
         let vec = input
             .chars()
@@ -111,9 +111,8 @@ impl Day14 {
         I: Iterator<Item = J> + DoubleEndedIterator + ExactSizeIterator,
         J: Iterator<Item = &'a Rock> + DoubleEndedIterator + ExactSizeIterator,
     {
-        iter.map(|subiter| self.move_line(subiter))
-        .flatten()
-        .collect::<Vec<Rock>>()
+        iter.flat_map(|subiter| self.move_line(subiter))
+            .collect::<Vec<Rock>>()
     }
 
     fn rev_move_and_flatten<'a, I, J>(&self, iter: I) -> Vec<Rock>
@@ -121,18 +120,17 @@ impl Day14 {
         I: Iterator<Item = J> + DoubleEndedIterator + ExactSizeIterator,
         J: Iterator<Item = &'a Rock> + DoubleEndedIterator + ExactSizeIterator,
     {
-        iter.map(|subiter| {
+        iter.flat_map(|subiter| {
             let mut vec = self.move_line(subiter.rev());
             vec.reverse();
             vec
         })
-        .flatten()
         .collect::<Vec<Rock>>()
     }
 
-    fn move_line<'a, I>(&self, iter: I) -> Vec<Rock> 
+    fn move_line<'a, I>(&self, iter: I) -> Vec<Rock>
     where
-        I: Iterator<Item = &'a Rock> + ExactSizeIterator
+        I: Iterator<Item = &'a Rock> + ExactSizeIterator,
     {
         let mut vec = Vec::with_capacity(iter.len());
         let mut prev_empty = 0;

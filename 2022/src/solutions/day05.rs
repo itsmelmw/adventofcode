@@ -11,11 +11,11 @@ pub struct Day05 {
     moves: Moves,
 }
 
-impl Solution for Day05 {
+impl<'i> Solution<'i> for Day05 {
     fn title(&self) -> &str {
         "Supply Stacks"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let (stack_lines, move_lines) = input.split("\n\n").collect_tuple().unwrap();
         let mut stack_iter = stack_lines.rsplit('\n');
         let mut stacks = Vec::new();

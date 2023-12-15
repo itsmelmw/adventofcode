@@ -25,7 +25,7 @@ mod day24;
 mod day25;
 use aoc_utils::solutions::{NoSolution, Solution};
 
-pub fn get_solution(day: usize, input: &str) -> Box<dyn Solution> {
+pub fn get_solution<'i>(day: usize, input: &'i str) -> Box<dyn Solution + 'i> {
     match day {
         1 => Box::new(day01::Day01::parse(input)),
         2 => Box::new(day02::Day02::parse(input)),
@@ -41,7 +41,7 @@ pub fn get_solution(day: usize, input: &str) -> Box<dyn Solution> {
         12 => Box::new(day12::Day12::parse(input)),
         13 => Box::new(day13::Day13::parse(input)),
         14 => Box::new(day14::Day14::parse(input)),
-        15 => Box::new(NoSolution::parse(input)),
+        15 => Box::new(day15::Day15::parse(input)),
         16 => Box::new(NoSolution::parse(input)),
         17 => Box::new(NoSolution::parse(input)),
         18 => Box::new(NoSolution::parse(input)),

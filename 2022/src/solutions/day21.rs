@@ -95,11 +95,11 @@ pub struct Day21 {
     assignments: JobAssignments,
 }
 
-impl Solution for Day21 {
+impl<'i> Solution<'i> for Day21 {
     fn title(&self) -> &str {
         "Monkey Math"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let assignments = input
             .split('\n')
             .map(|line| {

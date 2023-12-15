@@ -19,11 +19,11 @@ pub struct Day03 {
     gears: Vec<IPoint>,
 }
 
-impl Solution for Day03 {
+impl<'i> Solution<'i> for Day03 {
     fn title(&self) -> &str {
         "Gear Ratios"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut numbers = Vec::new();
         let mut symbols = HashSet::new();
         let mut gears = Vec::new();

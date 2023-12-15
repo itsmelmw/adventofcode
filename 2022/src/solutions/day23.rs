@@ -8,11 +8,11 @@ pub struct Day23 {
     elves: HashSet<IPoint>,
 }
 
-impl Solution for Day23 {
+impl<'i> Solution<'i> for Day23 {
     fn title(&self) -> &str {
         "Unstable Diffusion"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut elves = HashSet::new();
         input.split('\n').enumerate().for_each(|(y, line)| {
             line.chars().enumerate().for_each(|(x, c)| {

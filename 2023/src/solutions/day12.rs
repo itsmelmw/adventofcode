@@ -22,11 +22,11 @@ pub struct Day12 {
     rows: Vec<Row>,
 }
 
-impl Solution for Day12 {
+impl<'i> Solution<'i> for Day12 {
     fn title(&self) -> &str {
         "Hot Springs"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let rows = input
             .split('\n')
             .map(|line| {

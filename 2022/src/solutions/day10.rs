@@ -63,11 +63,11 @@ pub struct Day10 {
     instrs: Vec<Instr>,
 }
 
-impl Solution for Day10 {
+impl<'i> Solution<'i> for Day10 {
     fn title(&self) -> &str {
         "Cathode-Ray Tube"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let instrs = input
             .split('\n')
             .flat_map(|line| match line.split(' ').collect::<Vec<&str>>()[..] {

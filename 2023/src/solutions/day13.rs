@@ -13,11 +13,11 @@ pub struct Day13 {
     maps: Vec<Grid<Tile>>,
 }
 
-impl Solution for Day13 {
+impl<'i> Solution<'i> for Day13 {
     fn title(&self) -> &str {
         "Point of Incidence"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let maps = input
             .split("\n\n")
             .map(|map| {

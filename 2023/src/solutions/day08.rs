@@ -25,11 +25,11 @@ pub struct Day08 {
     starts: Vec<String>,
 }
 
-impl Solution for Day08 {
+impl<'i> Solution<'i> for Day08 {
     fn title(&self) -> &str {
         "Haunted Wasteland"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let tree_re = Regex::new(r"([A-Z0-9]{3}) = \(([A-Z0-9]{3}), ([A-Z0-9]{3})\)").unwrap();
         let (steps, tree, starts) = input
             .split_once("\n\n")

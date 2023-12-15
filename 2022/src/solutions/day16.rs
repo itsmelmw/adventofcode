@@ -90,11 +90,11 @@ pub struct Day16 {
     cave: Cave,
 }
 
-impl Solution for Day16 {
+impl<'i> Solution<'i> for Day16 {
     fn title(&self) -> &str {
         "Proboscidea Volcanium"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut cave = Cave::new();
         let re = Regex::new(
             r"Valve (.*?) has flow rate=(.*?); tunnels? leads? to valves? (.+(?:, |$))+?",

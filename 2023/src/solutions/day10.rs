@@ -32,11 +32,11 @@ pub struct Day10 {
     start: UPoint,
 }
 
-impl Solution for Day10 {
+impl<'i> Solution<'i> for Day10 {
     fn title(&self) -> &str {
         "Pipe Maze"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut start = UPoint::new(0, 0);
         let map = input
             .split('\n')

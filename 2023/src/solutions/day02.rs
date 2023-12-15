@@ -17,11 +17,11 @@ pub struct Day02 {
     games: Vec<Game>,
 }
 
-impl Solution for Day02 {
+impl<'i> Solution<'i> for Day02 {
     fn title(&self) -> &str {
         "Cube Conundrum"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let games = input
             .split('\n')
             .map(|line| {

@@ -11,11 +11,11 @@ pub struct Day09 {
     diffs_vec: Vec<Diffs>,
 }
 
-impl Solution for Day09 {
+impl<'i> Solution<'i> for Day09 {
     fn title(&self) -> &str {
         "Mirage Maintenance"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let diffs_vec = input
             .split('\n')
             .map(|line| {

@@ -9,11 +9,11 @@ pub struct Day08 {
     dim: usize,
 }
 
-impl Solution for Day08 {
+impl<'i> Solution<'i> for Day08 {
     fn title(&self) -> &str {
         "Treetop Tree House"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         // Assume the input is square, so the amount
         // of lines is equal to the dimensions.
         let mut dim = 1;

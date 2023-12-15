@@ -49,11 +49,11 @@ pub struct Day13 {
     elements: Vec<Element>,
 }
 
-impl Solution for Day13 {
+impl<'i> Solution<'i> for Day13 {
     fn title(&self) -> &str {
         "Distress Signal"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let elements = input
             .split('\n')
             .filter_map(|elem| match elem {

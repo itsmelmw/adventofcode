@@ -7,11 +7,11 @@ pub struct Day03 {
     data: Vec<Vec<usize>>,
 }
 
-impl Solution for Day03 {
+impl<'i> Solution<'i> for Day03 {
     fn title(&self) -> &str {
         "Rucksack Reorganization"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let data = input
             .split('\n')
             .map(|line| {

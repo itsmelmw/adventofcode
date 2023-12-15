@@ -24,11 +24,11 @@ pub struct Day05 {
     maps: Vec<Vec<Map>>,
 }
 
-impl Solution for Day05 {
+impl<'i> Solution<'i> for Day05 {
     fn title(&self) -> &str {
         "If You Give A Seed A Fertilizer"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut iter = input.split("\n\n");
         let seeds = iter
             .next()

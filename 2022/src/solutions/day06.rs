@@ -8,11 +8,11 @@ pub struct Day06 {
     data: Vec<char>,
 }
 
-impl Solution for Day06 {
+impl<'i> Solution<'i> for Day06 {
     fn title(&self) -> &str {
         "Tuning Trouble"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let data = input.chars().collect();
         Self { data }
     }

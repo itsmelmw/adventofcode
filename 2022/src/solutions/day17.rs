@@ -123,11 +123,11 @@ pub struct Day17 {
     jets: Vec<Jet>,
 }
 
-impl Solution for Day17 {
+impl<'i> Solution<'i> for Day17 {
     fn title(&self) -> &str {
         "Pyroclastic Flow"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let jets = input
             .bytes()
             .map(|b| match b {

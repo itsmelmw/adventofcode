@@ -73,11 +73,11 @@ pub struct Day25 {
     nums: Vec<Snafu>,
 }
 
-impl Solution for Day25 {
+impl<'i> Solution<'i> for Day25 {
     fn title(&self) -> &str {
         "Full of Hot Air"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let nums = input
             .split('\n')
             .map(|l| Snafu(l.to_string()))

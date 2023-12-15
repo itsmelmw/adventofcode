@@ -9,11 +9,11 @@ pub struct Day14 {
     lowest: usize,
 }
 
-impl Solution for Day14 {
+impl<'i> Solution<'i> for Day14 {
     fn title(&self) -> &str {
         "Regolith Reservoir"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut points = HashSet::new();
         let mut lowest = 0;
         input.split('\n').for_each(|line| {

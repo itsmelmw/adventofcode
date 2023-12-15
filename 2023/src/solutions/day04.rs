@@ -10,11 +10,11 @@ pub struct Day04 {
     cards: Vec<Card>,
 }
 
-impl Solution for Day04 {
+impl<'i> Solution<'i> for Day04 {
     fn title(&self) -> &str {
         "Scratchcards"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let cards = input
             .split('\n')
             .map(|line| {

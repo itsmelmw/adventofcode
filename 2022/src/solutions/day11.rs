@@ -61,11 +61,11 @@ pub struct Day11 {
     monkeys: Vec<Monkey>,
 }
 
-impl Solution for Day11 {
+impl<'i> Solution<'i> for Day11 {
     fn title(&self) -> &str {
         "Monkey in the Middle"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut monkeys = Vec::new();
         for text in input.split("\n\n") {
             let monkey = text.split('\n').collect::<Vec<&str>>();

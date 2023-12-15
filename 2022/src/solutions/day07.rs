@@ -59,11 +59,11 @@ pub struct Day07 {
     fs: FileSystem,
 }
 
-impl Solution for Day07 {
+impl<'i> Solution<'i> for Day07 {
     fn title(&self) -> &str {
         "No Space Left On Device"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut fs = FileSystem::new();
         let mut cwd = 0;
         for line in input.split('\n') {

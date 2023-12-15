@@ -8,11 +8,11 @@ pub struct Day11 {
     ys: Vec<usize>,
 }
 
-impl Solution for Day11 {
+impl<'i> Solution<'i> for Day11 {
     fn title(&self) -> &str {
         "Cosmic Expansion"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let (mut xs, mut ys) = (Vec::new(), Vec::new());
         input.split('\n').enumerate().for_each(|(y, line)| {
             line.chars().enumerate().for_each(|(x, c)| {

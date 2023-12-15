@@ -4,8 +4,8 @@ use aoc_utils::solutions::Solution;
 
 pub struct Day16;
 
-impl Solution for Day16 {
-    fn parse(_input: &str) -> Self {
+impl<'i> Solution<'i> for Day16 {
+    fn parse(_input: &'i str) -> Self {
         panic!();
     }
     fn solve_part_1(&self) -> String {

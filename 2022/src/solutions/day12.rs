@@ -14,11 +14,11 @@ pub struct Day12 {
     end: UPoint,
 }
 
-impl Solution for Day12 {
+impl<'i> Solution<'i> for Day12 {
     fn title(&self) -> &str {
         "Hill Climbing Algorithm"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut start1 = VecDeque::new();
         let mut start2 = VecDeque::new();
         let mut end = UPoint::new(0, 0);

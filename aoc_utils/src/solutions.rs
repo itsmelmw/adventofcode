@@ -19,11 +19,11 @@ impl Part {
     }
 }
 
-pub trait Solution {
+pub trait Solution<'i> {
     fn title(&self) -> &str {
         "Title Unknown"
     }
-    fn parse(input: &str) -> Self
+    fn parse(input: &'i str) -> Self
     where
         Self: Sized;
 
@@ -43,8 +43,8 @@ pub trait Solution {
 
 pub struct NoSolution;
 
-impl Solution for NoSolution {
-    fn parse(_input: &str) -> Self {
+impl<'i> Solution<'i> for NoSolution {
+    fn parse(_input: &'i str) -> Self {
         Self
     }
     fn solve_part_1(&self) -> String {
@@ -115,7 +115,7 @@ impl<'a> InputResult<'a> {
 pub trait Calendar {
     fn year(&self) -> usize;
     fn input_dirs(&self) -> &Vec<InputDir>;
-    fn solution(&self, day: usize, input: &str) -> Box<dyn Solution>;
+    fn solution<'i>(&self, day: usize, input: &'i str) -> Box<dyn Solution<'i> + 'i>;
     fn solve_day_pretty(&self, day: usize, debug: bool) {
         let mut input_results = self
             .input_dirs()

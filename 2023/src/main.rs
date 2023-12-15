@@ -15,7 +15,7 @@ impl Calendar for Aoc2023 {
     fn input_dirs(&self) -> &Vec<InputDir> {
         &self.input_dirs
     }
-    fn solution(&self, day: usize, input: &str) -> Box<dyn Solution> {
+    fn solution<'i>(&self, day: usize, input: &'i str) -> Box<dyn Solution<'i> + 'i> {
         get_solution(day, input)
     }
 }

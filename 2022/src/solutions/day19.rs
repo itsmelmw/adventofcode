@@ -95,11 +95,11 @@ pub struct Day19 {
     blueprints: Vec<Blueprint>,
 }
 
-impl Solution for Day19 {
+impl<'i> Solution<'i> for Day19 {
     fn title(&self) -> &str {
         "Not Enough Minerals"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let re = Regex::new(r"Blueprint \d+: Each ore robot costs (\d+) ore. Each clay robot costs (\d+) ore. Each obsidian robot costs (\d+) ore and (\d+) clay. Each geode robot costs (\d+) ore and (\d+) obsidian.").unwrap();
         let blueprints = input
             .split('\n')

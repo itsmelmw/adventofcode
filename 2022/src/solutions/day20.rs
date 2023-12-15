@@ -6,11 +6,11 @@ pub struct Day20 {
     data: Vec<isize>,
 }
 
-impl Solution for Day20 {
+impl<'i> Solution<'i> for Day20 {
     fn title(&self) -> &str {
         "Grove Positioning System"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let data = input
             .split('\n')
             .map(|line| line.parse().unwrap())

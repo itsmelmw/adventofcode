@@ -144,11 +144,11 @@ pub struct Day07 {
     hands: Vec<Hand>,
 }
 
-impl Solution for Day07 {
+impl<'i> Solution<'i> for Day07 {
     fn title(&self) -> &str {
         "Camel Cards"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let hands = input
             .split('\n')
             .map(|line| {

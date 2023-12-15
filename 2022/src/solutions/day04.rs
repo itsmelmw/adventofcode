@@ -10,11 +10,11 @@ pub struct Day04 {
     data: Vec<Assignment>,
 }
 
-impl Solution for Day04 {
+impl<'i> Solution<'i> for Day04 {
     fn title(&self) -> &str {
         "Camp Cleanup"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let data = input
             .split('\n')
             .map(|line| {

@@ -6,11 +6,11 @@ pub struct Day01 {
     lines: Vec<String>,
 }
 
-impl Solution for Day01 {
+impl<'i> Solution<'i> for Day01 {
     fn title(&self) -> &str {
         "Trebuchet?!"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let lines = input
             .split('\n')
             .map(|line| line.to_string())

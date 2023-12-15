@@ -8,11 +8,11 @@ pub struct Day09 {
     moves: Vec<(char, usize)>,
 }
 
-impl Solution for Day09 {
+impl<'i> Solution<'i> for Day09 {
     fn title(&self) -> &str {
         "Rope Bridge"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let moves = input
             .split('\n')
             .map(|line| {

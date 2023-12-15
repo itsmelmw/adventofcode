@@ -34,11 +34,11 @@ pub struct Day15 {
     data: Vec<(IPoint, IPoint)>,
 }
 
-impl Solution for Day15 {
+impl<'i> Solution<'i> for Day15 {
     fn title(&self) -> &str {
         "Beacon Exclusion Zone"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let data = input
             .split('\n')
             .map(|line| {

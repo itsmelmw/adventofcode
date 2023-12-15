@@ -8,11 +8,11 @@ pub struct Day18 {
     cubes: HashSet<(isize, isize, isize)>,
 }
 
-impl Solution for Day18 {
+impl<'i> Solution<'i> for Day18 {
     fn title(&self) -> &str {
         "Boiling Boulders"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let cubes = HashSet::from_iter(input.split('\n').map(|line| {
             line.split(',')
                 .map(|num| num.parse::<isize>().unwrap())

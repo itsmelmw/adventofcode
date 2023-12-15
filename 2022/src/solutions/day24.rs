@@ -35,11 +35,11 @@ pub struct Day24 {
     height: isize,
 }
 
-impl Solution for Day24 {
+impl<'i> Solution<'i> for Day24 {
     fn title(&self) -> &str {
         "Blizzard Basin"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let mut width = 0;
         // We skip the start walls, but not the end walls. Thus, start with -1.
         let mut height = -1;

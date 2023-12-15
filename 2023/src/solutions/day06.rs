@@ -9,11 +9,11 @@ pub struct Day06 {
     merged: Race,
 }
 
-impl Solution for Day06 {
+impl<'i> Solution<'i> for Day06 {
     fn title(&self) -> &str {
         "Wait For It"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let lines = input
             .split('\n')
             .map(|line| line.split_whitespace().collect::<Vec<&str>>())

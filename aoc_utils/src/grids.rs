@@ -1,4 +1,8 @@
-use std::{ops::{Add, Sub}, iter::StepBy, slice::Iter};
+use std::{
+    iter::StepBy,
+    ops::{Add, Sub},
+    slice::Iter,
+};
 
 use num::Integer;
 
@@ -181,24 +185,42 @@ impl<T> Grid<T> {
     }
     pub fn iter_row(&self, row: usize) -> StepBy<Iter<T>> {
         if row >= self.height() {
-            panic!("Tried to access row {} while the grid has {} rows", row, self.height());
+            panic!(
+                "Tried to access row {} while the grid has {} rows",
+                row,
+                self.height()
+            );
         }
         let start_idx = row * self.width;
-        self.vec[start_idx..start_idx + self.width].iter().step_by(1)
+        self.vec[start_idx..start_idx + self.width]
+            .iter()
+            .step_by(1)
     }
     pub fn iter_col(&self, col: usize) -> StepBy<Iter<T>> {
         if col >= self.width() {
-            panic!("Tried to access column {} while the grid has {} columns", col, self.width());
+            panic!(
+                "Tried to access column {} while the grid has {} columns",
+                col,
+                self.width()
+            );
         }
         self.vec[col..].iter().step_by(self.width)
     }
-    pub fn iter_rows(&self) -> GridRows<T>{
-        GridRows { grid: self, idx: 0, idx_back: self.height() }
+    pub fn iter_rows(&self) -> GridRows<T> {
+        GridRows {
+            grid: self,
+            idx: 0,
+            idx_back: self.height(),
+        }
     }
-    pub fn iter_cols(&self) -> GridCols<T>{
-        GridCols { grid: self, idx: 0, idx_back: self.width() }
+    pub fn iter_cols(&self) -> GridCols<T> {
+        GridCols {
+            grid: self,
+            idx: 0,
+            idx_back: self.width(),
+        }
     }
-    pub fn transposed(&self) -> Self 
+    pub fn transposed(&self) -> Self
     where
         T: Clone + Copy,
     {
@@ -259,7 +281,7 @@ impl<'a, T> Iterator for GridCols<'a, T> {
     fn next(&mut self) -> Option<Self::Item> {
         if self.idx + 1 > self.idx_back {
             return None;
-        } 
+        }
         let col = self.grid.iter_col(self.idx);
         self.idx += 1;
         Some(col)

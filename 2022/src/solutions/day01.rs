@@ -40,11 +40,11 @@ pub struct Day01 {
     data: Vec<usize>,
 }
 
-impl Solution for Day01 {
+impl<'i> Solution<'i> for Day01 {
     fn title(&self) -> &str {
         "Calorie Counting"
     }
-    fn parse(input: &str) -> Self {
+    fn parse(input: &'i str) -> Self {
         let data = input
             .split("\n\n")
             .map(|elf| {
