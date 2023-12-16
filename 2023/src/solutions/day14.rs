@@ -24,7 +24,7 @@ impl<'i> Solution<'i> for Day14 {
         "Parabolic Reflector Dish"
     }
     fn parse(input: &'i str) -> Self {
-        let width = input.find(|c| c == '\n').unwrap();
+        let width = input.find('\n').unwrap();
         let vec = input
             .chars()
             .filter_map(|c| match c {

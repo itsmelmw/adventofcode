@@ -115,7 +115,8 @@ where
     }
 }
 
-#[derive(PartialEq, Eq, Clone, Copy)]
+#[derive(PartialEq, Eq, Clone, Copy, Hash)]
+#[repr(usize)]
 pub enum Dir {
     Up,
     Right,
@@ -171,8 +172,8 @@ impl<T> Grid<T> {
     pub fn from_vec(vec: Vec<T>, width: usize) -> Self {
         Self { vec, width }
     }
-    pub fn get(&self, x: usize, y: usize) -> &T {
-        &self.vec[x + y * self.width]
+    pub fn get(&self, loc: &UPoint) -> &T {
+        &self.vec[loc.x + loc.y * self.width]
     }
     pub fn width(&self) -> usize {
         self.width
@@ -230,6 +231,38 @@ impl<T> Grid<T> {
     }
     pub fn as_vec(&self) -> &Vec<T> {
         &self.vec
+    }
+    pub fn move_to(&self, loc: &UPoint, dir: &Dir) -> Option<UPoint> {
+        match dir {
+            Dir::Up => {
+                if loc.y == 0 {
+                    None
+                } else {
+                    Some(*loc - UPoint::new(0, 1))
+                }
+            }
+            Dir::Right => {
+                if loc.x == self.width() - 1 {
+                    None
+                } else {
+                    Some(*loc + UPoint::new(1, 0))
+                }
+            }
+            Dir::Down => {
+                if loc.y == self.height() - 1 {
+                    None
+                } else {
+                    Some(*loc + UPoint::new(0, 1))
+                }
+            }
+            Dir::Left => {
+                if loc.x == 0 {
+                    None
+                } else {
+                    Some(*loc - UPoint::new(1, 0))
+                }
+            }
+        }
     }
 }
 
