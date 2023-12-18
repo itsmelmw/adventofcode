@@ -232,34 +232,27 @@ impl<T> Grid<T> {
     pub fn as_vec(&self) -> &Vec<T> {
         &self.vec
     }
-    pub fn move_to(&self, loc: &UPoint, dir: &Dir) -> Option<UPoint> {
+    pub fn step_in_dir(&self, loc: &UPoint, dir: &Dir) -> Option<UPoint> {
+        self.step_n_in_dir(loc, dir, 1)
+    }
+    pub fn step_n_in_dir(&self, loc: &UPoint, dir: &Dir, n: usize) -> Option<UPoint> {
         match dir {
-            Dir::Up => {
-                if loc.y == 0 {
-                    None
-                } else {
-                    Some(*loc - UPoint::new(0, 1))
-                }
-            }
+            Dir::Up => loc.y.checked_sub(n).map(|y| UPoint::new(loc.x, y)),
+            Dir::Left => loc.x.checked_sub(n).map(|x| UPoint::new(x, loc.y)),
             Dir::Right => {
-                if loc.x == self.width() - 1 {
-                    None
+                let new_x = loc.x + n;
+                if new_x < self.width() {
+                    Some(UPoint::new(new_x, loc.y))
                 } else {
-                    Some(*loc + UPoint::new(1, 0))
+                    None
                 }
             }
             Dir::Down => {
-                if loc.y == self.height() - 1 {
-                    None
+                let new_y = loc.y + n;
+                if new_y < self.height() {
+                    Some(UPoint::new(loc.x, new_y))
                 } else {
-                    Some(*loc + UPoint::new(0, 1))
-                }
-            }
-            Dir::Left => {
-                if loc.x == 0 {
                     None
-                } else {
-                    Some(*loc - UPoint::new(1, 0))
                 }
             }
         }
