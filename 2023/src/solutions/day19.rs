@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use aoc_utils::solutions::Solution;
+use aoc_utils::solutions::{InputDir, Part, Solution};
 use itertools::Itertools;
 
 enum Category {
@@ -140,6 +140,9 @@ pub struct Day19 {
 }
 
 impl<'i> Solution<'i> for Day19 {
+    fn title(&self) -> &str {
+        "Aplenty"
+    }
     fn parse(input: &'i str) -> Self {
         let (flows, things) = input.split_once("\n\n").unwrap();
         let flows = flows
@@ -233,5 +236,14 @@ impl<'i> Solution<'i> for Day19 {
             }
         }
         tot.to_string()
+    }
+    fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
+        match (input.name().as_str(), part) {
+            ("Example", Part::One) => Some("19114"),
+            ("Example", Part::Two) => Some("167409079868000"),
+            ("Puzzle", Part::One) => Some("401674"),
+            ("Puzzle", Part::Two) => Some("134906204068564"),
+            _ => unreachable!(),
+        }
     }
 }
