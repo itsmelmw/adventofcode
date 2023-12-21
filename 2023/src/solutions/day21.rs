@@ -115,7 +115,7 @@ impl<'i> Solution<'i> for Day21 {
         }
 
         let loop_steps = (self.grid.width() / 2) + (self.grid.width() * 2);
-        let small_target = 5 + loop_steps + ((total_steps - loop_steps) % self.grid.width());
+        let small_target = loop_steps + ((total_steps - loop_steps) % self.grid.width());
 
         let iwidth = self.grid.width() as isize;
         let iheight = self.grid.height() as isize;
