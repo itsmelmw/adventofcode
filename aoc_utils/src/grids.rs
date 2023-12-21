@@ -175,6 +175,9 @@ impl<T> Grid<T> {
     pub fn get(&self, loc: &UPoint) -> &T {
         &self.vec[loc.x + loc.y * self.width]
     }
+    pub fn get_mut(&mut self, loc: &UPoint) -> &mut T {
+        &mut self.vec[loc.x + loc.y * self.width]
+    }
     pub fn width(&self) -> usize {
         self.width
     }

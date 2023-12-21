@@ -129,7 +129,7 @@ pub trait Calendar {
             for part in Part::iter() {
                 let result = solution.solve(part);
                 let truth = solution.answer(input_results[input_idx].input(), part);
-                input_results[input_idx].set_result(part, get_symbol(&result, truth), result);
+                input_results[input_idx].set_result(part, Symbol::from_result(&result, truth), result);
 
                 if !debug {
                     print!("\x1B[2J\x1B[1;1H");
@@ -159,19 +159,11 @@ pub trait Calendar {
                 for part in Part::iter() {
                     let result = solution.solve(part);
                     let truth = solution.answer(day_result.input(), part);
-                    day_result.set_result(part, get_symbol(&result, truth), result);
+                    day_result.set_result(part, Symbol::from_result(&result, truth), result);
                 }
             }
             print!("\x1B[2J\x1B[1;1H");
             println!("{}", YearOverview::from(self.year(), &day_results));
         }
-    }
-}
-
-fn get_symbol(result: &String, truth: Option<&str>) -> Symbol {
-    match truth {
-        None => Symbol::Unknown,
-        Some(v) if v == result => Symbol::Correct,
-        Some(_) => Symbol::Wrong,
     }
 }

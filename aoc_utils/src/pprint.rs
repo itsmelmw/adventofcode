@@ -11,6 +11,13 @@ pub enum Symbol {
 }
 
 impl Symbol {
+    pub fn from_result(result: &String, truth: Option<&str>) -> Self {
+        match truth {
+            None => Self::Unknown,
+            Some(v) if v == result => Self::Correct,
+            Some(_) => Self::Wrong,
+        }
+    }
     pub fn as_str(&self) -> &'static str {
         match self {
             Self::Waiting => "\x1b[36m⋯\x1b[0m",
