@@ -9,7 +9,7 @@ use num::Integer;
 pub type UPoint = Point<usize>;
 pub type IPoint = Point<isize>;
 
-#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy, Debug)]
 pub struct Point<T> {
     pub x: T,
     pub y: T,
@@ -115,7 +115,7 @@ where
     }
 }
 
-#[derive(PartialEq, Eq, Clone, Copy, Hash)]
+#[derive(PartialEq, Eq, Clone, Copy, Hash, Debug)]
 #[repr(usize)]
 pub enum Dir {
     Up,
@@ -130,6 +130,10 @@ pub enum TurnDir {
 }
 
 impl Dir {
+    pub fn iter() -> Iter<'static, Self> {
+        static DIRS: [Dir; 4] = [Dir::Up, Dir::Right, Dir::Down, Dir::Left];
+        DIRS.iter()
+    }
     pub fn opposite(&self) -> Dir {
         match self {
             Dir::Up => Dir::Down,

@@ -52,43 +52,50 @@ impl<'i> Solution<'i> for Day22 {
         // For now, I implemented it the straightforward way.
         let mut height_map = Grid::from_vec(vec![0; 100], 10);
         slabs.sort_by(|a, b| a[0].2.cmp(&b[0].2));
-        slabs
-            .iter_mut()
-            .for_each(|slab| {
-                Self::drop_slab(slab, &height_map);
-                Self::update_height_map(slab, &mut height_map);
-            });
+        slabs.iter_mut().for_each(|slab| {
+            Self::drop_slab(slab, &height_map);
+            Self::update_height_map(slab, &mut height_map);
+        });
         Self { slabs }
     }
     fn solve_part_1(&self) -> String {
-        (0..self.slabs.len()).filter(|&idx| {
-            let mut slabs = self.slabs.clone();
-            slabs.remove(idx);
-            let mut height_map = Grid::from_vec(vec![0; 100], 10);
-            for slab in &slabs {
-                if slab
-                    .iter()
-                    .all(|(x, y, z)| height_map.get(&UPoint::new(*x, *y)) + 1 != *z)
-                {
-                    return false;
+        (0..self.slabs.len())
+            .filter(|&idx| {
+                let mut slabs = self.slabs.clone();
+                slabs.remove(idx);
+                let mut height_map = Grid::from_vec(vec![0; 100], 10);
+                for slab in &slabs {
+                    if slab
+                        .iter()
+                        .all(|(x, y, z)| height_map.get(&UPoint::new(*x, *y)) + 1 != *z)
+                    {
+                        return false;
+                    }
+                    Self::update_height_map(slab, &mut height_map);
                 }
-                Self::update_height_map(slab, &mut height_map);
-            }
-            true
-        }).count().to_string()
+                true
+            })
+            .count()
+            .to_string()
     }
     fn solve_part_2(&self) -> String {
-        (0..self.slabs.len()).flat_map(|idx| {
-            let mut slabs = self.slabs.clone();
-            slabs.remove(idx);
-            let mut height_map = Grid::from_vec(vec![0; 100], 10);
-            
-            slabs.iter_mut().map(|mut slab| {
-                let n = Self::drop_slab(&mut slab, &height_map) as usize;
-                Self::update_height_map(slab, &mut height_map);
-                n
-            }).collect::<Vec<usize>>()
-        }).sum::<usize>().to_string()
+        (0..self.slabs.len())
+            .flat_map(|idx| {
+                let mut slabs = self.slabs.clone();
+                slabs.remove(idx);
+                let mut height_map = Grid::from_vec(vec![0; 100], 10);
+
+                slabs
+                    .iter_mut()
+                    .map(|slab| {
+                        let n = Self::drop_slab(slab, &height_map) as usize;
+                        Self::update_height_map(slab, &mut height_map);
+                        n
+                    })
+                    .collect::<Vec<usize>>()
+            })
+            .sum::<usize>()
+            .to_string()
     }
     fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
