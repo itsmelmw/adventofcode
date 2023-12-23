@@ -65,7 +65,7 @@ impl<'i> Solution<'i> for Day21 {
     }
     fn solve_part_2(&self) -> String {
         if self.grid.width() < 64 {
-            return "nope".to_string();
+            return "-".to_string();
         }
         // When running this simulation for a smaller number of steps,
         // but with the same remainder of steps for the edge-grids,
@@ -184,7 +184,7 @@ impl<'i> Solution<'i> for Day21 {
     fn answer(&self, input: &InputDir, part: &Part) -> Option<&str> {
         match (input.name().as_str(), part) {
             ("Example", Part::One) => Some("16"),
-            ("Example", Part::Two) => Some("nope"),
+            ("Example", Part::Two) => Some("-"),
             ("Puzzle", Part::One) => Some("3646"),
             ("Puzzle", Part::Two) => Some("606188414811259"),
             _ => unreachable!(),
