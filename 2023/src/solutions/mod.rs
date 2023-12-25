@@ -23,7 +23,7 @@ mod day22;
 mod day23;
 mod day24;
 mod day25;
-use aoc_utils::solutions::{NoSolution, Solution};
+use aoc_utils::solutions::Solution;
 
 pub fn get_solution<'i>(day: usize, input: &'i str) -> Box<dyn Solution + 'i> {
     match day {
@@ -50,8 +50,8 @@ pub fn get_solution<'i>(day: usize, input: &'i str) -> Box<dyn Solution + 'i> {
         21 => Box::new(day21::Day21::parse(input)),
         22 => Box::new(day22::Day22::parse(input)),
         23 => Box::new(day23::Day23::parse(input)),
-        24 => Box::new(NoSolution::parse(input)),
-        25 => Box::new(NoSolution::parse(input)),
+        24 => Box::new(day24::Day24::parse(input)),
+        25 => Box::new(day25::Day25::parse(input)),
         _ => panic!(),
     }
 }

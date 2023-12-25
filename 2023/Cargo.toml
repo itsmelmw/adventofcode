@@ -10,3 +10,4 @@ itertools = "0.10.5"
 num = "0.4.1"
 regex = "1.7.0"
 aoc_utils = {path = "../aoc_utils"}
+z3 = "0.12.1"

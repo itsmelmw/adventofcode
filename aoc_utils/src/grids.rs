@@ -1,13 +1,14 @@
 use std::{
     iter::StepBy,
-    ops::{Add, Sub},
+    ops::{Add, Div, Sub},
     slice::Iter,
 };
 
-use num::Integer;
+use num::Num;
 
 pub type UPoint = Point<usize>;
 pub type IPoint = Point<isize>;
+pub type FPoint = Point<f64>;
 
 #[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy, Debug)]
 pub struct Point<T> {
@@ -17,7 +18,7 @@ pub struct Point<T> {
 
 impl<T> Point<T>
 where
-    T: Integer + Copy,
+    T: Num + Copy,
 {
     pub fn new(x: T, y: T) -> Self {
         Point { x, y }
@@ -93,11 +94,14 @@ where
         }
         positions
     }
+    pub fn cross(&self, other: Self) -> T {
+        self.x * other.y - self.y * other.x
+    }
 }
 
 impl<T> Add for Point<T>
 where
-    T: Integer + Copy,
+    T: Num + Copy,
 {
     type Output = Point<T>;
     fn add(self, rhs: Self) -> Self::Output {
@@ -107,11 +111,21 @@ where
 
 impl<T> Sub for Point<T>
 where
-    T: Integer + Copy,
+    T: Num + Copy,
 {
     type Output = Point<T>;
     fn sub(self, rhs: Self) -> Self::Output {
         Point::new(self.x - rhs.x, self.y - rhs.y)
+    }
+}
+
+impl<T> Div<T> for Point<T>
+where
+    T: Num + Copy,
+{
+    type Output = Point<T>;
+    fn div(self, rhs: T) -> Self::Output {
+        Point::new(self.x / rhs, self.y / rhs)
     }
 }
 
