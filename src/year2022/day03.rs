@@ -1,13 +1,13 @@
 // https://adventofcode.com/2022/day/3
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use std::collections::HashSet;
 
 pub struct Day03 {
     data: Vec<Vec<usize>>,
 }
 
-impl<'i> Solution<'i> for Day03 {
+impl<'i> Day<'i> for Day03 {
     type Part1Output = usize;
     type Part2Output = usize;
 

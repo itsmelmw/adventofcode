@@ -2,7 +2,7 @@
 
 use crate::{
     grids::FPoint,
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 use itertools::Itertools;
 use z3::{
@@ -16,7 +16,7 @@ pub struct Day24 {
     lines: Vec<(Point3d, Point3d)>,
 }
 
-impl<'i> Solution<'i> for Day24 {
+impl<'i> Day<'i> for Day24 {
     type Part1Output = usize;
     type Part2Output = u64;
 

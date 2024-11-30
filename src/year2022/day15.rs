@@ -1,7 +1,7 @@
 // https://adventofcode.com/2022/day/15
 
 use crate::grids::IPoint;
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use itertools::Itertools;
 
 type Range = (isize, isize);
@@ -34,7 +34,7 @@ pub struct Day15 {
     data: Vec<(IPoint, IPoint)>,
 }
 
-impl<'i> Solution<'i> for Day15 {
+impl<'i> Day<'i> for Day15 {
     type Part1Output = isize;
     type Part2Output = isize;
 

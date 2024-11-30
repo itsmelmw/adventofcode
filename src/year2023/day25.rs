@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/25
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use std::collections::{HashMap, HashSet, VecDeque};
 
 #[derive(Clone)]
@@ -15,7 +15,7 @@ pub struct Day25<'i> {
     edge_map: HashMap<&'i str, Vec<usize>>,
 }
 
-impl<'i> Solution<'i> for Day25<'i> {
+impl<'i> Day<'i> for Day25<'i> {
     type Part1Output = usize;
     type Part2Output = usize;
 

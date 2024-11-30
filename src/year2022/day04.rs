@@ -2,7 +2,7 @@
 
 use itertools::Itertools;
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 type Assignment = ((usize, usize), (usize, usize));
 
@@ -10,7 +10,7 @@ pub struct Day04 {
     data: Vec<Assignment>,
 }
 
-impl<'i> Solution<'i> for Day04 {
+impl<'i> Day<'i> for Day04 {
     type Part1Output = usize;
     type Part2Output = usize;
 

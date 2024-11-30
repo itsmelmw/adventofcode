@@ -4,7 +4,7 @@ use std::collections::{HashSet, VecDeque};
 
 use crate::{
     grids::{Dir, Grid, UPoint},
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 
 enum Tile {
@@ -53,7 +53,7 @@ pub struct Day16 {
     grid: Grid<Tile>,
 }
 
-impl<'i> Solution<'i> for Day16 {
+impl<'i> Day<'i> for Day16 {
     type Part1Output = usize;
     type Part2Output = usize;
 

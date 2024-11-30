@@ -2,7 +2,7 @@
 
 use crate::{
     grids::Grid,
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 
 #[derive(PartialEq, Eq, Debug)]
@@ -15,7 +15,7 @@ pub struct Day13 {
     maps: Vec<Grid<Tile>>,
 }
 
-impl<'i> Solution<'i> for Day13 {
+impl<'i> Day<'i> for Day13 {
     type Part1Output = usize;
     type Part2Output = usize;
 

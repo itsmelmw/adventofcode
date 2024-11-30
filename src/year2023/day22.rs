@@ -4,7 +4,7 @@ use std::ops::Deref;
 
 use crate::{
     grids::{Grid, UPoint},
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 
 type Slab = Vec<Point3d>;
@@ -14,7 +14,7 @@ pub struct Day22 {
     slabs: Vec<Slab>,
 }
 
-impl<'i> Solution<'i> for Day22 {
+impl<'i> Day<'i> for Day22 {
     type Part1Output = usize;
     type Part2Output = usize;
 

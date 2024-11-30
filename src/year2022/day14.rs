@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/14
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use itertools::Itertools;
 use std::collections::HashSet;
 
@@ -9,7 +9,7 @@ pub struct Day14 {
     lowest: usize,
 }
 
-impl<'i> Solution<'i> for Day14 {
+impl<'i> Day<'i> for Day14 {
     type Part1Output = usize;
     type Part2Output = usize;
 

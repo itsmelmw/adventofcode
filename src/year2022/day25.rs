@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/25
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 struct Snafu(String);
 
@@ -73,7 +73,7 @@ pub struct Day25 {
     nums: Vec<Snafu>,
 }
 
-impl<'i> Solution<'i> for Day25 {
+impl<'i> Day<'i> for Day25 {
     type Part1Output = String;
     type Part2Output = usize;
 

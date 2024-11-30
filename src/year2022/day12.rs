@@ -1,7 +1,7 @@
 // https://adventofcode.com/2022/day/12
 
 use crate::grids::UPoint;
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use std::collections::{HashMap, VecDeque};
 
 type StartState = VecDeque<UPoint>;
@@ -14,7 +14,7 @@ pub struct Day12 {
     end: UPoint,
 }
 
-impl<'i> Solution<'i> for Day12 {
+impl<'i> Day<'i> for Day12 {
     type Part1Output = usize;
     type Part2Output = usize;
 

@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/15
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 enum Operation<'i> {
     Remove(&'i str),
@@ -12,7 +12,7 @@ pub struct Day15<'i> {
     operations: Vec<Operation<'i>>,
 }
 
-impl<'i> Solution<'i> for Day15<'i> {
+impl<'i> Day<'i> for Day15<'i> {
     type Part1Output = usize;
     type Part2Output = usize;
 

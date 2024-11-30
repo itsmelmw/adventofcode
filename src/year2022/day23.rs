@@ -1,14 +1,14 @@
 // https://adventofcode.com/2022/day/23
 
 use crate::grids::{Dir, IPoint};
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use std::collections::{HashSet, VecDeque};
 
 pub struct Day23 {
     elves: HashSet<IPoint>,
 }
 
-impl<'i> Solution<'i> for Day23 {
+impl<'i> Day<'i> for Day23 {
     type Part1Output = isize;
     type Part2Output = isize;
 

@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/5
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use itertools::Itertools;
 
 type Stacks = Vec<Vec<char>>;
@@ -11,7 +11,7 @@ pub struct Day05 {
     moves: Moves,
 }
 
-impl<'i> Solution<'i> for Day05 {
+impl<'i> Day<'i> for Day05 {
     type Part1Output = String;
     type Part2Output = String;
 

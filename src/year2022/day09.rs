@@ -2,13 +2,13 @@
 
 use std::collections::HashSet;
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 pub struct Day09 {
     moves: Vec<(char, usize)>,
 }
 
-impl<'i> Solution<'i> for Day09 {
+impl<'i> Day<'i> for Day09 {
     type Part1Output = usize;
     type Part2Output = usize;
 

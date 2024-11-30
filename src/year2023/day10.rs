@@ -2,7 +2,7 @@
 
 use crate::{
     grids::{Dir, UPoint},
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 use std::collections::{HashSet, VecDeque};
 
@@ -33,7 +33,7 @@ pub struct Day10 {
     start: UPoint,
 }
 
-impl<'i> Solution<'i> for Day10 {
+impl<'i> Day<'i> for Day10 {
     type Part1Output = usize;
     type Part2Output = usize;
 

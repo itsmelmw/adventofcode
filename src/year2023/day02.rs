@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/2
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 struct Game {
     id: usize,
@@ -17,7 +17,7 @@ pub struct Day02 {
     games: Vec<Game>,
 }
 
-impl<'i> Solution<'i> for Day02 {
+impl<'i> Day<'i> for Day02 {
     type Part1Output = usize;
     type Part2Output = usize;
 

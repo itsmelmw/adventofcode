@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/19
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use itertools::Itertools;
 use std::collections::HashMap;
 
@@ -138,7 +138,7 @@ pub struct Day19 {
     things: Vec<Thing>,
 }
 
-impl<'i> Solution<'i> for Day19 {
+impl<'i> Day<'i> for Day19 {
     type Part1Output = usize;
     type Part2Output = usize;
 

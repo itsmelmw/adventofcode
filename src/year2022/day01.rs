@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/1
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 struct Top3 {
     list: [usize; 3],
@@ -40,7 +40,7 @@ pub struct Day01 {
     data: Vec<usize>,
 }
 
-impl<'i> Solution<'i> for Day01 {
+impl<'i> Day<'i> for Day01 {
     type Part1Output = usize;
     type Part2Output = usize;
 

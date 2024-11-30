@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/18
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use itertools::Itertools;
 use std::collections::{HashMap, HashSet, VecDeque};
 
@@ -8,7 +8,7 @@ pub struct Day18 {
     cubes: HashSet<(isize, isize, isize)>,
 }
 
-impl<'i> Solution<'i> for Day18 {
+impl<'i> Day<'i> for Day18 {
     type Part1Output = usize;
     type Part2Output = usize;
 

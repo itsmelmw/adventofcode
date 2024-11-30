@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/2
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 const OP_ROCK: u8 = b'A';
 const OP_PAPER: u8 = b'B';
@@ -26,7 +26,7 @@ pub struct Day02 {
     data: Vec<(u8, u8)>,
 }
 
-impl<'i> Solution<'i> for Day02 {
+impl<'i> Day<'i> for Day02 {
     type Part1Output = usize;
     type Part2Output = usize;
 

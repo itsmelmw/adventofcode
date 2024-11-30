@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/9
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use itertools::Itertools;
 use num::Integer;
 
@@ -10,7 +10,7 @@ pub struct Day09 {
     diffs_vec: Vec<Diffs>,
 }
 
-impl<'i> Solution<'i> for Day09 {
+impl<'i> Day<'i> for Day09 {
     type Part1Output = isize;
     type Part2Output = isize;
 

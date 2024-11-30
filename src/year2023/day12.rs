@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/12
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use std::{collections::HashMap, iter};
 
 type Cache = HashMap<(usize, usize, usize), usize>;
@@ -21,7 +21,7 @@ pub struct Day12 {
     rows: Vec<Row>,
 }
 
-impl<'i> Solution<'i> for Day12 {
+impl<'i> Day<'i> for Day12 {
     type Part1Output = usize;
     type Part2Output = usize;
 

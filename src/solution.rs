@@ -1,6 +1,6 @@
 use std::{fmt::Display, fs};
 
-pub trait Solution<'i> {
+pub trait Day<'i> {
     type Part1Output: Display;
     type Part2Output: Display;
 
@@ -18,7 +18,9 @@ pub trait Solution<'i> {
     fn solution(
         &self,
         input_type: InputType,
-    ) -> (Option<Self::Part1Output>, Option<Self::Part2Output>);
+    ) -> (Option<Self::Part1Output>, Option<Self::Part2Output>) {
+        (None, None)
+    }
 
     fn solve(&self) {
         println!("Title: {}", self.title());
@@ -29,7 +31,7 @@ pub trait Solution<'i> {
 
 pub struct NoSolution;
 
-impl<'i> Solution<'i> for NoSolution {
+impl<'i> Day<'i> for NoSolution {
     type Part1Output = usize;
     type Part2Output = usize;
 
@@ -41,13 +43,6 @@ impl<'i> Solution<'i> for NoSolution {
     }
     fn solve_part_2(&self) -> Self::Part2Output {
         0
-    }
-
-    fn solution(
-        &self,
-        _input_type: InputType,
-    ) -> (Option<Self::Part1Output>, Option<Self::Part2Output>) {
-        (None, None)
     }
 }
 

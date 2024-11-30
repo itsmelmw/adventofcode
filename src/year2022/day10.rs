@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/10
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 enum Instr {
     Noop,
@@ -63,7 +63,7 @@ pub struct Day10 {
     instrs: Vec<Instr>,
 }
 
-impl<'i> Solution<'i> for Day10 {
+impl<'i> Day<'i> for Day10 {
     type Part1Output = isize;
     type Part2Output = String;
 

@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/21
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use std::collections::HashMap;
 
 type JobAssignments = HashMap<String, Job>;
@@ -94,7 +94,7 @@ pub struct Day21 {
     assignments: JobAssignments,
 }
 
-impl<'i> Solution<'i> for Day21 {
+impl<'i> Day<'i> for Day21 {
     type Part1Output = isize;
     type Part2Output = isize;
 

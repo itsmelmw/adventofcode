@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/16
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use regex::Regex;
 use std::collections::{HashMap, HashSet, VecDeque};
 
@@ -90,7 +90,7 @@ pub struct Day16 {
     cave: Cave,
 }
 
-impl<'i> Solution<'i> for Day16 {
+impl<'i> Day<'i> for Day16 {
     type Part1Output = usize;
     type Part2Output = usize;
 

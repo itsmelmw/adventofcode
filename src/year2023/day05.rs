@@ -2,7 +2,7 @@
 
 use itertools::Itertools;
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 struct Map {
     dst: usize,
@@ -24,7 +24,7 @@ pub struct Day05 {
     maps: Vec<Vec<Map>>,
 }
 
-impl<'i> Solution<'i> for Day05 {
+impl<'i> Day<'i> for Day05 {
     type Part1Output = usize;
     type Part2Output = usize;
 

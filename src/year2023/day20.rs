@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/20
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use num::Integer;
 use std::collections::{HashMap, VecDeque};
 
@@ -50,7 +50,7 @@ pub struct Day20 {
     config: Configuration,
 }
 
-impl<'i> Solution<'i> for Day20 {
+impl<'i> Day<'i> for Day20 {
     type Part1Output = usize;
     type Part2Output = usize;
 

@@ -2,7 +2,7 @@
 
 use crate::{
     grids::{Dir, Grid, UPoint},
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 use std::{
     cmp::Ordering,
@@ -41,7 +41,7 @@ pub struct Day17 {
     grid: Grid<usize>,
 }
 
-impl<'i> Solution<'i> for Day17 {
+impl<'i> Day<'i> for Day17 {
     type Part1Output = usize;
     type Part2Output = usize;
 

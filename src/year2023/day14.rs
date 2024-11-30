@@ -4,7 +4,7 @@ use std::collections::HashMap;
 
 use crate::{
     grids::Grid,
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 use itertools::Itertools;
 
@@ -19,7 +19,7 @@ pub struct Day14 {
     grid: Grid<Rock>,
 }
 
-impl<'i> Solution<'i> for Day14 {
+impl<'i> Day<'i> for Day14 {
     type Part1Output = usize;
     type Part2Output = usize;
 

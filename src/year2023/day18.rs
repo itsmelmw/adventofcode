@@ -2,7 +2,7 @@
 
 use crate::{
     grids::{Dir, IPoint},
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 use itertools::Itertools;
 
@@ -11,7 +11,7 @@ pub struct Day18 {
     path2: Vec<(Dir, isize)>,
 }
 
-impl<'i> Solution<'i> for Day18 {
+impl<'i> Day<'i> for Day18 {
     type Part1Output = isize;
     type Part2Output = isize;
 

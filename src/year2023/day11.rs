@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/11
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use itertools::Itertools;
 
 pub struct Day11 {
@@ -8,7 +8,7 @@ pub struct Day11 {
     ys: Vec<usize>,
 }
 
-impl<'i> Solution<'i> for Day11 {
+impl<'i> Day<'i> for Day11 {
     type Part1Output = usize;
     type Part2Output = usize;
 

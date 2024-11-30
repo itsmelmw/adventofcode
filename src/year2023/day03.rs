@@ -2,7 +2,7 @@
 
 use crate::{
     grids::IPoint,
-    solution::{InputType, Solution},
+    solution::{InputType, Day},
 };
 use itertools::Itertools;
 use std::collections::{HashMap, HashSet};
@@ -20,7 +20,7 @@ pub struct Day03 {
     gears: Vec<IPoint>,
 }
 
-impl<'i> Solution<'i> for Day03 {
+impl<'i> Day<'i> for Day03 {
     type Part1Output = usize;
     type Part2Output = usize;
 

@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/7
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 struct FileSystem {
     files: Vec<Node>,
@@ -59,7 +59,7 @@ pub struct Day07 {
     fs: FileSystem,
 }
 
-impl<'i> Solution<'i> for Day07 {
+impl<'i> Day<'i> for Day07 {
     type Part1Output = usize;
     type Part2Output = usize;
 

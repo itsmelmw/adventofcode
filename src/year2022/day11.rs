@@ -3,7 +3,7 @@
 use itertools::Itertools;
 use std::collections::VecDeque;
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 #[derive(Clone)]
 enum Val {
@@ -61,7 +61,7 @@ pub struct Day11 {
     monkeys: Vec<Monkey>,
 }
 
-impl<'i> Solution<'i> for Day11 {
+impl<'i> Day<'i> for Day11 {
     type Part1Output = usize;
     type Part2Output = usize;
 

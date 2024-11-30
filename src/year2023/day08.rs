@@ -1,6 +1,6 @@
 // https://adventofcode.com/2023/day/8
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use num::Integer;
 use regex::Regex;
 use std::collections::HashMap;
@@ -23,7 +23,7 @@ pub struct Day08 {
     starts: Vec<String>,
 }
 
-impl<'i> Solution<'i> for Day08 {
+impl<'i> Day<'i> for Day08 {
     type Part1Output = usize;
     type Part2Output = usize;
 

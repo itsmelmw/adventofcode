@@ -1,6 +1,6 @@
 // https://adventofcode.com/2022/day/13
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 use itertools::{EitherOrBoth, Itertools};
 use std::cmp::{Ordering, PartialOrd};
 use std::str::Chars;
@@ -49,7 +49,7 @@ pub struct Day13 {
     elements: Vec<Element>,
 }
 
-impl<'i> Solution<'i> for Day13 {
+impl<'i> Day<'i> for Day13 {
     type Part1Output = usize;
     type Part2Output = usize;
 

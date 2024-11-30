@@ -1,12 +1,12 @@
 // https://adventofcode.com/2023/day/1
 
-use crate::solution::{InputType, Solution};
+use crate::solution::{InputType, Day};
 
 pub struct Day01 {
     lines: Vec<String>,
 }
 
-impl<'i> Solution<'i> for Day01 {
+impl<'i> Day<'i> for Day01 {
     type Part1Output = usize;
     type Part2Output = usize;
 
