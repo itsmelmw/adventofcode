@@ -1,11 +1,10 @@
 // https://adventofcode.com/2023/day/22
 
-use std::ops::Deref;
-
 use crate::{
     grids::{Grid, UPoint},
-    solution::{InputType, Day},
+    solution::{Day, InputType},
 };
+use std::ops::Deref;
 
 type Slab = Vec<Point3d>;
 type Point3d = (usize, usize, usize);

@@ -1,9 +1,8 @@
 // https://adventofcode.com/2022/day/11
 
+use crate::solution::{Day, InputType};
 use itertools::Itertools;
 use std::collections::VecDeque;
-
-use crate::solution::{InputType, Day};
 
 #[derive(Clone)]
 enum Val {

@@ -1,8 +1,7 @@
 // https://adventofcode.com/2022/day/4
 
+use crate::solution::{Day, InputType};
 use itertools::Itertools;
-
-use crate::solution::{InputType, Day};
 
 type Assignment = ((usize, usize), (usize, usize));
 

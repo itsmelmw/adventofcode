@@ -1,8 +1,7 @@
 // https://adventofcode.com/2022/day/9
 
+use crate::solution::{Day, InputType};
 use std::collections::HashSet;
-
-use crate::solution::{InputType, Day};
 
 pub struct Day09 {
     moves: Vec<(char, usize)>,

@@ -1,7 +1,9 @@
 // https://adventofcode.com/2022/day/23
 
-use crate::grids::{Dir, IPoint};
-use crate::solution::{InputType, Day};
+use crate::{
+    grids::{Dir, IPoint},
+    solution::{Day, InputType},
+};
 use std::collections::{HashSet, VecDeque};
 
 pub struct Day23 {

@@ -1,9 +1,11 @@
 // https://adventofcode.com/2022/day/13
 
-use crate::solution::{InputType, Day};
+use crate::solution::{Day, InputType};
 use itertools::{EitherOrBoth, Itertools};
-use std::cmp::{Ordering, PartialOrd};
-use std::str::Chars;
+use std::{
+    cmp::{Ordering, PartialOrd},
+    str::Chars,
+};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 enum Element {

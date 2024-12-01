@@ -1,7 +1,9 @@
 // https://adventofcode.com/2022/day/15
 
-use crate::grids::IPoint;
-use crate::solution::{InputType, Day};
+use crate::{
+    grids::IPoint,
+    solution::{Day, InputType},
+};
 use itertools::Itertools;
 
 type Range = (isize, isize);

@@ -1,8 +1,7 @@
 // https://adventofcode.com/2023/day/5
 
+use crate::solution::{Day, InputType};
 use itertools::Itertools;
-
-use crate::solution::{InputType, Day};
 
 struct Map {
     dst: usize,

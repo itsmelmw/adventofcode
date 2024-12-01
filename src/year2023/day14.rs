@@ -1,12 +1,11 @@
 // https://adventofcode.com/2023/day/14
 
-use std::collections::HashMap;
-
 use crate::{
     grids::Grid,
-    solution::{InputType, Day},
+    solution::{Day, InputType},
 };
 use itertools::Itertools;
+use std::collections::HashMap;
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 enum Rock {

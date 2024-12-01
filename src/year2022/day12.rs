@@ -1,7 +1,9 @@
 // https://adventofcode.com/2022/day/12
 
-use crate::grids::UPoint;
-use crate::solution::{InputType, Day};
+use crate::{
+    grids::UPoint,
+    solution::{Day, InputType},
+};
 use std::collections::{HashMap, VecDeque};
 
 type StartState = VecDeque<UPoint>;

@@ -1,9 +1,10 @@
 // https://adventofcode.com/2022/day/24
 
+use crate::{
+    grids::{Dir, IPoint},
+    solution::{Day, InputType},
+};
 use std::collections::{HashSet, VecDeque};
-
-use crate::grids::{Dir, IPoint};
-use crate::solution::{InputType, Day};
 
 type BlizzardState = HashSet<IPoint>;
 
